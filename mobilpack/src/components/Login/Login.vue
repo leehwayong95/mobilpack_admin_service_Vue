@@ -1,18 +1,16 @@
 <template>
     <div class = 'login' id='container'>
-        <div class='login_logo'>
-        </div>
         <div class='loginBox'>
-            <form >
+            <form>
                 <table>
-                    <td><input type="text" class="login_txt" placeholder="ID"/></td>
-                    <td><input type="password" class="login_txt" placeholder="PW"/></td>
+                    <tr><td><input type="text" class="login_txt" placeholder="ID"/></td></tr>
+                    <tr><td><input type="password" class="login_txt" placeholder="PW"/></td></tr>
                 </table>
             </form>
-            <div>
-                <button type="button" class="login_btn"  v-on:click="routerpush">로그인</button>
+            <div class = 'btn_wrap'>
+                <button type="button" class="login_btn"  v-on:click="routerpush" style="height: 30px; width: 150px">로그인</button>
             </div>
-            </div>
+        </div>
     </div>
 </template>
 
@@ -28,4 +26,10 @@ export default {
 
 <style>
     @import url('../../assets/css/content');
+.btn_wrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 </style>
