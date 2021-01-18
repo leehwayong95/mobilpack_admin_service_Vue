@@ -9,6 +9,7 @@ import VueCookie from 'vue-cookie'
 Vue.use(VueCookie)
 Vue.config.productionTip = false
 Vue.prototype.$http = axios
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
