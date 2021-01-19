@@ -1,23 +1,29 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <router-view/>
+      <router-view/>
+      <router-view name="top"/>
+      <router-view name="left"/>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  data () {
+    return {
+      login: null
+    }
+  },
+  mounted () {
+    this.login = this.$route.name
+  }
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  @import url('./assets/css/reset');
+  @import url('./assets/css/vue-sidebar-menu');
+  @import url('./assets/css/content');
+  @import url('./assets/css/common');
+  @import url('./assets/css/style');
 </style>
