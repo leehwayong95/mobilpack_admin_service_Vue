@@ -8,17 +8,31 @@
                 </table>
             </form>
             <div class = 'btn_wrap'>
-                <button type="button" class="login_btn"  v-on:click="routerpush" style="height: 30px; width: 150px">로그인</button>
+                <modals-container/>
+                <button type="button" class="login_btn"  v-on:click="doc_del_rendar" style="height: 30px; width: 150px">로그인</button>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import modal from '../alert/modal'
 export default {
   methods: {
     routerpush () {
       this.$router.push('/main')
+    },
+    doc_del_rendar () {
+      this.$modal.show(modal, {
+        hot_table: 'data',
+        modal: this.$modal
+      },
+      {
+        name: 'dynamic-modal',
+        width: '330px',
+        height: '130px',
+        draggable: true
+      })
     }
   }
 }
