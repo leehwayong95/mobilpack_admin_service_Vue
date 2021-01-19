@@ -38,6 +38,10 @@ export default {
               this.alert()
             }
           })
+          .catch((err) => {
+            console.log(err)
+            this.alert()
+          })
       }
     },
     alert () {

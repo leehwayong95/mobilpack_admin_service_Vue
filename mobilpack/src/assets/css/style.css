@@ -295,3 +295,12 @@ select {
   height: 30px;
   width: 150px;
 }
+
+/* admin my info edit */
+.accountinfo_wrap {
+  padding: 50px 0px;
+}
+
+.userinfo_wrap {
+  padding: 50px 0px;
+}
