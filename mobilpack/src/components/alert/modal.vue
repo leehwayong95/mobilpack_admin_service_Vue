@@ -1,14 +1,12 @@
 <template>
-    <div class="container">
-        <div class="input-group col-md-3">
-            <span class = "input-group-addon">
-                PW
+    <div id="modal">
+        <div class="modal_message">
+            <span>
+               아이디와 비밀번호를 확인해주세요
             </span>
-            <input type="text" v-model="del_password" class="form-control col-md-2">
         </div>
-        <div class="row col-md-6">
-            <input class="btn btn-default col-md-3" @click="del_data" type="button" value="삭제">
-            <input class="btn btn-default col-md-3" @click="$emit('close')" type="button" value="취소">
+        <div class="modal_button_wrap">
+          <input class="btn btn-default col-md-3" @click="$emit('close')" type="button" value="확인">
         </div>
     </div>
 </template>
