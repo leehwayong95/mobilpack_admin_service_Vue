@@ -18,7 +18,7 @@
 export default {
   methods: {
     routerpush () {
-      this.$router.push('/details')
+      this.$router.push('/main')
     }
   }
 }

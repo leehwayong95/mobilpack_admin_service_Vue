@@ -2,10 +2,10 @@
     <div class = 'v-sidebar-menu'>
         <ul id='menu'>
             <li class='logo'>T-Mas<br>Admin Service</li>
-            <li class='vsm--link vsm--link_level-2'><span>프로필 변경</span></li>
-            <li class='vsm--link vsm--link_level-2'><span>회원 관리</span></li>
-            <li class='vsm--link vsm--link_level-2'><span>추천 장소 관리</span></li>
-            <li class='vsm--link vsm--link_level-2'>서비스관리
+            <li><span v-on:click="jump('myinfo')">프로필 변경</span></li>
+            <li><span v-on:click="jump('user')">회원 관리</span></li>
+            <li><span v-on:click="jump('recommands')">추천 장소 관리</span></li>
+            <li><span>서비스관리</span>
                 <ul>
                     <li><span v-on:click="jump('details')">관리자 관리</span></li>
                     <li><span v-on:click="jump('qna')">문의 관리</span></li>
