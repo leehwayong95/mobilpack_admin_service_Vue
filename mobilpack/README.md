@@ -1,10 +1,10 @@
 # mobilpack
 
-> A Vue.js project
+> A Vue.js project for AdminService
 
 ## Build Setup
 
-``` bash
+```bash
 # install dependencies
 npm install
 
