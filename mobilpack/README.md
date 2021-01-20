@@ -1,6 +1,7 @@
 # mobilpack
 
 > A Vue.js project for AdminService
+> 2020.01.20 : login moudel merge
 
 ## Build Setup
 
