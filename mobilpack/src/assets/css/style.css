@@ -282,7 +282,9 @@ select {
   height: 50px;
   margin: 20px 0px;
 }
-
+#modal > .modal_message > input {
+  box-shadow: none;
+}
 #modal > .modal_button_wrap {
   height: 100%;
   width: 100%;
@@ -291,7 +293,6 @@ select {
   justify-content: center;
   align-items: center;
 }
-
 #modal > .modal_button_wrap > input {
   height: 30px;
   width: 150px;

@@ -11,7 +11,7 @@
             </tr>
             <tr>
               <th>PW</th>
-              <td><button>뭘봐</button></td>
+              <td><button @click="editPwModal">비밀번호 변경</button></td>
             </tr>
           </tbody>
         </table>
@@ -43,6 +43,7 @@
 </template>
 
 <script>
+import editPwModal from '../alert/editPwModal'
 export default {
   data () {
     return {
@@ -86,6 +87,18 @@ export default {
             alert('정보 조회를 실패하였습니다.\n잠시후 다시 시도해주세요.')
           })
       }
+    },
+    editPwModal () {
+      this.$modal.show(editPwModal, {
+        hot_table: 'data',
+        modal: this.$modal
+      },
+      {
+        name: 'dynamic-modal',
+        width: '330px',
+        height: '130px',
+        draggable: true
+      })
     }
   }
 }
