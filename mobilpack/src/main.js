@@ -9,7 +9,7 @@ import modal from 'vue-js-modal'
 
 Vue.use(VueCookie)
 Vue.config.productionTip = false
-Vue.prototype.$http = axios
+Vue.prototype.$axios = axios
 
 Vue.use(modal, { dynamic: true })
 
