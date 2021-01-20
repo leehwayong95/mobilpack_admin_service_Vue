@@ -267,3 +267,52 @@ select {
   word-break: break-all;
   line-height: 20px;
 }
+
+/*Modal Alert Message*/
+#modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#modal > .modal_message {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 50px;
+  margin: 20px 0px;
+}
+
+#modal > .modal_button_wrap {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#modal > .modal_button_wrap > input {
+  height: 30px;
+  width: 150px;
+}
+
+/* admin my info edit */
+.acountinfo_wrap {
+  padding-top: 50px;
+}
+.acountinfo_wrap > table {
+  padding: 10px 10px;
+}
+.userinfo_wrap {
+  padding: 50px 0px;
+}
+.userinfo_wrap > table {
+  padding: 10px 10px;
+}
+.button_wrap {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
