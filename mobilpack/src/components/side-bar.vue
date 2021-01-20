@@ -1,7 +1,7 @@
 <template>
     <div class = 'v-sidebar-menu'>
         <ul id='menu'>
-            <li class='logo'>T-Mas<br>Admin Service</li>
+            <li class='logo' v-on:click="jump('main')">T-Mas<br>Admin Service</li>
             <li><span v-on:click="jump('myinfo')">프로필 변경</span></li>
             <li><span v-on:click="jump('user')">회원 관리</span></li>
             <li><span v-on:click="jump('recommands')">추천 장소 관리</span></li>

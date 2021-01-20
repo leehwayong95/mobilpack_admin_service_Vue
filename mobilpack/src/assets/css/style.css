@@ -282,6 +282,7 @@ select {
   height: 50px;
   margin: 20px 0px;
 }
+
 #modal > .modal_button_wrap {
   height: 100%;
   width: 100%;
@@ -297,10 +298,21 @@ select {
 }
 
 /* admin my info edit */
-.accountinfo_wrap {
-  padding: 50px 0px;
+.acountinfo_wrap {
+  padding-top: 50px;
 }
-
+.acountinfo_wrap > table {
+  padding: 10px 10px;
+}
 .userinfo_wrap {
   padding: 50px 0px;
+}
+.userinfo_wrap > table {
+  padding: 10px 10px;
+}
+.button_wrap {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }

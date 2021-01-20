@@ -2,7 +2,7 @@
     <div id="modal">
         <div class="modal_message">
             <span>
-               아이디와 비밀번호를 확인해주세요
+               로그인에 실패하였습니다.<br>로그인 정보를 다시 확인해주세요.
             </span>
         </div>
         <div class="modal_button_wrap">
