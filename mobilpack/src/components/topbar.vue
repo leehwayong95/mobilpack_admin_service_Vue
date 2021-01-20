@@ -20,11 +20,15 @@ export default {
   methods: {
     getName () {
       this.name = this.$cookie.get('name')
+      if (this.name === '' || this.$cookie.get('authorization') === null) {
+        alert('로그인이 필요합니다.')
+        this.$router.push('/')
+      }
       // mounted라 한번밖에 실행안됨 고쳐야함
     },
     logout () {
       this.$cookie.delete('name')
-      this.$cookie.delete('jwt-token')
+      this.$cookie.delete('authorization')
       this.$router.push('/')
     }
   }
