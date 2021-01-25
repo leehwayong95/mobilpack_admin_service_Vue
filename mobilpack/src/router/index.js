@@ -9,7 +9,9 @@ import Qna from '@/components/Qna/Qna'
 import recommands from '@/components/Recommand/List'
 import infoedit from '@/components/My/info'
 import UserList from '@/components/User/List'
-
+import AdminDetails from '@/components/Admin/Details'
+import AdminEdit from '@/components/Admin/Edit'
+import AdminRegistration from '@/components/Admin/Registration'
 Vue.use(Router)
 
 export default new Router({
@@ -51,6 +53,33 @@ export default new Router({
       name: 'details',
       components: {
         default: AdminManagement,
+        top: topbar,
+        left: sidebar
+      }
+    },
+    {
+      path: '/admindetails',
+      name: 'admindetails',
+      components: {
+        default: AdminDetails,
+        top: topbar,
+        left: sidebar
+      }
+    },
+    {
+      path: '/adminregistration',
+      name: 'adminregistration',
+      components: {
+        default: AdminRegistration,
+        top: topbar,
+        left: sidebar
+      }
+    },
+    {
+      path: '/adminedit',
+      name: 'adminedit',
+      components: {
+        default: AdminEdit,
         top: topbar,
         left: sidebar
       }

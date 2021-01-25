@@ -21,6 +21,8 @@ select {
   top: 20px;
   right: 30;
   height: 30px;
+  display: flex;
+  align-items: center;
 }
 .btn_area > button {
   background-color: #1e7145;
@@ -263,7 +265,7 @@ select {
   border-bottom: 1px solid #ddd;
   border-right: 1px solid #ddd;
   vertical-align: middle;
-  text-align: center;
+  text-align: left;
   word-break: break-all;
   line-height: 20px;
 }
