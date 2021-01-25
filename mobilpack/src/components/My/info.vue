@@ -95,9 +95,9 @@ export default {
       }
 
       let message = {
-        input_name: '이름을 확인해주세요',
-        input_phone: '전화번호를 확인해주세요',
-        input_email: '이메일을 확인해주세요'
+        input_name: '이름을 입력해주세요',
+        input_phone: '전화번호를 입력해주세요',
+        input_email: '이메일을 입력해주세요'
       }
       let confirmflag = true
       // 정보 빈칸 검사
