@@ -1,7 +1,8 @@
 # mobilpack
 
 > A Vue.js project for AdminService
-> 2020.01.20 : login moudel merge
+> 2020.01.20 : login module merge
+> 2020.01.25 : edit login module for Regular expression
 
 ## Build Setup
 
