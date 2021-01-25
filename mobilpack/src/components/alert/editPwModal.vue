@@ -37,6 +37,7 @@ export default {
                 alert('현재 비밀번호와 일치하지 않습니다.')
               } else {
                 alert('변경되었습니다.')
+                this.$router.push('/')
                 this.$emit('close')
               }
             })
