@@ -3,6 +3,7 @@
 > A Vue.js project for AdminService
 > 2020.01.20 : login module merge
 > 2020.01.25 : edit login module for Regular expression
+> 2020.01.25 : admin Manager Module merge
 
 ## Build Setup
 
