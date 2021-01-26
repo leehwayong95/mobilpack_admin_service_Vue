@@ -5,11 +5,8 @@ import App from './App'
 import router from './router'
 import axios from 'axios'
 import VueCookie from 'vue-cookie'
-<<<<<<< Updated upstream
 import modal from 'vue-js-modal'
-=======
 import naver from 'vue-naver-maps'
->>>>>>> Stashed changes
 
 Vue.use(naver, {
   clientID: '94vq3rso8e',
