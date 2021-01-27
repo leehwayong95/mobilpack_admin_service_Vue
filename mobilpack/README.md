@@ -4,6 +4,7 @@
 > 2020.01.20 : login module merge
 > 2020.01.25 : edit login module for Regular expression
 > 2020.01.25 : admin Manager Module merge
+> 2020.01.27 : amdin User Management Module merge
 
 ## Build Setup
 
