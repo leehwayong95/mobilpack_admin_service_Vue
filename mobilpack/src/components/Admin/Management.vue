@@ -21,17 +21,20 @@
       </ul>
       <button v-on:click="search">검색</button>
     </div>
-       <div class="cont_inner">
-      <p>| 관리자 목록  <button class="move" @click="Register"> 신규등록</button> </p>
+      <div class="cont_inner">
+        <div class="indecate">
+          <p class="admintitle">| 관리자 목록   </p>
+          <button class="joinbutton" @click="Register"> 신규등록</button>
+        </div>
       <table>
         <colgroup>
-          <col width="3%">
-          <col width="4%">
-          <col width="5%">
-          <col width="7%">
-          <col width="5%">
-          <col width="5%">
-          <col width="10%">
+          <col width="10%"><!-- No 너비를 조절가능 -->
+          <col width="10%"><!-- ID 너비를 조절가능 -->
+          <col width="10%"><!-- 이름 너비를 조절가능 -->
+          <col width="15%"><!-- 연락처 너비를 조절가능 -->
+          <col width="15%"><!-- email 너비를 조절가능 -->
+          <col width="15%"><!-- 등록일시 너비를 조절가능 -->
+          <col width="15%"><!-- 수정일시 너비를 조절가능 -->
         </colgroup>
         <thead>
           <tr>
@@ -67,18 +70,15 @@
 <script>
 export default {
   mounted () {
-    // (페이징)항목 가져오기
-    this.$axios.get('http://localhost:9000//api/su/admin/list', {params: { Currentpage: 1, Number: 20 }})
+    this.$axios.get('http://localhost:9000//api/su/admin/listsearch', {params: { Currentpage: 1, Number: this.Number, id: this.id, name: this.name, createat: this.createat, updateat: this.updateat }})
       .then((res) => {
-        this.items = res.data
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-      // (페이징) DB리스트 항목에 따른 몇 페이지 필요한지 반환함
-    this.$axios.get('http://localhost:9000//api/su/admin/listcount', {params: { Number: 20 }})
-      .then((res) => {
-        this.end_page = res.data
+        console.log(res)
+        this.items = res.data.result
+        this.end_page = res.data.count / this.Number
+        if (res.data.count % this.Number >= 0) {
+          this.end_page = this.end_page + 1
+        } else {
+        }
       })
       .catch((err) => {
         console.log(err)
@@ -90,7 +90,7 @@ export default {
       name: '',
       createat: '',
       updateat: '',
-      Number: '',
+      Number: 20,
       items: [], // DB리스트 담는곳
       // (페이징)
       Currentpage: '',
@@ -106,9 +106,15 @@ export default {
   },
   methods: {
     search () {
-      this.$axios.get('http://localhost:9000//api/su/admin/listsearch', {params: { Currentpage: 1, Number: 20, id: this.id, name: this.name, createat: this.createat, updateat: this.updateat }})
+      this.$axios.get('http://localhost:9000//api/su/admin/listsearch', {params: { Currentpage: 1, Number: this.Number, id: this.id, name: this.name, createat: this.createat, updateat: this.updateat }})
         .then((res) => {
-          this.items = res.data
+          console.log(res)
+          this.items = res.data.result
+          this.end_page = res.data.count / this.Number
+          if (res.data.count % this.Number >= 0) {
+            this.end_page = this.end_page + 1
+          } else {
+          }
         })
         .catch((err) => {
           console.log(err)
@@ -127,11 +133,11 @@ export default {
       console.log(n)
       if (this.Currentpage !== n) {
         this.Currentpage = n
-        this.GetList()
+        this.search()
       }
     },
     GetList () {
-      this.$axios.get('http://localhost:9000//api/su/admin/list', {params: { Currentpage: this.Currentpage, Number: 20 }})
+      this.$axios.get('http://localhost:9000//api/su/admin/list', {params: { Currentpage: this.Currentpage, Number: this.Number }})
         .then((res) => {
           this.items = res.data
         })
@@ -163,7 +169,13 @@ export default {
   border: 1px solid #ddd;
   border-radius: 5px;
 }
-.move {
-  float: right;/*  신규등록 위치 */
+.joinbutton { /* 신규등록 버튼 */
+  /* float: right; 신규등록 위치 */
+  font-size: 15px;
+  height: 40%;
+  width: 90px;
+}
+.admintitle { /* 관리자 목록 버튼 */
+  font-size: 20px;
 }
 </style>
