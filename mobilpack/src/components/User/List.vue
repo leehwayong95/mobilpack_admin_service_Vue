@@ -1,5 +1,9 @@
 <template>
   <div id="content">
+    <span class="title">
+      <h1>회원관리</h1>
+      <h3>home > 회원관리</h3>
+    </span>
     <div class = "Search">
       <div id="search_contry">
         <span>국가</span>
@@ -50,15 +54,23 @@
           <th>연락처</th>
           <th>가입 일시</th>
         </tr>
-        <tr v-for = "(row,index) in userdata" v-bind:key="index" v-on:click="userdetail(row.user_id)">
-          <th>{{index + 1}}</th>
-          <th>{{row.country}}</th>
-          <th>{{row.user_id}}</th>
-          <th>{{row.name}}</th>
-          <th>{{row.phone}}</th>
-          <th>{{row.createat}}</th>
+        <tr v-for = "(row,index) in userdata" v-bind:key="index" v-on:click="userdetail(row.user_id)" >
+          <td id="index">{{((currentpage-1) * count) + (index+1)}}</td>
+          <td id="country">{{row.country}}</td>
+          <td id="userid">{{row.user_id}}</td>
+          <td id="name">{{row.name}}</td>
+          <td id="phone">{{row.phone}}</td>
+          <td id="createat">{{row.createat}}</td>
         </tr>
       </table>
+      <div class="paging">
+      <a class ="pagingFirst"  @click="getNextBeforePage('0')"/>
+        <ul v-for="(n,index) in paging()" v-bind:key="index" @click="getPage(n)">
+          <li  v-if="currentpage !== n" class = "Nothere">{{n}}</li>
+          <li v-else class="here">{{n}}</li>
+        </ul>
+      <a class="pagingLast" @click="getNextBeforePage('1')"/>
+    </div>
     </div>
   </div>
 </template>
@@ -75,7 +87,14 @@ export default {
       userdata: null,
       currentpage: 1,
       endpage: null,
-      count: 20
+      count: 20,
+      paging: function () {
+        var pagenumber = []
+        for (var i = 1; i <= this.endpage; i++) {
+          pagenumber.push(i)
+        }
+        return pagenumber
+      }
     }
   },
   mounted () {
@@ -102,8 +121,8 @@ export default {
       })
         .then((res) => {
           this.userdata = res.data.userdata
-          this.endpage = parseInt(res.data.total / this.count)
-          this.endpage += (res.data.total % this.count) ? 1 : 0
+          this.endpage = parseInt((res.data.total) / this.count)
+          this.endpage += ((res.data.total) % this.count) ? 1 : 0
         })
         .catch((err) => {
           console.log(err)
@@ -111,8 +130,33 @@ export default {
         })
     },
     userdetail (n) {
-      alert(n + ' 회원 옾흔!')
+      this.$router.push('/user/' + n)
+    },
+    getPage (n) {
+      if (this.currentpage !== n) {
+        this.currentpage = n
+        this.getUserList()
+      }
+    },
+    getNextBeforePage (n) {
+      if (n === '0' && this.currentpage > 1) {
+        this.currentpage--
+      } else if (n === '1' && this.currentpage < this.endpage) {
+        this.currentpage++
+      }
+      this.getUserList()
     }
   }
 }
 </script>
+
+<style scoped>
+#content {
+  overflow: scroll;
+}
+
+.here {
+  background-color: #3e61dc;
+  color: #fff;
+}
+</style>

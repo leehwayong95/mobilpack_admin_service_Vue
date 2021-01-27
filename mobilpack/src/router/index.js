@@ -12,6 +12,7 @@ import UserList from '@/components/User/List'
 import AdminDetails from '@/components/Admin/Details'
 import AdminEdit from '@/components/Admin/Edit'
 import AdminRegistration from '@/components/Admin/Registration'
+import UserDetail from '@/components/User/Detail'
 Vue.use(Router)
 
 export default new Router({
@@ -98,6 +99,15 @@ export default new Router({
       name: 'userList',
       components: {
         default: UserList,
+        top: topbar,
+        left: sidebar
+      }
+    },
+    {
+      path: '/user/:id',
+      name: 'userDetail',
+      components: {
+        default: UserDetail,
         top: topbar,
         left: sidebar
       }
