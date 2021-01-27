@@ -33,7 +33,7 @@
         </tr>
       </table>
       <div class="btn_wrap">
-        <button>회원 탈퇴 처리</button>
+        <button @click="deleteUser">회원 탈퇴 처리</button>
       </div>
     </div>
   </div>
@@ -52,7 +52,7 @@ export default {
   },
   methods: {
     getUserInfo () {
-      this.$axios.get('http://localhost:9000/api/su/user/info?userid=' + this.$route.params.id)
+      this.$axios.get('http://localhost:9000/api/su/user/' + this.$route.params.id)
         .then((res) => {
           if (res.data.result) {
             this.userdata = res.data.info
@@ -74,11 +74,30 @@ export default {
               alert('초기화 하였습니다.')
             } else {
               alert('정보를 찾을 수 없습니다.')
+              this.$router.push('/user')
             }
           })
           .catch((err) => {
             console.log(err)
             alert('서버개발자가 열심히 일하고 있습니다.\n잠시 후 시도해주세요.')
+          })
+      }
+    },
+    deleteUser () {
+      if (confirm('선택한 회원을 탈퇴 처리하시겠습니까?\n회원 탈퇴 후 회원 정보가 삭제됩니다.')) {
+        this.$axios.delete('http://localhost:9000/api/su/user/' + this.$route.params.id)
+          .then((res) => {
+            if (res.data.result) {
+              alert('회원을 삭제하였습니다.')
+              this.$router.push('/user')
+            } else {
+              alert('회원을 찾을 수 없습니다.')
+              this.$router.push('/user')
+            }
+          })
+          .catch((err) => {
+            console.log(err)
+            alert('서버개발자가 열심히 일을 하고 있습니다.\n잠시 후 시도해주세요.')
           })
       }
     }
