@@ -16,7 +16,7 @@
         </li>
         <li>
           <span>날짜</span>
-          <p class="date"><input type="date" v-model="createat"> <i>~</i> <input type="date" v-model="updateat"></p>
+          <p class="date"><input type="date" v-model="createat" min="2020-01-01" max="2021-12-30" > <i>~</i> <input type="date" v-model="updateat"  min=this.createat max="2021-12-30"></p>
         </li>
       </ul>
       <button v-on:click="search">검색</button>
@@ -48,9 +48,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-             <tr v-for="(p,idx) in items" :key="idx" @click="rowClick(p.admin_id)">
-            <td>index</td>
+          <tr v-for="(p,idx) in items" :key="idx" v-show="Currentpage" @click="rowClick(p.admin_id)">
+            <td>{{(20*(Currentpage-1)+(idx+1))}}</td>
             <td>{{ p.admin_id }}</td>
             <td>{{ p.name }}</td>
             <td>{{ p.phone }}</td>
@@ -58,10 +57,14 @@
             <td>{{ p.createat }}</td>
             <td>{{ p.updateat }}</td>
           </tr>
-            </tbody>
+        </tbody>
       </table>
-      <div class="test4">
-         <a v-for="(n,index) in paging()" :key="index" href="javascript:;" @click="ckpage(`${n}`)">{{n}}</a>
+      <div class="paging">
+        <a class="pagingFirst"/>
+          <ul v-for="(n,index) in paging()" :key="index" href="javascript:;" >
+            <li @click="ckpage(`${n}`)">{{n}}</li>
+          </ul>
+        <a class="pagingLast"/>
       </div>
   </div>
   </div>
@@ -73,9 +76,10 @@ export default {
     this.$axios.get('http://localhost:9000//api/su/admin/listsearch', {params: { Currentpage: 1, Number: this.Number, id: this.id, name: this.name, createat: this.createat, updateat: this.updateat }})
       .then((res) => {
         console.log(res)
+        console.log(res.data.count)
         this.items = res.data.result
-        this.end_page = res.data.count / this.Number
-        if (res.data.count % this.Number >= 0) {
+        this.end_page = res.data.count / this.Number // count:list 수 를 20으로 나누어서 몇 페이지 필요한지 계산
+        if (res.data.count % this.Number >= 1) {
           this.end_page = this.end_page + 1
         } else {
         }
@@ -86,14 +90,16 @@ export default {
   },
   data () {
     return {
+      Num: '',
       id: '',
       name: '',
       createat: '',
       updateat: '',
-      Number: 20,
+      Number: 20, // 게시글 수량 제한
+      listtotal: '', // 리스트 컬럼수
       items: [], // DB리스트 담는곳
       // (페이징)
-      Currentpage: '',
+      Currentpage: 1,
       start_page: '',
       end_page: '',
       paging: function () {
@@ -104,15 +110,27 @@ export default {
       }
     }
   },
+  watch: {
+    // watch: {  주시할 변수명: 실행할 콜백함수(newValue, oldValue) }
+    updateat: function (newValue, oldvalue) {
+      if (this.createat > newValue) {
+        alert('처음 날짜 보다 작아서는 안됩니다.')
+        this.updateat = ''
+      }
+    }
+  },
   methods: {
     search () {
-      this.$axios.get('http://localhost:9000//api/su/admin/listsearch', {params: { Currentpage: 1, Number: this.Number, id: this.id, name: this.name, createat: this.createat, updateat: this.updateat }})
+      this.$axios.get('http://localhost:9000//api/su/admin/listsearch', {params: { Currentpage: this.Currentpage, Number: this.Number, id: this.id, name: this.name, createat: this.createat, updateat: this.updateat }})
         .then((res) => {
           console.log(res)
           this.items = res.data.result
+          this.listtotal = res.data.count
           this.end_page = res.data.count / this.Number
           if (res.data.count % this.Number >= 0) {
+            console.log(this.end_page)
             this.end_page = this.end_page + 1
+            console.log(this.end_page)
           } else {
           }
         })
@@ -130,20 +148,10 @@ export default {
       })
     },
     ckpage (n) {
-      console.log(n)
       if (this.Currentpage !== n) {
         this.Currentpage = n
         this.search()
       }
-    },
-    GetList () {
-      this.$axios.get('http://localhost:9000//api/su/admin/list', {params: { Currentpage: this.Currentpage, Number: this.Number }})
-        .then((res) => {
-          this.items = res.data
-        })
-        .catch((err) => {
-          console.log(err)
-        })
     }
   }
 }
