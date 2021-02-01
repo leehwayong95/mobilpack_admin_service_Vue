@@ -56,7 +56,10 @@
         </tr>
         <tr v-for = "(row,index) in userdata" v-bind:key="index" v-on:click="userdetail(row.user_id)" >
           <td id="index">{{((currentpage-1) * count) + (index+1)}}</td>
-          <td id="country">{{row.country}}</td>
+            <td v-if="row.country == 'KR'">대한민국</td>
+            <td v-else-if="row.country == 'US'">미국</td>
+            <td v-else-if="row.country == 'JP'">일본</td>
+            <td v-else >중국</td>
           <td id="userid">{{row.user_id}}</td>
           <td id="name">{{row.name}}</td>
           <td id="phone">{{row.phone}}</td>
