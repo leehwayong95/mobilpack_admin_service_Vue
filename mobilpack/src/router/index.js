@@ -12,6 +12,8 @@ import UserList from '@/components/User/List'
 import AdminDetails from '@/components/Admin/Details'
 import AdminEdit from '@/components/Admin/Edit'
 import AdminRegistration from '@/components/Admin/Registration'
+import Pop from '@/components/Recommand/Popup'
+import test from '@/components/Recommand/test'
 Vue.use(Router)
 
 export default new Router({
@@ -110,6 +112,16 @@ export default new Router({
         top: topbar,
         left: sidebar
       }
+    },
+    {
+      path: '/pop',
+      name: 'pop',
+      component: Pop
+    },
+    {
+      path: '/test',
+      name: 'test',
+      component: test
     }
   ]
 })
