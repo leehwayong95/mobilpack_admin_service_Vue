@@ -12,7 +12,14 @@ import UserList from '@/components/User/List'
 import AdminDetails from '@/components/Admin/Details'
 import AdminEdit from '@/components/Admin/Edit'
 import AdminRegistration from '@/components/Admin/Registration'
+<<<<<<< HEAD
 import UserDetail from '@/components/User/Detail'
+=======
+import NoticeEdit from '@/components/Notice/Edit'
+import NoticeRegistration from '@/components/Notice/Registration'
+import NoticeDetails from '@/components/Notice/Details'
+
+>>>>>>> origin/admin-search
 Vue.use(Router)
 
 export default new Router({
@@ -117,6 +124,33 @@ export default new Router({
       name: 'myinfo',
       components: {
         default: infoedit,
+        top: topbar,
+        left: sidebar
+      }
+    },
+    {
+      path: '/noticedit',
+      name: 'noticeedit',
+      components: {
+        default: NoticeEdit,
+        top: topbar,
+        left: sidebar
+      }
+    },
+    {
+      path: '/noticeregistration',
+      name: 'noticeregistration',
+      components: {
+        default: NoticeRegistration,
+        top: topbar,
+        left: sidebar
+      }
+    },
+    {
+      path: '/noticedetails',
+      name: 'noticedetails',
+      components: {
+        default: NoticeDetails,
         top: topbar,
         left: sidebar
       }

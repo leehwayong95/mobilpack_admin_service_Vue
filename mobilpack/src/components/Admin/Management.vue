@@ -16,22 +16,25 @@
         </li>
         <li>
           <span>날짜</span>
-          <p class="date"><input type="date" v-model="createat"> <i>~</i> <input type="date" v-model="updateat"></p>
+          <p class="date"><input type="date" v-model="createat" min="2020-01-01" max="2021-12-30" > <i>~</i> <input type="date" v-model="updateat"  min=this.createat max="2021-12-30"></p>
         </li>
       </ul>
       <button v-on:click="search">검색</button>
     </div>
-       <div class="cont_inner">
-      <p>| 관리자 목록  <button class="move" @click="Register"> 신규등록</button> </p>
+      <div class="cont_inner">
+        <div class="indecate">
+          <p class="admintitle">| 관리자 목록   </p>
+          <button class="joinbutton" @click="Register"> 신규등록</button>
+        </div>
       <table>
         <colgroup>
-          <col width="3%">
-          <col width="4%">
-          <col width="5%">
-          <col width="7%">
-          <col width="5%">
-          <col width="5%">
-          <col width="10%">
+          <col width="10%"><!-- No 너비를 조절가능 -->
+          <col width="10%"><!-- ID 너비를 조절가능 -->
+          <col width="10%"><!-- 이름 너비를 조절가능 -->
+          <col width="15%"><!-- 연락처 너비를 조절가능 -->
+          <col width="15%"><!-- email 너비를 조절가능 -->
+          <col width="15%"><!-- 등록일시 너비를 조절가능 -->
+          <col width="15%"><!-- 수정일시 너비를 조절가능 -->
         </colgroup>
         <thead>
           <tr>
@@ -45,9 +48,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-             <tr v-for="(p,idx) in items" :key="idx" @click="rowClick(p.admin_id)">
-            <td>index</td>
+          <tr v-for="(p,idx) in items" :key="idx" v-show="Currentpage" @click="rowClick(p.admin_id)">
+            <td>{{(20*(Currentpage-1)+(idx+1))}}</td>
             <td>{{ p.admin_id }}</td>
             <td>{{ p.name }}</td>
             <td>{{ p.phone }}</td>
@@ -55,10 +57,14 @@
             <td>{{ p.createat }}</td>
             <td>{{ p.updateat }}</td>
           </tr>
-            </tbody>
+        </tbody>
       </table>
-      <div class="test4">
-         <a v-for="(n,index) in paging()" :key="index" href="javascript:;" @click="ckpage(`${n}`)">{{n}}</a>
+      <div class="paging">
+        <a class="pagingFirst"/>
+          <ul v-for="(n,index) in paging()" :key="index" href="javascript:;" >
+            <li @click="ckpage(`${n}`)">{{n}}</li>
+          </ul>
+        <a class="pagingLast"/>
       </div>
   </div>
   </div>
@@ -67,18 +73,16 @@
 <script>
 export default {
   mounted () {
-    // (페이징)항목 가져오기
-    this.$axios.get('http://localhost:9000//api/su/admin/list', {params: { Currentpage: 1, Number: 20 }})
+    this.$axios.get('http://localhost:9000//api/su/admin/listsearch', {params: { Currentpage: 1, Number: this.Number, id: this.id, name: this.name, createat: this.createat, updateat: this.updateat }})
       .then((res) => {
-        this.items = res.data
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-      // (페이징) DB리스트 항목에 따른 몇 페이지 필요한지 반환함
-    this.$axios.get('http://localhost:9000//api/su/admin/listcount', {params: { Number: 20 }})
-      .then((res) => {
-        this.end_page = res.data
+        console.log(res)
+        console.log(res.data.count)
+        this.items = res.data.result
+        this.end_page = res.data.count / this.Number // count:list 수 를 20으로 나누어서 몇 페이지 필요한지 계산
+        if (res.data.count % this.Number >= 1) {
+          this.end_page = this.end_page + 1
+        } else {
+        }
       })
       .catch((err) => {
         console.log(err)
@@ -86,14 +90,16 @@ export default {
   },
   data () {
     return {
+      Num: '',
       id: '',
       name: '',
       createat: '',
       updateat: '',
-      Number: '',
+      Number: 20, // 게시글 수량 제한
+      listtotal: '', // 리스트 컬럼수
       items: [], // DB리스트 담는곳
       // (페이징)
-      Currentpage: '',
+      Currentpage: 1,
       start_page: '',
       end_page: '',
       paging: function () {
@@ -104,11 +110,30 @@ export default {
       }
     }
   },
+  watch: {
+    // watch: {  주시할 변수명: 실행할 콜백함수(newValue, oldValue) }
+    updateat: function (newValue, oldvalue) {
+      if (this.createat > newValue) {
+        alert('처음 날짜 보다 작아서는 안됩니다.')
+        this.updateat = ''
+      }
+    }
+  },
   methods: {
     search () {
-      this.$axios.get('http://localhost:9000//api/su/admin/listsearch', {params: { Currentpage: 1, Number: 20, id: this.id, name: this.name, createat: this.createat, updateat: this.updateat }})
+      this.$axios.get('http://localhost:9000//api/su/admin/listsearch', {params: { Currentpage: this.Currentpage, Number: this.Number, id: this.id, name: this.name, createat: this.createat, updateat: this.updateat }})
         .then((res) => {
-          this.items = res.data
+          console.log(res)
+          this.items = res.data.result
+          this.listtotal = res.data.count
+          this.end_page = res.data.count / this.Number
+          console.log(this.end_page)
+          if (res.data.count % this.Number >= 0) {
+            console.log(this.end_page)
+            this.end_page = this.end_page + 1
+            console.log(this.end_page)
+          } else {
+          }
         })
         .catch((err) => {
           console.log(err)
@@ -124,20 +149,10 @@ export default {
       })
     },
     ckpage (n) {
-      console.log(n)
       if (this.Currentpage !== n) {
         this.Currentpage = n
-        this.GetList()
+        this.search()
       }
-    },
-    GetList () {
-      this.$axios.get('http://localhost:9000//api/su/admin/list', {params: { Currentpage: this.Currentpage, Number: 20 }})
-        .then((res) => {
-          this.items = res.data
-        })
-        .catch((err) => {
-          console.log(err)
-        })
     }
   }
 }
@@ -163,7 +178,13 @@ export default {
   border: 1px solid #ddd;
   border-radius: 5px;
 }
-.move {
-  float: right;/*  신규등록 위치 */
+.joinbutton { /* 신규등록 버튼 */
+  /* float: right; 신규등록 위치 */
+  font-size: 15px;
+  height: 40%;
+  width: 90px;
+}
+.admintitle { /* 관리자 목록 버튼 */
+  font-size: 20px;
 }
 </style>

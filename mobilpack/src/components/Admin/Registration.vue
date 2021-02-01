@@ -20,6 +20,7 @@
             type="text"
             v-model="id"
            />
+          <button class ="test6" id="pwReset" @click="Idcheck(id)">중복확인</button><span class="test6">※ 영문, 숫자 사용 5자 이상 생성 가능</span>
           </td>
           </tr>
           <tr>
@@ -44,7 +45,6 @@
             type="text"
             v-model="name"
             />
-            <button class ="test6" id="pwReset" @click="Idcheck()">중복확인</button><span class="test6">※ 영문, 숫자 사용 5자 이상 생성 가능</span>
             </td>
             </tr>
             <tr>
@@ -81,24 +81,25 @@
 export default {
   methods: {
     join () {
-      this.$axios.post('http://localhost:9000//api/su/admin/join', { admin_id: 'test1', password: 'admin1234!!', name: '황건적', phone: '0101234', email: 'ghkd@naver' })
+      this.$axios.post('http://localhost:9000//api/su/admin/join', { admin_id: this.id, name: this.name, phone: this.phone, email: this.email })
         .then((res) => {
-          this.items = res.data
-          console.log(res)
-          this.$router.push('/details')
-        })
-        .catch((err) => {
-          console.log(err)
-          console.log('실패')
+          if (res.data === 'ok') {
+            console.log(res)
+            alert('가입 성공')
+            this.$router.push('/details')
+          } else {
+            console.log(res)
+            console.log('가입 실패 다시 작성해주세요')
+          }
         })
     },
-    idcheck () {
-      this.$axios.get('http://localhost:9000//api/su/admin/idcheck', {params: { id: this.id }})
+    Idcheck (id) {
+      console.log(id)
+      this.$axios.get('http://localhost:9000//api/su/admin/idcheck', {params: { id: id }})
         .then((res) => {
-          if (res.data === '0') {
+          if (res.data === 'ok') {
             console.log(res)
             alert('사용가능한 ID 입니다.')
-            this.$router.push('/details')
           } else {
             console.log(res)
             console.log('중복된 ID 가 존재합니다')
@@ -126,7 +127,7 @@ export default {
   height: 150px;
   display:flex; /* 페이징을 가운데로 정렬시켜줌 */
   justify-content:center;/*  페이징을 가운데로 정렬시켜줌 */
-  align-items:center; /* 없어도 되는 놈 공부는 필요함 */
+  align-items:center; /* 없어도 되는 놈 공부는 필요함(가로의 중앙을 맟춰줌!) */
 }
 .btn {
   margin-right: 30px; /* 버튼 간격 */
