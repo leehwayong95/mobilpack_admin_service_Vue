@@ -127,6 +127,7 @@ export default {
           this.items = res.data.result
           this.listtotal = res.data.count
           this.end_page = res.data.count / this.Number
+          console.log(this.end_page)
           if (res.data.count % this.Number >= 0) {
             console.log(this.end_page)
             this.end_page = this.end_page + 1
