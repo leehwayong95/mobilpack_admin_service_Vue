@@ -7,15 +7,6 @@
         :mapOptions="mapOptions"
         :initLayers="initLayers"
         @load="onLoad">
-        <naver-info-window
-          class="info-window"
-          @load="onWindowLoad"
-          :isOpen="info"
-          :marker="marker">
-          <div class="info-window-container">
-            <h1>{{hello}}</h1>
-          </div>
-        </naver-info-window>
       </naver-maps>
     </div>
     <div>
@@ -23,6 +14,16 @@
       <input class="input-text" type="text" v-model="testTwo" placeholder='경도'>
     </div>
     <button @click="mapinput">submit</button>
+    <button @click="pop">지도 선택</button>
+    <div>
+      <naver-map
+          :height="height"
+          :width="width"
+          :mapOptions="mapOptions"
+          :initLayers="initLayers"
+          @load="onLoad">
+        </naver-map>
+    </div>
   </div>
 </template>
 
@@ -70,11 +71,10 @@ export default {
       this.marker = vue.marker
     },
     mapinput () {
-      console.log(this.map)
-      console.log(this.testOne)
-      console.log(this.testTwo)
       this.map.setCenter({lat: this.testOne, lng: this.testTwo})
-      this.map.setZoom(15)
+    },
+    pop () {
+      window.open('http://localhost:8080/pop', '_blank')
     }
   },
   mounted () {

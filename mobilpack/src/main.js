@@ -11,8 +11,9 @@ import naver from 'vue-naver-maps'
 Vue.use(naver, {
   clientID: '94vq3rso8e',
   useGovAPI: false,
-  subModeules: ''
+  subModeules: 'geocoder'
 })
+
 Vue.use(VueCookie)
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
