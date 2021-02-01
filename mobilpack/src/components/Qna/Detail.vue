@@ -44,7 +44,7 @@
             <div class="A">
               <input v-model="inputReply">
               <div class="btn_wrap">
-                <button>저장</button>
+                <button @click="setReply">저장</button>
                 <button @click="EditMode">취소</button>
               </div>
             </div>
@@ -70,26 +70,56 @@ export default {
     }
   },
   mounted () {
-    this.$axios.get('http://localhost:9000/api/su/qna/' + this.index)
-      .then((res) => {
-        if (res.data.status) {
-          this.post = res.data.post
-          if (res.data.post.replydate) {
-            this.editmode = false
-            this.inputReply = res.data.post.reply
-          } else {
-            this.editmode = true
-          }
-          console.log(res)
-        } else {
-          alert('이미 삭제된 게시글입니다.')
-          this.$router.push('/qna')
-        }
-      })
+    if (this.$axios.defaults.headers.common['authorization'] === undefined) {
+      let token = this.$cookie.get('authorization')
+      if (token === undefined) {
+        alert('로그인 후 이용해주세요.')
+      } else {
+        this.$axios.defaults.headers.common['authorization'] = token
+      }
+    }
+    this.getQnaPost()
   },
   methods: {
+    getQnaPost () {
+      this.$axios.get('http://localhost:9000/api/su/qna/' + this.index)
+        .then((res) => {
+          if (res.data.status) {
+            this.post = res.data.post
+            if (res.data.post.replydate) {
+              this.editmode = false
+              this.inputReply = res.data.post.reply
+            } else {
+              this.editmode = true
+            }
+            console.log(res)
+          } else {
+            alert('이미 삭제된 게시글입니다.')
+            this.$router.push('/qna')
+          }
+        })
+        .catch((err) => {
+          alert('개발자가 열심히 작업중입니다.\n잠시 후 시도해주세요')
+          this.$router.push('/qna')
+          console.log(err)
+        })
+    },
     backtoList () {
       this.$router.push('/qna')
+    },
+    setReply () {
+      this.$axios.post('http://localhost:9000/api/su/qna/chat/' + this.index, {content: this.inputReply})
+        .then((res) => {
+          if (res.data.status) {
+            alert('등록되었습니다.')
+            this.editmode = false
+            this.getQnaPost()
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+          alert('서버관리자가 열심히 일중입니다.\n잠시 후 시도해주세요')
+        })
     },
     EditMode () {
       this.editmode = !this.editmode
