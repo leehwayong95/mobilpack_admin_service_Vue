@@ -13,19 +13,12 @@ import UserList from '@/components/User/List'
 import AdminDetails from '@/components/Admin/Details'
 import AdminEdit from '@/components/Admin/Edit'
 import AdminRegistration from '@/components/Admin/Registration'
-<<<<<<< HEAD
-<<<<<<< HEAD
 import UserDetail from '@/components/User/Detail'
-=======
 import NoticeEdit from '@/components/Notice/Edit'
 import NoticeRegistration from '@/components/Notice/Registration'
 import NoticeDetails from '@/components/Notice/Details'
-
->>>>>>> origin/admin-search
-=======
 import Pop from '@/components/Recommand/Popup'
 import test from '@/components/Recommand/test'
->>>>>>> origin/function_RecommendCreate
 Vue.use(Router)
 
 export default new Router({
@@ -144,7 +137,6 @@ export default new Router({
       }
     },
     {
-<<<<<<< HEAD
       path: '/noticedit',
       name: 'noticeedit',
       components: {
@@ -170,7 +162,8 @@ export default new Router({
         top: topbar,
         left: sidebar
       }
-=======
+    },
+    {
       path: '/pop',
       name: 'pop',
       component: Pop
@@ -179,7 +172,6 @@ export default new Router({
       path: '/test',
       name: 'test',
       component: test
->>>>>>> origin/function_RecommendCreate
     }
   ]
 })

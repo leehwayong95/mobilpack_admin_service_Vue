@@ -320,7 +320,6 @@ select {
   align-items: center;
 }
 
-<<<<<<< HEAD
 /* 유저 리스트 표출 CSS */
 .Search {
   display: flex;
@@ -348,16 +347,12 @@ select {
 .Search > #search_createat {
   width: 30%;
 }
-.search > #search_createat > .signin_date {
-=======
 /*관리자 목록*/
 .cont_inner > .indecate {
->>>>>>> origin/admin-search
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-<<<<<<< HEAD
 }
 .Search > #search_createat > .signin_date > input {
   width: 45%;
@@ -373,8 +368,3 @@ select {
 .member_List {
   padding: 10px 10px;
 }
-=======
-  width: 100%;
-  height: 8%;
-}
->>>>>>> origin/admin-search
