@@ -43,8 +43,8 @@
         <colgroup>
           <col width="5%">
           <col width="10%">
-          <col width="20%">
-          <col width="15%">
+          <col width="18%">
+          <col width="17%">
           <col width="8%">
           <col width="15%">
           <col width="10%">
@@ -64,13 +64,30 @@
           <th scope="col">답변자</th>
           <th scope="col">답변 일시</th>
         </tr>
-        <!--tr v-for="(post,index) in List" v-bind:key="index">
-          <td>{{index}}</td>
-          <td>{{post.category}}</td>
-          <td>{{post.title}}</td>
-          <td>{{post.}}
-        </tr-->
+        <tr v-for="(post,index) in List" v-bind:key="index" @click="view(post.qnaindex)">
+          <td>{{((page-1) * 20) + (index+1)}}</td>
+            <td v-if="post.category == 1">이용</td>
+            <td v-else-if="post.category == 2">오류</td>
+            <td v-else-if="post.category == 3">기타</td>
+          <td class="long">{{post.title}}</td>
+          <td>{{post.createat}}</td>
+          <td>{{post['user_name']}}</td>
+            <td v-if="post['admin_name'] == null">답변대기</td>
+            <td v-else>답변완료</td>
+            <td v-if="post['admin_name'] == null"> - </td>
+            <td v-else>{{post['admin_name']}}</td>
+            <td v-if="post['admin_name'] == null"> -</td>
+            <td v-else>{{post.replydate}}</td>
+        </tr>
       </table>
+      <div class="paging">
+        <a class ="pagingFirst"  @click="getNextBeforePage('0')"/>
+          <ul v-for="(n,index) in paging()" v-bind:key="index" @click="getPage(n)">
+            <li  v-if="page !== n" class = "Nothere">{{n}}</li>
+            <li v-else class="here">{{n}}</li>
+          </ul>
+        <a class="pagingLast" @click="getNextBeforePage('1')"/>
+      </div>
     </div>
   </div>
 </template>
@@ -97,8 +114,50 @@ export default {
     }
   },
   mounted () {
+    this.getList()
+  },
+  watch: {
+    max () {
+      if (this.min > this.max) {
+        alert('최소일 보다 커야합니다.')
+        this.max = this.min + 1
+      }
+    }
   },
   methods: {
+    getList () {
+      this.$axios.patch('http://localhost:9000/api/su/qna/search', {
+        category: this.category,
+        title: this.title,
+        min: this.min.replace(/-/g, ''),
+        max: this.max.replace(/-/g, ''),
+        answer: this.answer,
+        page: this.page,
+        count: 20
+      })
+        .then((res) => {
+          this.List = res.data.list
+          this.endpage = res.data.count / 20
+          this.endpage += (res.data.count % 20) ? 1 : 0
+        })
+        .catch((err) => {
+          console.log(err)
+          alert('개발자가 열심히 일중입니다\n잠시 후 이용해주세요')
+        })
+    },
+    view (n) {
+      this.$router.push('/qna/' + n)
+    }
   }
 }
 </script>
+
+<style scoped>
+td.long {
+  overflow: hidden;
+}
+.here {
+  background-color: #3e61dc;
+  color: #fff;
+}
+</style>

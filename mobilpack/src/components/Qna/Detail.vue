@@ -1,0 +1,156 @@
+<template>
+  <div id="content">
+    <div class="title">
+      <h1>| 문의 내용</h1>
+      <h3>HOME > 서비스 관리 > 고객 문의 > 문의 내용</h3>
+    </div>
+    <div class="cont_inner">
+      <table>
+        <tr>
+          <th>이름</th><td>{{post['user_name']}}</td>
+          <th>연락처</th><td>{{post.phone}}</td>
+        </tr>
+        <tr>
+          <th>문의유형</th>
+          <td v-if="post.category==1">이용</td>
+          <td v-else-if="post.category==2">오류</td>
+          <td v-else-if="post.category==3">기타</td>
+          <td v-else>히히</td>
+          <th>문의일시</th>
+          <td>{{post.createat}}</td>
+        </tr>
+        <tr>
+          <th>문의 제목</th>
+          <td colspan="3">{{post.title}}</td>
+        </tr>
+      </table>
+      <div class ="qna">
+        <h3>[질의 - {{post['user_name']}}]</h3>
+        <div class="Q">
+          <h3>{{post.content}}</h3>
+        </div>
+        <div v-if="!editmode">
+          <h3>[답변 - {{post['admin_name']}}]</h3>
+          <div class="A">
+            <h3>{{post.reply}}</h3>
+            <div class="btn_wrap">
+              <button @click="EditMode">답변 수정</button>
+              <button>답변 삭제</button>
+            </div>
+          </div>
+        </div>
+        <div  v-else >
+          <h3>[답변 - {{admin_name}}]</h3>
+            <div class="A">
+              <input v-model="inputReply">
+              <div class="btn_wrap">
+                <button>저장</button>
+                <button @click="EditMode">취소</button>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+    <div class="btm_button">
+        <button style="background-color: #ff4723;">문의 삭제</button>
+        <button @click="backtoList">목록</button>
+      </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      index: this.$route.params.index,
+      post: '', // null해줘야함
+      inputReply: '',
+      admin_name: this.$cookie.get('name'),
+      editmode: false
+    }
+  },
+  mounted () {
+    this.$axios.get('http://localhost:9000/api/su/qna/' + this.index)
+      .then((res) => {
+        if (res.data.status) {
+          this.post = res.data.post
+          if (res.data.post.replydate) {
+            this.editmode = false
+            this.inputReply = res.data.post.reply
+          } else {
+            this.editmode = true
+          }
+          console.log(res)
+        } else {
+          alert('이미 삭제된 게시글입니다.')
+          this.$router.push('/qna')
+        }
+      })
+  },
+  methods: {
+    backtoList () {
+      this.$router.push('/qna')
+    },
+    EditMode () {
+      this.editmode = !this.editmode
+    }
+  }
+}
+</script>
+
+<style scoped>
+table {
+  margin: 20px 0;
+}
+div.Q {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: rgb(129, 129, 129);
+}
+div.A {
+  width: 100%;
+  margin: 5px 0;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: rgb(107, 129, 189);
+}
+div.A > input {
+  border-color: rgb(105, 105, 105);
+  border: 3px;
+  width: 100%;
+}
+div.qna {
+  padding-bottom: 10px;
+}
+div.qna h3 {
+  margin: 10px 0;
+}
+div.btn_wrap {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-top: 5px;
+}
+div.btn_wrap > button {
+  width: 100px;
+  height: 40px;
+  margin-right: 5px;
+}
+div.btm_button {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 5px 0;
+}
+
+div.btm_button > button {
+  width: 100px;
+  height: 40px;
+  margin: 0 5px;
+}
+.cont_inner {
+  height: auto;
+}
+
+</style>

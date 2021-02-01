@@ -6,6 +6,7 @@ import topbar from '@/components/topbar'
 import AdminManagement from '@/components/Admin/Management'
 import Notice from '@/components/Notice/Notice'
 import Qna from '@/components/Qna/List'
+import QnaDetail from '@/components/Qna/Detail'
 import recommands from '@/components/Recommand/List'
 import infoedit from '@/components/My/info'
 import UserList from '@/components/User/List'
@@ -36,6 +37,15 @@ export default new Router({
       name: 'Qna',
       components: {
         default: Qna,
+        top: topbar,
+        left: sidebar
+      }
+    },
+    {
+      path: '/qna/:index',
+      name: 'QnaDetail',
+      components: {
+        default: QnaDetail,
         top: topbar,
         left: sidebar
       }
