@@ -91,8 +91,8 @@ export default {
         })
         .catch((err) => {
           console.log(err)
-          alert('정보 조회를 실패하였습니다.\n잠시후 다시 시도해주세요.')
-          this.$router.go(-1)
+          alert('로그인이 만료되었습니다. 다시 로그인해주세요')
+          this.$router.push('/')
         })
     },
     editInfo () {
@@ -140,8 +140,10 @@ export default {
             alert('수정이 완료되었습니다.')
             this.$router.push('/main')
           })
-          .catch((res) => {
-            alert('정보 조회를 실패하였습니다.\n잠시후 다시 시도해주세요.')
+          .catch((err) => {
+            console.log(err)
+            alert('로그인이 만료되었습니다. 다시 로그인해주세요')
+            this.$router.push('/')
           })
       }
     },

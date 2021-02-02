@@ -129,7 +129,8 @@ export default {
         })
         .catch((err) => {
           console.log(err)
-          alert('서버관리자가 열심히 일중입니다.\n잠시 후 시도해주세요')
+          alert('로그인이 만료되었습니다. 다시 로그인해주세요')
+          this.$router.push('/')
         })
     },
     deleteQnaPost () {
