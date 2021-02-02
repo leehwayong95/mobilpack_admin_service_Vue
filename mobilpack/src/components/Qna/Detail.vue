@@ -7,8 +7,12 @@
     <div class="cont_inner">
       <table>
         <tr>
-          <th>이름</th><td>{{post['user_name']}}</td>
-          <th>연락처</th><td>{{post.phone}}</td>
+          <th>이름</th>
+            <td v-if="post['user_name'] === null">삭제된 회원</td>
+            <td v-else>{{post['user_name']}}</td>
+          <th>연락처</th>
+            <td v-if="post.phone !== null">{{post.phone}}</td>
+            <td v-else> - </td>
         </tr>
         <tr>
           <th>문의유형</th>
@@ -87,6 +91,7 @@ export default {
     getQnaPost () {
       this.$axios.get('http://localhost:9000/api/su/qna/' + this.index)
         .then((res) => {
+          console.log(res)
           if (res.data.status) {
             this.post = res.data.post
             if (res.data.post.replydate) {
@@ -99,7 +104,6 @@ export default {
             } else {
               this.editmode = true
             }
-            console.log(res)
           } else {
             alert('이미 삭제된 게시글입니다.')
             this.$router.push('/qna')
