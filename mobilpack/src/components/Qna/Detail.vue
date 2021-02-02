@@ -38,7 +38,7 @@
             <h3>{{post.reply}}</h3>
             <div class="btn_wrap">
               <button @click="EditMode">답변 수정</button>
-              <button>답변 삭제</button>
+              <button @click="deleteAnswer">답변 삭제</button>
             </div>
           </div>
         </div>
@@ -140,6 +140,19 @@ export default {
           .catch((err) => {
             console.log(err)
             alert('서버관리자가 열심히 일중입니다.\n잠시 후 시도해주세요')
+          })
+      }
+    },
+    deleteAnswer () {
+      if (confirm('답변을 삭제하시겠습니까?')) {
+        this.$axios.delete('http://localhost:9000/api/su/qna/chat/' + this.index)
+          .then((res) => {
+            alert('삭제되었습니다.')
+            this.getQnaPost()
+          })
+          .catch((err) => {
+            console.log(err)
+            alert('서버개발자가 열심히 일중입니다.\n잠시 후 시도해주세요')
           })
       }
     },
