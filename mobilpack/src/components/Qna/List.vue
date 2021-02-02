@@ -71,7 +71,8 @@
             <td v-else-if="post.category == 3">기타</td>
           <td class="long">{{post.title}}</td>
           <td>{{post.createat}}</td>
-          <td>{{post['user_name']}}</td>
+            <td v-if="post['user_name'] == null">삭제된 회원</td>
+            <td v-else>{{post['user_name']}}</td>
             <td v-if="post.replydate == null">답변대기</td>
             <td v-else>답변완료</td>
             <td v-if="(post['admin_name'] == null ) && (post.replydate == null)"> - </td>
