@@ -30,7 +30,10 @@
           <h3>{{post.content}}</h3>
         </div>
         <div v-if="!editmode">
-          <h3>[답변 - {{post['admin_name']}}]</h3>
+          <div class="title">
+            <h3>[답변 - {{post['admin_name']}}]</h3>
+            <h3>{{post.replydate}}</h3>
+          </div>
           <div class="A">
             <h3>{{post.reply}}</h3>
             <div class="btn_wrap">
@@ -52,7 +55,7 @@
       </div>
     </div>
     <div class="btm_button">
-        <button style="background-color: #ff4723;">문의 삭제</button>
+        <button style="background-color: #ff4723;" @click="deleteQnaPost">문의 삭제</button>
         <button @click="backtoList">목록</button>
       </div>
   </div>
@@ -63,7 +66,7 @@ export default {
   data () {
     return {
       index: this.$route.params.index,
-      post: '', // null해줘야함
+      post: '',
       inputReply: '',
       admin_name: this.$cookie.get('name'),
       editmode: false
@@ -89,6 +92,10 @@ export default {
             if (res.data.post.replydate) {
               this.editmode = false
               this.inputReply = res.data.post.reply
+              console.log(this.post['admin_id'])
+              if (this.post['admin_name'] === null) {
+                this.post['admin_name'] = '삭제된 관리자'
+              }
             } else {
               this.editmode = true
             }
@@ -121,6 +128,21 @@ export default {
           alert('서버관리자가 열심히 일중입니다.\n잠시 후 시도해주세요')
         })
     },
+    deleteQnaPost () {
+      if (confirm('문의사항 게시글을 삭제하시겠습니까?')) {
+        this.$axios.delete('http://localhost:9000/api/su/qna/' + this.index)
+          .then((res) => {
+            if (res.data.status) {
+              alert('삭제되었습니다.')
+              this.$router.push('/qna')
+            }
+          })
+          .catch((err) => {
+            console.log(err)
+            alert('서버관리자가 열심히 일중입니다.\n잠시 후 시도해주세요')
+          })
+      }
+    },
     EditMode () {
       this.editmode = !this.editmode
     }
@@ -132,18 +154,20 @@ export default {
 table {
   margin: 20px 0;
 }
+
+/* QNA관련 CSS */
 div.Q {
   width: 100%;
   padding: 10px;
   border-radius: 5px;
-  background-color: rgb(129, 129, 129);
+  background-color: rgb(189, 186, 186);
 }
 div.A {
   width: 100%;
   margin: 5px 0;
   padding: 10px;
   border-radius: 5px;
-  background-color: rgb(107, 129, 189);
+  background-color: rgb(141, 169, 245);
 }
 div.A > input {
   border-color: rgb(105, 105, 105);
@@ -156,6 +180,12 @@ div.qna {
 div.qna h3 {
   margin: 10px 0;
 }
+div.qna div.title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 div.btn_wrap {
   display: flex;
   flex-direction: row;
