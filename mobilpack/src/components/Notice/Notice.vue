@@ -45,14 +45,24 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(p,idx) in items" :key="idx" v-show="Currentpage" @click="rowClick(p.index)">
+          <tr v-for="(p,idx) in items" :key="idx" v-show="Currentpage" @click="rowClick(p.postindex)">
             <td>{{(20*(Currentpage-1)+(idx+1))}}</td>
-            <td>{{ p.language }}</td>
-            <td>{{ p.title }}</td>
+            <td v-if="'KR' === p.language" >한국어</td>
+            <td v-else-if="'JP' === p.language" >일본어</td>
+            <td v-else-if="'CN' === p.language" >중국어</td>
+            <td v-else>영어</td>
+            <td class="row" v-if="'1'===p.topsetting">
+              <div class="imp">
+                중요
+              </div>
+              {{ p.title }}
+            </td>
+            <td v-else>{{ p.title }}</td>
             <td>{{ p.createat }}</td>
             <td>{{ p.id }}</td>
             <td>{{ p.viewcount }}</td>
-            <td>{{ p.enabled }}</td>
+            <td v-if="'1'=== p.enabled">게시중</td>
+            <td v-else>게시중단</td>
           </tr>
         </tbody>
         </table>
@@ -106,16 +116,19 @@ export default {
   },
   methods: {
     search () {
-      this.$axios.get('http://localhost:9000//api/su/notice/search', {params: { Currentpage: this.Currentpage, Number: this.Number, language: this.language, title: this.titleandcontent }})
+      this.$axios.get('http://localhost:9000//api/su/notice/search', {
+        params: {
+          Currentpage: this.Currentpage,
+          Number: this.Number,
+          language: this.language,
+          title: this.titleandcontent
+        }})
         .then((res) => {
-          console.log(res)
           this.items = res.data.result
           this.listtotal = res.data.count
           this.end_page = res.data.count / this.Number
           if (res.data.count % this.Number >= 0) {
-            console.log(this.end_page)
             this.end_page = this.end_page + 1
-            console.log(this.end_page)
           } else {
           }
         })
@@ -123,10 +136,10 @@ export default {
           console.log(err)
         })
     },
-    rowClick (index) {
+    rowClick (postindex) {
       this.$router.push({
         path: '/noticedetails',
-        query: {postindex: index}
+        query: {index: postindex}
       })
     },
     NoticeRegister () {
@@ -143,11 +156,6 @@ export default {
 </script>
 
 <style scoped>
-.test4 {
-  display:flex; /* 페이징을 가운데로 정렬시켜줌 */
-  justify-content:center;/*  페이징을 가운데로 정렬시켜줌 */
-  align-items:center; /* 없어도 되는 놈 공부는 필요함 */
-}
 .scroll {
   overflow: scroll;
   background: lightgray;
@@ -161,5 +169,12 @@ export default {
 .cont_inner > .indecate {
     width: 100%;
     height: 50px;
+}
+.imp { /* 제목 앞에 붙는 중요빨간 표지 */
+  width: 30px;
+  height: 20px;
+  background-color: red;
+  color: #fff;
+  float: left; /* 방향 왼쪽으로 이동 */
 }
 </style>

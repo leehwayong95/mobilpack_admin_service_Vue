@@ -17,11 +17,10 @@
             <th>공지언어</th>
             <td colspan="5">
             <select style="width:200px" v-model="language">
-            <option disabled value="">한국어</option>
-            <option>한국어</option>
-            <option>영어</option>
-            <option>일본어</option>
-            <option>중국어</option>
+            <option value="KR">한국어</option>
+            <option value="US">영어</option>
+            <option value="JP">일본어</option>
+            <option value="CN">중국어</option>
             </select>
            </td>
           </tr>
@@ -29,9 +28,8 @@
             <th>공지 노출 구분</th>
              <td colspan="5">
             <select style="width:200px" v-model="topsetting">
-            <option disabled value="">일반공지</option>
-            <option>일반공지</option>
-            <option>중요공지</option>
+            <option value="0">일반공지</option>
+            <option value="1">중요공지</option>
             </select>
            </td>
           </tr>
@@ -60,7 +58,7 @@
         </tbody>
         </table>
         <div class="center">
-        <button class="btn" type="button" @click="join">저장</button>
+        <button class="btn" type="button" @click="change">저장</button>
         <button class="btn" type="button" @click="cancel">취소</button>
         </div>
     </section>
@@ -72,16 +70,42 @@ export default {
   data () {
     return {
       id: 'test',
-      language: '',
-      topsetting: '',
+      language: 'KR',
+      topsetting: '0',
       title: '',
       content: '',
-      selected: ''
+      hyperlink: /(http(s)?:\/\/)([a-z0-9\w]+\.*)+[a-z0-9]{2,4}/gi, // url 정규식
+      selected: '',
+      result: '',
+      changecontent: ''
     }
   },
   methods: {
+    change () {
+      if (this.content.match(this.hyperlink)) {
+        this.changecontent = this.content
+        this.result = this.content.match(this.hyperlink)
+        console.log(this.result)
+        console.log(this.result.length)
+        for (var i = 0; i <= this.result.length; i++) {
+          this.changecontent = this.changecontent.replace(this.result[i], '<a href=' + this.result[i] + ' target="_blank"' + '>' + this.result[i] + '</a>')
+          console.log('for문입니다' + this.changecontent)
+        }
+        console.log('결과물입니다' + this.changecontent)
+        this.join()
+      } else {
+        this.changecontent = this.content
+        this.join()
+      }
+    },
     join () {
-      this.$axios.post('http://localhost:9000//api/su/notice/insert', { id: this.id, language: this.language, topsetting: this.topsetting, title: this.title, content: this.content })
+      this.$axios.post('http://localhost:9000/api/su/notice/insert', {
+        id: this.id,
+        language: this.language,
+        topsetting: this.topsetting,
+        title: this.title,
+        content: this.changecontent
+      })
         .then((res) => {
           if (res.data === 'ok') {
             console.log(res)
