@@ -77,7 +77,9 @@ export default {
       hyperlink: /(http(s)?:\/\/)([a-z0-9\w]+\.*)+[a-z0-9]{2,4}/gi, // url 정규식
       selected: '',
       result: '',
-      changecontent: ''
+      changecontent: '',
+      iagain: '',
+      jgain: ''
     }
   },
   methods: {
@@ -87,9 +89,20 @@ export default {
         this.result = this.content.match(this.hyperlink)
         console.log(this.result)
         console.log(this.result.length)
+        for (this.iagain = 0; this.iagain <= this.result.length; this.iagain++) {
+          for (this.jagain = this.iagain + 1; this.jagain <= this.result.length; this.jagain++) {
+            if (this.result[this.iagain] === this.result[this.jagain]) {
+              delete this.result[this.jagain]
+            }
+          }
+        }
+        console.log('과정을 거친 놈' + this.result)
         for (var i = 0; i <= this.result.length; i++) {
-          this.changecontent = this.changecontent.replace(this.result[i], '<a href=' + this.result[i] + ' target="_blank"' + '>' + this.result[i] + '</a>')
-          console.log('for문입니다' + this.changecontent)
+          if (this.result[i] === '') {
+          } else {
+            this.changecontent = this.changecontent.replaceAll(this.result[i], '<a href=' + this.result[i] + ' target="_blank"' + '>' + this.result[i] + '</a>')
+            console.log('for문입니다' + this.changecontent)
+          }
         }
         console.log('결과물입니다' + this.changecontent)
         this.join()

@@ -23,7 +23,7 @@
              <td v-else colspan="5">일반공지</td>
              <th>게시상태</th>
              <td v-if= "'1'=== items.enabled" colspan="1">게시중</td>
-             <td v-else colspan="5">게시중단</td>
+             <td v-else colspan="1">게시중단</td>
              </tr>
              <tr>
              <th>제목</th>
@@ -31,7 +31,8 @@
              </tr>
              <tr>
              <th>작성자</th>
-             <td colspan="1">{{items.id}}</td>
+             <td colspan="1" v-if= "null === items.name">삭제된 관리자</td>
+             <td colspan="1" v-else >{{items.name}}</td>
              <th>등록일시</th>
              <td colspan="1">{{items.createat}}</td>
              <th>수정일시</th>
@@ -48,6 +49,8 @@
              style="width:1340px; height:500px;"
              colspan="7"
              >
+              <!-- v-html="hypercontent" -->
+              <!-- v-bind:href="result" -->
                 <!-- <화용님 방식>> -->
                 <!-- <span id="notice_cont"></span>> -->
                 <!-- <a href="https://www.naver.com/" target="_blank">이동하기</a> -->
@@ -88,6 +91,7 @@ export default
         this.hypercontent = res.data.content
         this.hypercontent = this.test(this.hypercontent)
         this.testcontent = res.data.content
+        this.result = this.testcontent.match(this.hyperlink)
         console.log(this.items)
       })
       .catch((err) => {

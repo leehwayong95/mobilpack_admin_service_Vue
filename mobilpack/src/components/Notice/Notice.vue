@@ -59,7 +59,8 @@
             </td>
             <td v-else>{{ p.title }}</td>
             <td>{{ p.createat }}</td>
-            <td>{{ p.id }}</td>
+            <td colspan="1" v-if= "null === p.name">삭제된 관리자</td>
+            <td colspan="1" v-else >{{p.name}}</td>
             <td>{{ p.viewcount }}</td>
             <td v-if="'1'=== p.enabled">게시중</td>
             <td v-else>게시중단</td>
