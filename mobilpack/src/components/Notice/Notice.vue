@@ -8,11 +8,11 @@
       <ul>
          <li>
          <span>언어</span>
-         <input type="text" v-model="language">
+         <input type="text" v-model="language" v-on:keyup.enter="search">
          </li>
         <li>
           <span>제목or내용</span>
-          <input type="text" v-model="titleandcontent">
+          <input type="text" v-model="titleandcontent" v-on:keyup.enter="search">
         </li>
       </ul>
       <button v-on:click="search">검색</button>

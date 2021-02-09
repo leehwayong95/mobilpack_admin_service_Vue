@@ -46,7 +46,7 @@
              <td
              v-html="hypercontent"
              class="scroll"
-             style="width:1340px; height:500px;"
+             style="width:1340px; height:500px;  vertical-align: top;"
              colspan="7"
              >
               <!-- v-html="hypercontent" -->

@@ -8,15 +8,16 @@
         <ul>
          <li>
           <span>ID</span>
-          <input type="text" v-model="id">
+          <input type="text" v-model="id" v-on:keyup.enter="search">
         </li>
         <li>
           <span>이름</span>
-          <input type="text" v-model="name">
+          <input type="text" v-model="name" v-on:keyup.enter="search">
         </li>
         <li>
           <span>날짜</span>
-          <p class="date"><input type="date" v-model="createat" min="2020-01-01" max="2021-12-30" > <i>~</i> <input type="date" v-model="updateat"  min=this.createat max="2021-12-30"></p>
+          <p class="date"><input type="date" v-model="createat" min="2020-01-01" max="2021-12-30" > <i>~</i>
+          <input type="date" v-model="updateat"  min=createat max="2021-12-31"></p>
         </li>
       </ul>
       <button v-on:click="search">검색</button>
@@ -73,7 +74,15 @@
 <script>
 export default {
   mounted () {
-    this.$axios.get('http://localhost:9000//api/su/admin/listsearch', {params: { Currentpage: 1, Number: this.Number, id: this.id, name: this.name, createat: this.createat, updateat: this.updateat }})
+    this.$axios.get('http://localhost:9000//api/su/admin/listsearch', {
+      params: {
+        Currentpage: 1,
+        Number: this.Number,
+        id: this.id,
+        name: this.name,
+        createat: this.createat,
+        updateat: this.updateat
+      }})
       .then((res) => {
         console.log(res)
         console.log(res.data.count)
@@ -113,6 +122,10 @@ export default {
   watch: {
     // watch: {  주시할 변수명: 실행할 콜백함수(newValue, oldValue) }
     updateat: function (newValue, oldvalue) {
+      if (this.createat === '') {
+        alert('시작 날짜를 선택하셔야 합니다.')
+        this.updateat = ''
+      }
       if (this.createat > newValue) {
         alert('처음 날짜 보다 작아서는 안됩니다.')
         this.updateat = ''
@@ -121,7 +134,15 @@ export default {
   },
   methods: {
     search () {
-      this.$axios.get('http://localhost:9000//api/su/admin/listsearch', {params: { Currentpage: this.Currentpage, Number: this.Number, id: this.id, name: this.name, createat: this.createat, updateat: this.updateat }})
+      this.$axios.get('http://localhost:9000//api/su/admin/listsearch', {
+        params: {
+          Currentpage: this.Currentpage,
+          Number: this.Number,
+          id: this.id,
+          name: this.name,
+          createat: this.createat,
+          updateat: this.updateat
+        }})
         .then((res) => {
           console.log(res)
           this.items = res.data.result
@@ -186,5 +207,6 @@ export default {
 }
 .admintitle { /* 관리자 목록 버튼 */
   font-size: 20px;
+  margin: 5px;/* 관리자 목록 글자 박스에 간격 벌리기 */
 }
 </style>
