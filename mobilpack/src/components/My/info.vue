@@ -75,14 +75,14 @@ export default {
   },
   methods: {
     getMyInfo () {
-      if (this.$axios.defaults.headers.common['authorization'] === undefined) {
-        let token = this.$cookie.get('authorization')
-        if (token === undefined) {
-          alert('로그인 후 이용해주세요.')
-        } else {
-          this.$axios.defaults.headers.common['authorization'] = token
-        }
-      }
+      // if (this.$axios.defaults.headers.common['authorization'] === undefined) {
+      //   let token = this.$cookie.get('authorization')
+      //   if (token === undefined) {
+      //     alert('로그인 후 이용해주세요.')
+      //   } else {
+      //     this.$axios.defaults.headers.common['authorization'] = token
+      //   }
+      // } 라우터 가드 처리로 header 처리 전역화
       this.$axios.get('http://localhost:9000/api/su/my/info')
         .then((res) => {
           this.id = res.data.admininfo['admin_id']

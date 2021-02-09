@@ -19,9 +19,13 @@ import NoticeRegistration from '@/components/Notice/Registration'
 import NoticeDetails from '@/components/Notice/Details'
 import Pop from '@/components/Recommand/Popup'
 import test from '@/components/Recommand/test'
+
+import VueCookie from 'vue-cookie'
+import axios from 'axios'
+
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   routes: [
     {
@@ -35,6 +39,9 @@ export default new Router({
       components: {
         top: topbar,
         left: sidebar
+      },
+      beforeEnter: (to, from, next) => {
+        checklogin(to, from, next)
       }
     },
     {
@@ -44,6 +51,9 @@ export default new Router({
         default: Qna,
         top: topbar,
         left: sidebar
+      },
+      beforeEnter: (to, from, next) => {
+        checklogin(to, from, next)
       }
     },
     {
@@ -53,6 +63,9 @@ export default new Router({
         default: QnaDetail,
         top: topbar,
         left: sidebar
+      },
+      beforeEnter: (to, from, next) => {
+        checklogin(to, from, next)
       }
     },
     {
@@ -62,6 +75,9 @@ export default new Router({
         default: Notice,
         top: topbar,
         left: sidebar
+      },
+      beforeEnter: (to, from, next) => {
+        checklogin(to, from, next)
       }
     },
     {
@@ -71,6 +87,9 @@ export default new Router({
         default: AdminManagement,
         top: topbar,
         left: sidebar
+      },
+      beforeEnter: (to, from, next) => {
+        checklogin(to, from, next)
       }
     },
     {
@@ -80,6 +99,9 @@ export default new Router({
         default: AdminDetails,
         top: topbar,
         left: sidebar
+      },
+      beforeEnter: (to, from, next) => {
+        checklogin(to, from, next)
       }
     },
     {
@@ -89,6 +111,9 @@ export default new Router({
         default: AdminRegistration,
         top: topbar,
         left: sidebar
+      },
+      beforeEnter: (to, from, next) => {
+        checklogin(to, from, next)
       }
     },
     {
@@ -98,6 +123,9 @@ export default new Router({
         default: AdminEdit,
         top: topbar,
         left: sidebar
+      },
+      beforeEnter: (to, from, next) => {
+        checklogin(to, from, next)
       }
     },
     {
@@ -107,6 +135,9 @@ export default new Router({
         default: recommands,
         top: topbar,
         left: sidebar
+      },
+      beforeEnter: (to, from, next) => {
+        checklogin(to, from, next)
       }
     },
     {
@@ -116,6 +147,9 @@ export default new Router({
         default: UserList,
         top: topbar,
         left: sidebar
+      },
+      beforeEnter: (to, from, next) => {
+        checklogin(to, from, next)
       }
     },
     {
@@ -125,6 +159,9 @@ export default new Router({
         default: UserDetail,
         top: topbar,
         left: sidebar
+      },
+      beforeEnter: (to, from, next) => {
+        checklogin(to, from, next)
       }
     },
     {
@@ -134,6 +171,9 @@ export default new Router({
         default: infoedit,
         top: topbar,
         left: sidebar
+      },
+      beforeEnter: (to, from, next) => {
+        checklogin(to, from, next)
       }
     },
     {
@@ -143,6 +183,9 @@ export default new Router({
         default: NoticeEdit,
         top: topbar,
         left: sidebar
+      },
+      beforeEnter: (to, from, next) => {
+        checklogin(to, from, next)
       }
     },
     {
@@ -152,6 +195,9 @@ export default new Router({
         default: NoticeRegistration,
         top: topbar,
         left: sidebar
+      },
+      beforeEnter: (to, from, next) => {
+        checklogin(to, from, next)
       }
     },
     {
@@ -161,6 +207,9 @@ export default new Router({
         default: NoticeDetails,
         top: topbar,
         left: sidebar
+      },
+      beforeEnter: (to, from, next) => {
+        checklogin(to, from, next)
       }
     },
     {
@@ -175,3 +224,16 @@ export default new Router({
     }
   ]
 })
+
+function checklogin (to, from, next) {
+  let token = VueCookie.get('authorization')
+  if (token === '' || token === null) {
+    alert('로그인이 필요한 기능입니다.')
+    next('/')
+  } else {
+    axios.defaults.headers.common['authorization'] = token
+    next()
+  }
+}
+
+export default router
