@@ -277,7 +277,8 @@ div.btm_button > button {
   margin: 0 10px;
   right: 0;
 }
-table > tr:hover {
-  background: inherit;
+#content tr:hover {
+  background: initial;
+  cursor:initial;
 }
 </style>
