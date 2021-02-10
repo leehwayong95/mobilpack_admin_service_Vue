@@ -29,7 +29,8 @@
         </tr>
       </table>
       <div class ="qna">
-        <h3>[질의 - {{post['user_name']}}]</h3>
+        <h3 v-if="post['user_name'] === null">[질의 - 삭제된 회원]</h3>
+        <h3 v-else>[질의 - {{post['user_name']}}]</h3>
         <div class="Q">
           <h3>{{post.content}}</h3>
         </div>
