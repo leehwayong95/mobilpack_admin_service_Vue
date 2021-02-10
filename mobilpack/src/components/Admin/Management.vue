@@ -122,13 +122,17 @@ export default {
   watch: {
     // watch: {  주시할 변수명: 실행할 콜백함수(newValue, oldValue) }
     updateat: function (newValue, oldvalue) {
+      var Plusyear = this.$moment(this.createat).add(12, 'months').add(1, 'd')
+      Plusyear = this.$moment(Plusyear).format('YYYY-MM-DD')
       if (this.createat === '') {
         alert('시작 날짜를 선택하셔야 합니다.')
         this.updateat = ''
-      }
-      if (this.createat > newValue) {
+      } else if (this.createat > newValue) {
         alert('처음 날짜 보다 작아서는 안됩니다.')
         this.updateat = ''
+      } else if (newValue > Plusyear) {
+        alert('기간은 1년제한입니다')
+        this.updateat = Plusyear
       }
     }
   },

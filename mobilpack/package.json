@@ -19,6 +19,7 @@
     "vue": "^2.5.2",
     "vue-cookie": "^1.1.4",
     "vue-js-modal": "^2.0.0-rc.6",
+    "vue-moment": "^4.1.0",
     "vue-naver-maps": "^0.14.1",
     "vue-router": "^3.0.1"
   },

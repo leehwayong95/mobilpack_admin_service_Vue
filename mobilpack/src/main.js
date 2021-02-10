@@ -7,7 +7,9 @@ import axios from 'axios'
 import VueCookie from 'vue-cookie'
 import modal from 'vue-js-modal'
 import naver from 'vue-naver-maps'
+import vueMoment from 'vue-moment'
 
+Vue.use(vueMoment)
 Vue.use(naver, {
   clientID: '94vq3rso8e',
   useGovAPI: false,
