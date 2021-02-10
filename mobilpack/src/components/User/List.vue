@@ -1,7 +1,7 @@
 <template>
   <div id="content">
     <span class="title">
-      <h1>| 회원관리</h1>
+      <h1>| 회원 관리</h1>
       <h3>home > 회원관리</h3>
     </span>
     <div class = "Search">

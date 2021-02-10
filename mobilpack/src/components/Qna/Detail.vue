@@ -2,7 +2,7 @@
   <div id="content">
     <div class="title">
       <h1>| 문의 내용</h1>
-      <h3>HOME > 서비스 관리 > 고객 문의 > 문의 내용</h3>
+      <h3>HOME > 서비스관리 > 고객문의 > 문의내용</h3>
     </div>
     <div class="cont_inner">
       <table>
@@ -32,7 +32,7 @@
         <h3 v-if="post['user_name'] === null">[질의 - 삭제된 회원]</h3>
         <h3 v-else>[질의 - {{post['user_name']}}]</h3>
         <div class="Q">
-          <h3>{{post.content}}</h3>
+          <h3 v-html="post.content"></h3>
         </div>
         <div v-if="post.replydate">
           <div v-if="!editmode">
@@ -41,7 +41,7 @@
               <h3>{{post.replydate}}</h3>
             </div>
             <div class="A">
-              <h3>{{post.reply}}</h3>
+              <h3 v-html="post.reply"></h3>
               <div class="btn_wrap">
                 <button @click="EditMode">답변 수정</button>
                 <button @click="deleteAnswer">답변 삭제</button>
@@ -51,7 +51,7 @@
           <div  v-else >
             <h3>[답변 - {{admin_name}}]</h3>
             <div class="A">
-              <input v-model="inputReply">
+              <textarea v-model="inputReply"/>
               <div class="btn_wrap">
                 <button @click="setReply">저장</button>
                 <button v-if="post.replydate" @click="EditMode">취소</button>
@@ -78,8 +78,8 @@
               <th>답변작성</th>
               <td colspan="5" style="padding: 0; border-right: none;" class = "input">
                   <textarea v-if="post.replydate"  disabled="true" style="margin: 0; width: 100%;" type="text" placeholder="답변이 완료되었습니다."/>
-                  <textarea v-else style="margin: 0;" type="text" placeholder="답변은 최대 1000자 까지 가능합니다."/>
-                  <button v-if="post.replydate == null">답변 등록</button>
+                  <textarea v-else style="margin: 0;" type="text" placeholder="답변은 최대 1000자 까지 가능합니다." v-model="inputReply"/>
+                  <button v-if="post.replydate == null" @click="setReply">답변 등록</button>
               </td>
             </tr>
           </table>
@@ -144,12 +144,16 @@ export default {
       this.$router.push('/qna')
     },
     setReply () {
-      this.$axios.post('http://localhost:9000/api/su/qna/chat/' + this.index, {content: this.inputReply})
+      let HTMLReply = this.convertHTML(this.inputReply)
+      this.$axios.post('http://localhost:9000/api/su/qna/chat/' + this.index, {content: HTMLReply})
         .then((res) => {
           if (res.data.status) {
             alert('등록되었습니다.')
+            this.inputReply = HTMLReply
             this.editmode = false
             this.getQnaPost()
+          } else {
+            alert('서버 작업중입니다. 나중에 시도해주세요.')
           }
         })
         .catch((err) => {
@@ -178,6 +182,7 @@ export default {
         this.$axios.delete('http://localhost:9000/api/su/qna/chat/' + this.index)
           .then((res) => {
             alert('삭제되었습니다.')
+            this.inputReply = ''
             this.getQnaPost()
           })
           .catch((err) => {
@@ -187,7 +192,16 @@ export default {
       }
     },
     EditMode () {
+      this.inputReply = this.inputReply.replace(/(<br \/>)/g, '\n')
       this.editmode = !this.editmode
+    },
+    convertHTML (content) {
+      var regURL = new RegExp(`(http|https|ftp|telnet|news|irc)://([-/.a-zA-Z0-9_~#%$?&=:200-377()]+)`, 'gi')
+      var regEmail = new RegExp('([xA1-xFEa-z0-9_-]+@[xA1-xFEa-z0-9-]+.[a-z0-9-]+)', 'gi')
+      return content
+        .replace(regURL, `<a href='$1://$2' target='_blank'>$1://$2</a>`)
+        .replace(regEmail, `<a href='mailto:$1'>$1</a>`)
+        .replace(/(?:\r\n|\r|\n)/g, '<br />')
     }
   }
 }

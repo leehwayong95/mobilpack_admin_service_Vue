@@ -2,7 +2,7 @@
   <div id='content'>
     <div class="title">
       <h1>| 문의 관리</h1>
-      <h3>HOME > 서비스 관리 > 고객 문의</h3>
+      <h3>HOME > 서비스관리 > 고객문의</h3>
     </div>
     <div class="search" style="margin: 10px 0;">
       <ul>
@@ -84,8 +84,8 @@
       </table>
       <div class="paging">
         <a class ="pagingFirst"  @click="getNextBeforePage('0')"/>
-          <ul v-for="(n,index) in paging()" v-bind:key="index" @click="getPage(n)">
-            <li  v-if="page !== n" class = "Nothere">{{n}}</li>
+          <ul v-for="(n,index) in paging()" v-bind:key="index">
+            <li  v-if="page !== n" class = "Nothere" @click="getPage(n)">{{n}}</li>
             <li v-else class="here">{{n}}</li>
           </ul>
         <a class="pagingLast" @click="getNextBeforePage('1')"/>
@@ -149,12 +149,21 @@ export default {
     },
     view (n) {
       this.$router.push('/qna/' + n)
+    },
+    getPage (n) {
+      if (this.page !== n) {
+        this.page = n
+        this.getList()
+      }
     }
   }
 }
 </script>
 
 <style scoped>
+#content {
+  overflow: scroll;
+}
 td.long {
   overflow: hidden;
 }
