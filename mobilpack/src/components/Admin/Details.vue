@@ -149,7 +149,7 @@ export default {
 }
 .rightbutton {
   float: right; /* float  이 친구를 사용해서 수정 ,삭제 버튼을 오른쪽으로 보낼수 있습니다  */
-  margin-right: 30px; /* 버튼 간격 */
+  margin-left: 30px; /* 버튼 간격 */
   width: 100px;
   height: 30px;
 }

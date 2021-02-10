@@ -19,6 +19,8 @@ import NoticeRegistration from '@/components/Notice/Registration'
 import NoticeDetails from '@/components/Notice/Details'
 import Pop from '@/components/Recommand/Popup'
 import test from '@/components/Recommand/test'
+import RecommandDetails from '@/components/Recommand/Details'
+import RecommandRegistrtion from '@/components/Recommand/Registration'
 
 import VueCookie from 'vue-cookie'
 import axios from 'axios'
@@ -133,6 +135,30 @@ const router = new Router({
       name: 'recommands',
       components: {
         default: recommands,
+        top: topbar,
+        left: sidebar
+      },
+      beforeEnter: (to, from, next) => {
+        checklogin(to, from, next)
+      }
+    },
+    {
+      path: '/recommandsdetails',
+      name: 'recommandsdetails',
+      components: {
+        default: RecommandDetails,
+        top: topbar,
+        left: sidebar
+      },
+      beforeEnter: (to, from, next) => {
+        checklogin(to, from, next)
+      }
+    },
+    {
+      path: '/recommandregistrtion',
+      name: 'recommandregistrtion',
+      components: {
+        default: RecommandRegistrtion,
         top: topbar,
         left: sidebar
       },
