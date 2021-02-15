@@ -1,7 +1,7 @@
 <template>
   <div id="content">
     <span class="title">
-      <h1>회원 상세</h1>
+      <h1>| 회원 상세</h1>
       <h3>home > 회원관리 > 회원상세</h3>
     </span>
     <div class="cont_inner">
@@ -33,7 +33,8 @@
         </tr>
       </table>
       <div class="btn_wrap">
-        <button @click="deleteUser">회원 탈퇴 처리</button>
+        <button id="delete" @click="deleteUser">회원 탈퇴 처리</button>
+        <button @click="gotoList">목록</button>
       </div>
     </div>
   </div>
@@ -100,6 +101,9 @@ export default {
             alert('서버개발자가 열심히 일을 하고 있습니다.\n잠시 후 시도해주세요.')
           })
       }
+    },
+    gotoList () {
+      this.$router.push('/user')
     }
   }
 }
@@ -116,5 +120,18 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: center;
+}
+.btn_wrap{
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.btn_wrap button {
+  width: 100px;
+  height: 30px;
+}
+.btn_wrap button#delete {
+  background-color: red;
 }
 </style>
