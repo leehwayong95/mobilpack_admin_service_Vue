@@ -192,7 +192,7 @@ export default {
       }
     },
     EditMode () {
-      this.inputReply = this.inputReply.replace(/(<br \/>)/g, '\n')
+      this.inputReply = this.inputReply.replace(/(<br \/>)/g, '\n').replace(/(<([^>]+)>)/ig, '')
       this.editmode = !this.editmode
     },
     convertHTML (content) {
