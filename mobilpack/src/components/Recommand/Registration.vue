@@ -21,11 +21,11 @@
              <tr>
              <th>입력 언어(원본)</th>
              <td colspan="3">
-                <select style="width:200px">
-                <option >한국어</option>
-                <option >영어</option>
-                <option >일본어</option>
-                <option >중국어</option>
+                <select style="width:200px" v-model="language">
+                <option value="KR">한국어</option>
+                <option value="US">영어</option>
+                <option value="JP">일본어</option>
+                <option value="CN">중국어</option>
                 </select>
              </td>
              <th>카테고리</th>
@@ -50,10 +50,10 @@
              </tr>
              <tr>
              <th>관광정보</th>
-                <td class="scroll" style="height:100px" colspan="7">
+                <td style="height:100px" colspan="7">
                 <textarea
                 style="width:1350px; height:100px"
-                class="box"
+                placeholder="관광객 APP에 제공할 추천 장소의 관광 정보를 입력해주세요"
                 type="text"
                 v-model="content"
                 />
@@ -61,11 +61,24 @@
              </tr>
              <tr>
              <th>태그</th>
-             <td colspan="7"></td>
+             <td colspan="7">
+               <input
+                  style="width:1000px"
+                  placeholder="#을 이용해 태그를 입력해주세요"
+                  type="text"
+                  v-model="tag"
+                />
+             </td>
              </tr>
              <tr>
              <th>사진</th>
-             <td colspan="7"></td>
+             <td colspan="7" style="height:150px">
+               <input ref="imageInput" type="file" hidden @change="onChangeImages">
+               <v-btn type="button" @click="onClickImageUpload">이미지 업로드</v-btn>
+               <v-img
+               v-if="imageUrl" :src="imageUrl"
+               ></v-img>
+             </td>
              </tr>
          </tbody>
         </table>
@@ -77,10 +90,10 @@
         <tbody>
              <tr>
              <th>음성안내 문구</th>
-                <td class="scroll" style="height:100px" colspan="7">
+                <td style="height:100px" colspan="7">
                 <textarea
                 style="width:1350px; height:100px"
-                class="box"
+                placeholder="관광객 APP에서 오디오 가이드로 제공할 음성 안내 문구를 입력해주세요 입력된 정보는 TTS로 제공됩니다."
                 type="text"
                 v-model="voice"
                 />
@@ -91,21 +104,37 @@
         <h3 class="cont_title">|이용 정보</h3>
         <table>
         <colgroup>
-        <col style="width: 100px;">><!--1행(제목부분) 너비 조절 -->
-        <col style="width: 100px;"><!--2행(내용부분) 너비 조절 -->
-        <col style="width: 100px;"><!--2행(내용부분) 너비 조절 -->
-        <col style="width: 100px;"><!--3행(제목부분) 너비 조절 -->
+        <col style="width: 150px;">><!--1행(제목부분) 너비 조절 -->
         </colgroup>
         <tbody>
              <tr>
-             <th>위치 정보</th>
-             <td colspan="7"></td>
+             <th rowspan="2">위치 정보</th><!--칸 나누기는(세로)는 rowspan 사용 -->
+             <td colspan="7" style="width:1340px; height:600px">
+             </td>
+             </tr>
+             <tr>
+             <td colspan="7">
+                <input
+                  style="width: 200px;"
+                  type="text"
+                  v-model="adress"
+                  placeholder="위도"
+                />
+                 <input
+                  style="width: 200px;"
+                  type="text"
+                  v-model="adress"
+                  placeholder="경도"
+                />
+                <button class="centerbutton">지도확인</button>
+                <button class="rightbutton">지도에서 직접 선택하기</button>
+             </td>
              </tr>
              <tr>
              <th>주소</th>
              <td colspan="7">
                 <input
-                  style="width:100px height: 20px"
+                  placeholder="주소입력"
                   class="box"
                   type="text"
                   v-model="adress"
@@ -116,7 +145,7 @@
              <th>연락처</th>
              <td colspan="7">
                  <input
-                  style="width:100px height: 20px"
+                  placeholder="연락처('-'제외입력)"
                   class="box"
                   type="text"
                   v-model="phone"
@@ -125,16 +154,52 @@
              </tr>
              <tr>
              <th>운영시간</th>
-             <td colspan="7"></td>
-             </tr>
+             <td colspan="7" style="height:100px">
+                <input type="checkbox" id="one" v-model="checkedValues" value="1">
+                <label for="one">월요일</label>
+                <input type="checkbox" id="two" v-model="checkedValues" value="2">
+                <label for="two">화요일</label>
+                <input type="checkbox" id="three" v-model="checkedValues" value="3">
+                <label for="three">수요일</label>
+                <input type="checkbox" id="four" v-model="checkedValues" value="4">
+                <label for="four">목요일</label>
+                <input type="checkbox" id="five" v-model="checkedValues" value="5">
+                <label for="five">금요일</label>
+                <input type="checkbox" id="six" v-model="checkedValues" value="6">
+                <label for="six">토요일</label>
+                <input type="checkbox" id="seven" v-model="checkedValues" value="7">
+                <label for="seven">일요일</label>
+                <div>
+                <select style="width:80px" v-model="openhour">
+                <option v-for="(n,oh) in openhour" :key="oh" >{{n}}</option>
+                </select>
+                <select style="width:80px" v-model="openmin">
+                <option v-for="(n,om) in openmin" :key="om" >{{n}}</option>
+                </select>
+                <span>~</span>
+                <select style="width:80px" v-model="endhour">
+                <option v-for="(n,eh) in endhour" :key="eh" >{{n}}</option>
+                </select>
+                <select style="width:80px" v-model="endmin">
+                <option v-for="(n,em) in endmin" :key="em" >{{n}}</option>
+                </select>
+                </div>
+             </td>
              <tr>
              <th>입장마감 시간</th>
-             <td colspan="7"></td>
+             <td colspan="7">
+               <select style="width:80px" v-model="endhour">
+                <option v-for="(n,eh) in endhour" :key="eh" >{{n}}</option>
+                </select>
+                <select style="width:80px" v-model="endmin">
+                <option v-for="(n,em) in endmin" :key="em" >{{n}}</option>
+                </select>
+             </td>
              </tr>
         </tbody>
         </table>
-        <div>
-          <button class="centerbutton">취소</button>
+        <div class="center">
+          <button class="centerbutton" style="background:  rgb(230, 120, 120)" >취소</button>
           <button class="centerbutton">저장</button>
         </div>
     </section>
@@ -145,27 +210,74 @@
 export default {
   data () {
     return {
+      language: 'KR',
       select: '선택',
       position: '',
       content: '',
+      tag: '',
       voice: '',
       adress: '',
-      phone: ''
+      phone: '',
+      checkedValues: [],
+      openhour: ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14'],
+      openmin: ['00', '10', '20', '30', '40', '50'],
+      endhour: ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20'],
+      endmin: ['00', '10', '20', '30', '40', '50'],
+      Entrancehour: ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20'],
+      Entrancemin: ['00', '10', '20', '30', '40', '50'],
+      imageUrl: null
+    }
+  },
+  methods: {
+    onClickImageUpload () {
+      this.$refs.imageInput.click()
+    },
+    onChangeImages (e) {
+      console.log(e.target.files)
+      const file = e.target.files[0] // Get first index in files
+      this.imageUrl = URL.createObjectURL(file) // Create File URL
     }
   }
 }
 </script>
 
 <style scoped>
+.box {
+  width: 40%;
+}
 .scroll {
   overflow: scroll;
   background: #fff;
 }
 .centerbutton {
+  margin-right: 30px;
   width: 100px;
   height: 30px;
 }
 .cont_inner {
   height: 150%;
+}
+#content > .cont_inner {
+  min-height: calc(190%);/* 탑,사이드 말고 흰창 크기 늘리기 위해 추가함 */
+}
+.rightbutton {
+  float: right; /* float  이 친구를 사용해서 수정 ,삭제 버튼을 오른쪽으로 보낼수 있습니다  */
+  width: 200px;
+  height: 30px;
+}
+.center {
+  height: 100px;
+  display:flex; /* 버튼을 가운데로 정렬시켜줌 */
+  justify-content:center;/*  취소 저장버튼을 가운데로 정렬시켜줌 */
+  align-items:center; /*(가로의 중앙을 맟춰줌! 공부 필요함) */
+}
+input, select {/* 요일 간격 */
+  width: 50px;
+  height: 30px;
+}
+input+label {
+  padding-left: 5px;
+  line-height: 5px;
+  vertical-align: text-top;/* 체크박스와 글자 라인 맞추기 */
 }
 </style>
