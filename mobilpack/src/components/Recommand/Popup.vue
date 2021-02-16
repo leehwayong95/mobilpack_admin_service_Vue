@@ -7,19 +7,25 @@
           :mapOptions="mapOptions"
           :initLayers="initLayers"
           @load="onLoad">
+          <naver-marker :lat="33.49959" :lng="126.53126" @load="onMarkerLoaded"/>  <!-- 네이버 지도에서 마커를 찍는다 -->
         </naver-maps>
       </div>
       <div id="searchbox" style="display:block;position:fixed;top:10px;left:20px;">
-          <input v-model="searchdata" style="width:350px;height:40px;" placeholder="주소를 입력하세요">
+          <input
+          v-model="searchdata"
+          style="width:350px;height:40px;"
+          placeholder="주소를 입력하세요"
+          v-on:keyup.enter="searchbutton">
           <button style="width:40px;height:40px;" @click="searchbutton">검색</button>
           <div v-show="isActive" style="top:50px;left:20px;width:400px;height:40px;">
             <ul class="r" tabindex="0">
               <li tabindex="-1" v-for="(item, index) in regionList"
-              v-bind:key="index">
+              v-bind:key="index" @click="listButton(item.y,item.x)">
                 <span>{{item.place_name}}</span>
               </li>
             </ul>
           </div>
+          <button style="height:30px;width:100px;position:fixed;top:20px;right:30px;">포인트 저장</button>
       </div>
     </div>
 </template>
@@ -28,10 +34,15 @@
 export default {
   data () {
     return {
+      map: null,
+      marker: null,
       isActive: false,
       regionList: [], /* 지역 이름으로 된 리스트  */
       searchdata: '',
       searchaddress: '',
+      save_address_lat: '',
+      save_address_lng: '',
+      save_address: '',
       mapSize: {
         width: 600,
         height: 650
@@ -41,8 +52,7 @@ export default {
         lng: 126.53126,
         zoom: 16,
         zoomControl: true,
-        zoomControlOptions: {position: 9, style: 2},
-        mapTypeControl: true
+        zoomControlOptions: {position: 9, style: 2}
       },
       initLayers: ['BACKGROUND', 'BACKGROUND_DETAIL', 'POI_KOREAN', 'TRANSIT', 'ENGLISH', 'CHINESE', 'JAPANESE']
     }
@@ -73,6 +83,16 @@ export default {
         .catch((ex) => {
           console.log(ex)
         })
+    },
+    onMapMove (y, x) { /** 위도 경도 값 입력시에 해당 위치로 이동하는 메소드 */
+      this.map.setCenter({lat: y, lng: x})
+    },
+    onMarkerLoaded (vue) { /** 마커를 이용하기 위해 마커 객체 생성 */
+      this.marker = vue.marker
+    },
+    listButton (y, x) {
+      this.marker.setPosition({lat: y, lng: x})
+      this.onMapMove(y, x)
     }
   },
   watch: {
@@ -131,5 +151,8 @@ export default {
   font-size: 16px;
   line-height: 40px;
   cursor: pointer;
+}
+.r > li:hover {
+  background-color:aquamarine;
 }
 </style>
