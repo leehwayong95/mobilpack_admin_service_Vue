@@ -296,4 +296,7 @@ div.btm_button > button {
   background: initial;
   cursor:initial;
 }
+#content {
+  overflow: auto;
+}
 </style>

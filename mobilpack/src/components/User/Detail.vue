@@ -21,7 +21,10 @@
         </tr>
         <tr>
           <th>국가</th>
-          <td>{{userdata.country}}</td>
+          <td v-if="userdata.country == 'KR'">대한민국</td>
+          <td v-else-if="userdata.country == 'EN'">미국</td>
+          <td v-else-if="userdata.country == 'JP'">일본</td>
+          <td v-else>중국</td>
         </tr>
         <tr>
           <th>연락처</th>
