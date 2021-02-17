@@ -138,6 +138,16 @@
              <tr>
              <th rowspan="2">위치 정보</th><!--칸 나누기 (세로)는 rowspan 사용 -->
              <td colspan="7" style="width:1340px; height:600px">
+               <div>
+                <naver-maps
+                  :height="mapHeight"
+                  :width="mapWidth"
+                  :mapOptions="mapOptions"
+                  :initLayers="initLayers"
+                  @load="onLoad">
+                  <naver-marker :lat="33.49959" :lng="126.53126" @load="onMarkerLoaded"/>  <!-- 네이버 지도에서 마커를 찍는다 -->
+                </naver-maps>
+               </div>
              </td>
              </tr>
              <tr>
@@ -145,17 +155,17 @@
                 <input
                   style="width: 200px;"
                   type="text"
-                  v-model="adress"
+                  v-model="address_lat"
                   placeholder="위도"
                 />
                  <input
                   style="width: 200px;"
                   type="text"
-                  v-model="adress"
+                  v-model="address_lng"
                   placeholder="경도"
                 />
-                <button class="centerbutton">지도확인</button>
-                <button class="rightbutton">지도에서 직접 선택하기</button>
+                <button class="centerbutton" @click="onMapMove">지도확인</button>
+                <button class="rightbutton" @click="pop">지도에서 직접 선택하기</button>
              </td>
              </tr>
              <tr>
@@ -165,7 +175,7 @@
                   placeholder="주소입력"
                   class="box"
                   type="text"
-                  v-model="adress"
+                  v-model="address"
                 />
              </td>
              </tr>
@@ -259,7 +269,23 @@ export default {
       imageUrl4: null,
       imageUrl5: null,
       imagelist: [],
-      imagecheck: 0
+      imagecheck: 0,
+      map: null, /* 지도를 사용하기 위해 map 객체를 생성 */
+      marker: null, /* 마커를 조작하기 위해 marker 객체를 생성 */
+      mapHeight: 600, /* 지도의 기본 위도 */
+      mapWidth: 800, /* 지도의 기본 경도 */
+      mapOptions: { /* 제주 시청을 기본값으로 설정함 */
+        lat: 33.49959,
+        lng: 126.53126,
+        zoom: 16,
+        zoomControl: true,
+        zoomControlOptions: {position: 'TOP_RIGHT'},
+        mapTypeControl: true
+      },
+      initLayers: ['BACKGROUND', 'BACKGROUND_DETAIL', 'POI_KOREAN', 'TRANSIT', 'ENGLISH', 'CHINESE', 'JAPANESE'],
+      address_lat: '',
+      address_lng: '',
+      address: ''
     }
   },
   methods: {
@@ -327,6 +353,28 @@ export default {
         this.imageUrl5 = null
       }
       this.imagecheck = this.imagelist.length // 이미지 배열길이 갱신
+    },
+    onLoad (vue) { /* 네이버 지도 api 사용을 위해 객체 생성 */
+      this.map = vue
+    },
+    onMapMove () { /** 위도 경도 값 입력시에 해당 위치로 이동하는 메소드 */
+      this.map.setCenter({lat: this.address_lat, lng: this.address_lng})
+      this.onMarkerMove()
+    },
+    onMarkerLoaded (vue) { /** 마커를 이용하기 위해 마커 객체 생성 */
+      this.marker = vue.marker
+    },
+    onMarkerMove () {
+      this.marker.setPosition({lat: this.address_lat, lng: this.address_lng})
+    },
+    pop () {
+      window.v.Mom = this
+      window.open('/pop', '_blank')
+    },
+    save: function (y, x, address) {
+      this.address_lat = y
+      this.address_lng = x
+      this.address = address
     }
   }
 }
@@ -375,7 +423,7 @@ td > button, .btn_area button {
   height: 150%;
 }
 #content > .cont_inner {
-  min-height: calc(190%);/* 탑,사이드 말고 흰창 크기 늘리기 위해 추가함 */
+  min-height: calc(300%);/* 탑,사이드 말고 흰창 크기 늘리기 위해 추가함 */
 }
 .rightbutton {
   float: right; /* float  이 친구를 사용해서 수정 ,삭제 버튼을 오른쪽으로 보낼수 있습니다  */
