@@ -1,21 +1,9 @@
 <template>
    <div class="wrap">
-     <div id="app"
-       v-on:keyup.down="selectValue('down')"
-       v-on:keyup.up="selectValue('up')">
-    <div class="search">
-      <input class="s" placeholder="'장'을 써보세요"
-             v-on:input="searchMethod">
-      <ul class="r" tabindex="0"
-          v-bind:class="{ show: isActive }"
-          v-on:mouseover="removeValue">
-        <li tabindex="-1" v-for="(el, index) in filterList" v-bind:key="index">
-          <span>{{ el.name }}</span>
-        </li>
-      </ul>
-      <p>Console: <strong>On</strong></p>
-    </div>
-  </div>
+     <form method="post" action="/[업로드할_컨트롤러_주소]" enctype="multipart/form-data">
+      <input multiple type="file" name="files">
+     <button>submit</button>
+</form>
 </div>
 </template>
 

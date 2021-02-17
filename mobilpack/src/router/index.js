@@ -21,6 +21,7 @@ import Pop from '@/components/Recommand/Popup'
 import test from '@/components/Recommand/test'
 import RecommandDetails from '@/components/Recommand/Details'
 import RecommandRegistrtion from '@/components/Recommand/Registration'
+import RecommandEdit from '@/components/Recommand/Edit'
 
 import VueCookie from 'vue-cookie'
 import axios from 'axios'
@@ -247,6 +248,11 @@ const router = new Router({
       path: '/test',
       name: 'test',
       component: test
+    },
+    {
+      path: '/recommandEdit',
+      name: 'recommandEdit',
+      component: RecommandEdit
     }
   ]
 })
