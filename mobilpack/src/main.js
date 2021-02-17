@@ -23,7 +23,7 @@ Vue.prototype.$axios = axios
 Vue.use(modal, { dynamic: true })
 
 /* eslint-disable no-new */
-new Vue({
+window.v = new Vue({
   el: '#app',
   router,
   components: { App },

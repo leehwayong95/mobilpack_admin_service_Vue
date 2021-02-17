@@ -252,7 +252,14 @@ const router = new Router({
     {
       path: '/recommandEdit',
       name: 'recommandEdit',
-      component: RecommandEdit
+      components: {
+        default: RecommandEdit,
+        top: topbar,
+        left: sidebar
+      },
+      beforeEnter: (to, from, next) => {
+        checklogin(to, from, next)
+      }
     }
   ]
 })

@@ -74,7 +74,7 @@ export default {
       this.map.setCenter({lat: this.testOne, lng: this.testTwo})
     },
     pop () {
-      window.open('http://localhost:8080/pop', '_blank')
+      window.open('/pop', '_blank')
     }
   },
   mounted () {
