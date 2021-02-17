@@ -8,7 +8,7 @@
       <ul>
         <li>
           <span>문의 유형</span>
-          <select v-model="category">
+          <select v-model="tmp.category">
             <option value="">전체</option>
             <option value="1">이용</option>
             <option value="2">오류</option>
@@ -17,26 +17,26 @@
         </li>
         <li>
           <span>제목</span>
-          <input type="text" v-model="title">
+          <input type="text" v-model="tmp.title">
         </li>
         <li class ="date" style="width: 370px">
           <span>문의 일시</span>
           <p class="date">
-            <input type="date" v-model="min">
+            <input type="date" v-model="tmp.min">
             <i>~</i>
-            <input type="date" v-model="max">
+            <input type="date" v-model="tmp.max">
           </p>
         </li>
         <li>
           <span>답변유무</span>
-          <select v-model="answer">
+          <select v-model="tmp.answer">
             <option value="">전체</option>
             <option value="0">답변대기</option>
             <option value="1">답변완료</option>
           </select>
         </li>
       </ul>
-      <button @click="getList">검색</button>
+      <button @click="getSearch">검색</button>
     </div>
     <div class="cont_inner">
       <table style="margin: 20px 0;">
@@ -99,11 +99,20 @@ export default {
   data () {
     return {
       List: null,
-      category: '',
-      title: '',
-      min: '',
-      max: '',
-      answer: '',
+      search: {
+        category: '',
+        title: '',
+        min: '',
+        max: '',
+        answer: ''
+      },
+      tmp: {
+        category: '',
+        title: '',
+        min: '',
+        max: '',
+        answer: ''
+      },
       page: 1,
       endpage: null,
       paging: function () {
@@ -127,13 +136,17 @@ export default {
     }
   },
   methods: {
+    getSearch () {
+      this.search = this.tmp
+      this.getList()
+    },
     getList () {
       this.$axios.patch('http://localhost:9000/api/su/qna/search', {
-        category: this.category,
-        title: this.title,
-        min: this.min.replace(/-/g, ''),
-        max: this.max.replace(/-/g, ''),
-        answer: this.answer,
+        category: this.search.category,
+        title: this.search.title,
+        min: this.search.min.replace(/-/g, ''),
+        max: this.search.max.replace(/-/g, ''),
+        answer: this.search.answer,
         page: this.page,
         count: 20
       })

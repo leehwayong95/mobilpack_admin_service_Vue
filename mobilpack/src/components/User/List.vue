@@ -7,7 +7,7 @@
     <div class = "Search">
       <div id="search_contry">
         <span>국가</span>
-        <select name="region" v-model="region">
+        <select name="region" v-model="tmp.region">
           <option value="">전체</option>
           <option value="KR">대한민국</option>
           <option value="US">미국</option>
@@ -18,21 +18,21 @@
       <div id="search_createat">
           <span>가입 기간</span>
           <div class="signin_date">
-            <input type="date" v-model="min" max="9999-12-31">
+            <input type="date" v-model="tmp.min" max="9999-12-31">
             <span>~</span>
-            <input type="date" v-model="max" max="9999-12-31">
+            <input type="date" v-model="tmp.max" max="9999-12-31">
           </div>
       </div>
       <div id="search_id">
         <span>ID</span>
-        <input type="text" v-model="userid">
+        <input type="text" v-model="tmp.userid">
       </div>
       <div id="search_name">
         <span>이름</span>
-        <input type="text" v-model="username">
+        <input type="text" v-model="tmp.username">
       </div>
       <div class="btn">
-        <button type="button" @click="getUserList">검색</button>
+        <button type="button" @click="getSearch">검색</button>
       </div>
     </div>
     <div class="cont_inner">
@@ -82,11 +82,20 @@
 export default {
   data () {
     return {
-      region: '',
-      userid: '',
-      username: '',
-      min: '',
-      max: '',
+      Search: {
+        region: '',
+        userid: '',
+        username: '',
+        min: '',
+        max: ''
+      },
+      tmp: {
+        region: '',
+        userid: '',
+        username: '',
+        min: '',
+        max: ''
+      },
       userdata: null,
       currentpage: 1,
       endpage: null,
@@ -112,13 +121,17 @@ export default {
     }
   },
   methods: {
+    getSearch () {
+      this.Search = this.tmp
+      this.getUserList()
+    },
     getUserList () {
       this.$axios.patch('http://localhost:9000/api/su/user/search', {
-        'userid': this.userid,
-        'username': this.username,
-        'region': this.region,
-        'min': this.min.replace(/-/g, ''),
-        'max': this.max.replace(/-/g, ''),
+        'userid': this.Search.userid,
+        'username': this.Search.username,
+        'region': this.Search.region,
+        'min': this.Search.min.replace(/-/g, ''),
+        'max': this.Search.max.replace(/-/g, ''),
         'page': this.currentpage,
         'count': this.count
       })
