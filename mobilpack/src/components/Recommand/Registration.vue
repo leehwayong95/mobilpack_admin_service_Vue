@@ -74,7 +74,7 @@
              <th>사진</th><!--x 버튼에 적은 click.stop 은 다른 버튼 이벤트가 실행되지 않도록 자기것만하고 중지하는 명령문입니다. -->
              <!--$event 를 적으면 해당하는 이벤트 내용 전부를 받을수 있습니다. 본 게시판에는 적용하지는 않습니다 참고만.. -->
              <td class="Allbox" colspan="7" style="height:150px; padding-top: 10px;" >
-               <input ref="imageInput" type="file" hidden @change="onChangeImages">
+               <input ref="imageInput" id= "selectfiles" type="file" hidden @change="onChangeImages">
                <button v-if= "imagecheck >= 1" class="pickbox" type="button" @click="onClickImageUpload"><img class="pick"
                v-if="imageUrl1" :src="imageUrl1"
                ><div><button class="Deletepick" @click.stop="deleteimage(1)" >X</button></div></button>
@@ -185,7 +185,7 @@
              <td colspan="7" style="height:100px">
                 <input type="checkbox" id="one" v-model="checkedValues" value="1">
                 <label for="one">월요일</label>
-                <input type="checkbox" id="two" v-model="checkedValues" value="2">
+                <input type="checkbox" id="two" v-model="checkedValues"  value="2">
                 <label for="two">화요일</label>
                 <input type="checkbox" id="three" v-model="checkedValues" value="4">
                 <label for="three">수요일</label>
@@ -269,23 +269,20 @@ export default {
     onChangeImages (e) {
       if (e.target.files[0].name.match('png') || e.target.files[0].name.match('jpg')) {
         const file = e.target.files[0]
-        console.log(e.target.files[0])
+        console.log(e)
         if (this.imagelist.length === 0) {
           this.imageUrl1 = URL.createObjectURL(file)
-          this.imagelist.push(this.imageUrl1)
         } else if (this.imagelist.length === 1) {
           this.imageUrl2 = URL.createObjectURL(file)
-          this.imagelist.push(this.imageUrl2)
         } else if (this.imagelist.length === 2) {
           this.imageUrl3 = URL.createObjectURL(file)
-          this.imagelist.push(this.imageUrl3)
         } else if (this.imagelist.length === 3) {
           this.imageUrl4 = URL.createObjectURL(file)
-          this.imagelist.push(this.imageUrl4)
         } else if (this.imagelist.length === 4) {
           this.imageUrl5 = URL.createObjectURL(file)
-          this.imagelist.push(this.imageUrl5)
         }
+        this.imagelist.push(file)
+        console.log(this.imagelist)
         this.imagecheck = this.imagelist.length
       } else {
         alert('png,jpg 형식만 가능합니다.')
@@ -300,6 +297,7 @@ export default {
           this.imageUrl2 = this.imageUrl3
           this.imageUrl3 = this.imageUrl4
           this.imageUrl4 = this.imageUrl5
+          this.imageUrl5 = null
         }
       } else if (n === 2) {
         this.imagelist.splice(1, 1)
@@ -308,6 +306,7 @@ export default {
           this.imageUrl2 = this.imageUrl3
           this.imageUrl3 = this.imageUrl4
           this.imageUrl4 = this.imageUrl5
+          this.imageUrl5 = null
         }
       } else if (n === 3) {
         this.imagelist.splice(2, 1)
@@ -315,12 +314,14 @@ export default {
         if (this.imagelist.length >= 3) {
           this.imageUrl3 = this.imageUrl4
           this.imageUrl4 = this.imageUrl5
+          this.imageUrl5 = null
         }
       } else if (n === 4) {
         this.imagelist.splice(3, 1)
         this.imageUrl4 = null
         if (this.imagelist.length >= 4) {
           this.imageUrl4 = this.imageUrl5
+          this.imageUrl5 = null
         }
       } else if (n === 5) {
         this.imagelist.splice(4, 1)
@@ -387,6 +388,10 @@ td > button, .btn_area button {
   display:flex; /* 버튼을 가운데로 정렬시켜줌 */
   justify-content:center;/*  취소 저장버튼을 가운데로 정렬시켜줌 */
   align-items:center; /*(가로의 중앙을 맟춰줌! 공부 필요함) */
+}
+#content tr:hover {
+  background: initial;/*css 초기화 */
+  cursor: initial;
 }
 input, select {/* 요일 간격 */
   width: 50px;
