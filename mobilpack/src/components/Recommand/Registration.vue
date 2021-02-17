@@ -72,12 +72,39 @@
              </tr>
              <tr>
              <th>사진</th>
-             <td colspan="7" style="height:150px">
+             <td class="Allbox" colspan="7" style="height:150px; padding-top: 10px;" >
                <input ref="imageInput" type="file" hidden @change="onChangeImages">
-               <v-btn type="button" @click="onClickImageUpload">이미지 업로드</v-btn>
-               <v-img
+               <button v-if= "imagecheck >= 1" class="pickbox" type="button" @click="onClickImageUpload"><img class="pick"
                v-if="imageUrl" :src="imageUrl"
-               ></v-img>
+               ><button class="Deletepick">X</button></button>
+               <button v-else class="pickbox" type="button" @click="onClickImageUpload"><img class="pick"
+               v-if="imageUrl" :src="imageUrl"
+               ></button>
+               <button v-if= "imagecheck >= 2" class="pickbox" type="button" @click="onClickImageUpload"><img class="pick"
+               v-if="imageUrl1" :src="imageUrl1"
+               ><button class="Deletepick">X</button></button>
+               <button v-else class="pickbox" type="button" @click="onClickImageUpload"><img class="pick"
+               v-if="imageUrl1" :src="imageUrl1"
+               ></button>
+               <button v-if= "imagecheck >= 3" class="pickbox" type="button" @click="onClickImageUpload"><img class="pick"
+               v-if="imageUrl2" :src="imageUrl2"
+               ><button class="Deletepick">X</button></button>
+               <button v-else class="pickbox" type="button" @click="onClickImageUpload"><img class="pick"
+               v-if="imageUrl2" :src="imageUrl2"
+               ></button>
+               <button v-if= "imagecheck >= 4" class="pickbox" type="button" @click="onClickImageUpload"><img class="pick"
+               v-if="imageUrl3" :src="imageUrl3"
+               ><button class="Deletepick">X</button></button>
+               <button v-else class="pickbox" type="button" @click="onClickImageUpload"><img class="pick"
+               v-if="imageUrl3" :src="imageUrl3"
+               ></button>
+               <!--<input ref="imageInput" id="5" type="file" hidden @change="onChangeImages($event, 5)">-->
+               <button v-if= "imagecheck >= 5" class="pickbox" type="button" @click="onClickImageUpload"><img class="pick"
+               v-if="imageUrl4" :src="imageUrl4"
+               ><button class="Deletepick">X</button></button>
+                <button v-else class="pickbox" type="button" @click="onClickImageUpload"><img class="pick"
+               v-if="imageUrl4" :src="imageUrl4"
+               ></button>
              </td>
              </tr>
          </tbody>
@@ -159,15 +186,15 @@
                 <label for="one">월요일</label>
                 <input type="checkbox" id="two" v-model="checkedValues" value="2">
                 <label for="two">화요일</label>
-                <input type="checkbox" id="three" v-model="checkedValues" value="3">
+                <input type="checkbox" id="three" v-model="checkedValues" value="4">
                 <label for="three">수요일</label>
-                <input type="checkbox" id="four" v-model="checkedValues" value="4">
+                <input type="checkbox" id="four" v-model="checkedValues" value="8">
                 <label for="four">목요일</label>
-                <input type="checkbox" id="five" v-model="checkedValues" value="5">
+                <input type="checkbox" id="five" v-model="checkedValues" value="16">
                 <label for="five">금요일</label>
-                <input type="checkbox" id="six" v-model="checkedValues" value="6">
+                <input type="checkbox" id="six" v-model="checkedValues" value="32">
                 <label for="six">토요일</label>
-                <input type="checkbox" id="seven" v-model="checkedValues" value="7">
+                <input type="checkbox" id="seven" v-model="checkedValues" value="64">
                 <label for="seven">일요일</label>
                 <div>
                 <select style="width:80px" v-model="openhour">
@@ -225,7 +252,13 @@ export default {
       endmin: ['00', '10', '20', '30', '40', '50'],
       Entrancehour: ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20'],
       Entrancemin: ['00', '10', '20', '30', '40', '50'],
-      imageUrl: null
+      imageUrl: null,
+      imageUrl1: null,
+      imageUrl2: null,
+      imageUrl3: null,
+      imageUrl4: null,
+      imagelist: [],
+      imagecheck: 0
     }
   },
   methods: {
@@ -233,15 +266,60 @@ export default {
       this.$refs.imageInput.click()
     },
     onChangeImages (e) {
-      console.log(e.target.files)
-      const file = e.target.files[0] // Get first index in files
-      this.imageUrl = URL.createObjectURL(file) // Create File URL
+      const file = e.target.files[0]// 선택한 박스가 1~5무었인지만 알면된다.....//if.
+      console.log('리스트길이 :' + this.imagelist.length)
+      console.log(this.imagelist)
+      if (this.imagelist.length === 0) {
+        this.imageUrl = URL.createObjectURL(file)
+        this.imagelist.push(this.imageUrl)
+      } else if (this.imagelist.length === 1) {
+        this.imageUrl1 = URL.createObjectURL(file)
+        this.imagelist.push(this.imageUrl)
+      } else if (this.imagelist.length === 2) {
+        this.imageUrl2 = URL.createObjectURL(file)
+        this.imagelist.push(this.imageUrl)
+      } else if (this.imagelist.length === 3) {
+        this.imageUrl3 = URL.createObjectURL(file)
+        this.imagelist.push(this.imageUrl)
+      } else if (this.imagelist.length === 4) {
+        this.imageUrl4 = URL.createObjectURL(file)
+        this.imagelist.push(this.imageUrl)
+      }
+      this.imagecheck = this.imagelist.length
+      console.log('리스트길이2 :' + this.imagelist.length)
+      console.log(this.imagelist)
     }
   }
 }
 </script>
 
 <style scoped>
+td > button, .btn_area button {
+  padding: 0 0px;
+}
+.Allbox {
+  display: flex;
+  width: 1381px;
+}
+.pickbox {/* 이미지 담기는 박스 */
+  border: solid 1px gray;
+  width: 130px;
+  height: 130px;
+  background: rgb(241, 236, 236);
+  margin-left: 10px;
+}
+.pick {/* 이미지 크기조절 */
+  width: 123px;
+  height: 120px;
+}
+.Deletepick {
+  width: 20px;
+  height: 20px;
+  background: rgb(190, 6, 6);
+  position: relative;
+  top: -125px;
+  right: -55px;
+}
 .box {
   width: 40%;
 }
