@@ -276,6 +276,7 @@ export default {
       this.marker.setPosition({lat: this.address_lat, lng: this.address_lng})
     },
     pop () {
+      window.v.Edit = this
       window.open('/pop', '_blank')
     },
     save: function (y, x, address) {

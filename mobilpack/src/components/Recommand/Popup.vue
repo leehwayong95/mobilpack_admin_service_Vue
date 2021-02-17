@@ -104,10 +104,9 @@ export default {
       console.log(this.save_address)
     },
     saveButton (y, x, address) {
-      console.log(y)
-      console.log(x)
-      console.log(address)
-      window.opener.save(y, x, address)
+      console.log(window.opener)
+      window.opener.v.Edit.save(y, x, address)
+      window.close()
     }
   },
   watch: {
