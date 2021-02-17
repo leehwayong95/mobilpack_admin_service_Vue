@@ -210,7 +210,7 @@
         </table>
         <div class="center">
           <button class="centerbutton" style="background:  rgb(230, 120, 120)" >취소</button>
-          <button class="centerbutton">저장</button>
+          <button class="centerbutton" @click="save">저장</button>
         </div>
     </section>
     </div>
@@ -266,17 +266,25 @@ export default {
       this.map = vue
     },
     onMapMove () { /** 위도 경도 값 입력시에 해당 위치로 이동하는 메소드 */
-      this.map.setCenter({lat: this.adress_lat, lng: this.adress_lng})
+      this.map.setCenter({lat: this.address_lat, lng: this.address_lng})
       this.onMarkerMove()
     },
     onMarkerLoaded (vue) { /** 마커를 이용하기 위해 마커 객체 생성 */
       this.marker = vue.marker
     },
     onMarkerMove () {
-      this.marker.setPosition({lat: this.adress_lat, lng: this.adress_lng})
+      this.marker.setPosition({lat: this.address_lat, lng: this.address_lng})
     },
     pop () {
       window.open('/pop', '_blank')
+    },
+    save: function (y, x, address) {
+      this.address_lat = y
+      this.address_lng = x
+      this.address = address
+      console.log(this.address_lat)
+      console.log(this.address_lng)
+      console.log(this.address)
     }
   }
 }

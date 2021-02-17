@@ -20,12 +20,13 @@
           <div v-show="isActive" style="top:50px;left:20px;width:400px;height:40px;">
             <ul class="r" tabindex="0">
               <li tabindex="-1" v-for="(item, index) in regionList"
-              v-bind:key="index" @click="listButton(item.y,item.x)">
+              v-bind:key="index" @click="listButton(item.y,item.x,item.address_name)">
                 <span>{{item.place_name}}</span>
               </li>
             </ul>
           </div>
-          <button style="height:30px;width:100px;position:fixed;top:20px;right:30px;">포인트 저장</button>
+          <button style="height:30px;width:100px;position:fixed;top:20px;right:30px;" v-on:click="saveButton(save_address_lat,save_address_lng,save_address)">
+            <Edit :send="sendData" />포인트 저장</button>
       </div>
     </div>
 </template>
@@ -43,6 +44,8 @@ export default {
       save_address_lat: '',
       save_address_lng: '',
       save_address: '',
+      sendData: [],
+      output: {},
       mapSize: {
         width: 600,
         height: 650
@@ -90,9 +93,21 @@ export default {
     onMarkerLoaded (vue) { /** 마커를 이용하기 위해 마커 객체 생성 */
       this.marker = vue.marker
     },
-    listButton (y, x) {
+    listButton (y, x, address) {
       this.marker.setPosition({lat: y, lng: x})
       this.onMapMove(y, x)
+      this.save_address_lat = y
+      this.save_address_lng = x
+      this.save_address = address
+      console.log(this.save_address_lat)
+      console.log(this.save_address_lng)
+      console.log(this.save_address)
+    },
+    saveButton (y, x, address) {
+      console.log(y)
+      console.log(x)
+      console.log(address)
+      window.opener.save(y, x, address)
     }
   },
   watch: {
