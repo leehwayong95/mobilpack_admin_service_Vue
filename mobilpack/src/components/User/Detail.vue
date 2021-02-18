@@ -137,4 +137,5 @@ export default {
 .btn_wrap button#delete {
   background-color: red;
 }
+
 </style>

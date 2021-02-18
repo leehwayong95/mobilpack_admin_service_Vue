@@ -61,7 +61,7 @@
         </div>
       </div>
       <div class="input_Answer">
-          <table style="border-left: none; border-right: none;">
+          <table>
             <tr>
               <th>답변상태</th>
                 <td v-if="post.replydate" style="color: blue;">답변 완료</td>
@@ -71,14 +71,14 @@
                 <td v-else-if="post.admin === null">삭제된 관리자</td>
                 <td v-else>{{admin_name}}</td>
               <th>답변일시</th>
-                <td v-if="post.replydate" style="border-right: none;">{{post.replydate}}</td>
-                <td v-else style="border-right: none;">지금</td>
+                <td v-if="post.replydate" >{{post.replydate}}</td>
+                <td v-else>지금</td>
             </tr>
             <tr class = "input">
               <th>답변작성</th>
-              <td colspan="5" style="padding: 0; border-right: none;" class = "input">
-                  <textarea v-if="post.replydate"  disabled="true" style="margin: 0; width: 100%;" type="text" placeholder="답변이 완료되었습니다."/>
-                  <textarea v-else style="margin: 0;" type="text" placeholder="답변은 최대 1000자 까지 가능합니다." v-model="inputReply"/>
+              <td colspan="5" style="padding: 10px;" class = "input">
+                  <textarea v-if="post.replydate"  disabled="true" type="text" placeholder="답변이 완료되었습니다."/>
+                  <textarea v-else type="text" placeholder="답변은 최대 1000자 까지 가능합니다." v-model="inputReply"/>
                   <button v-if="post.replydate == null" @click="setReply">답변 등록</button>
               </td>
             </tr>
@@ -212,6 +212,9 @@ table {
   margin: 20px 0;
 }
 
+#content table tr {
+  cursor: initial;
+}
 /* QNA관련 CSS */
 div.Q {
   width: 100%;
@@ -225,6 +228,8 @@ div.A {
   padding: 10px;
   border-radius: 5px;
   background-color: rgb(141, 169, 245);
+  text-overflow: clip;
+  overflow-wrap: anywhere;
 }
 div.A > input {
   border-color: rgb(105, 105, 105);
@@ -277,14 +282,16 @@ div.btm_button > button {
 .input {
   position: relative;
   height: 200px;
+  padding: 10px;
 }
 .input textarea {
   position: absolute;
-  height: 100%;
-  width: calc(100% - 120px);
+  margin: 10px;
+  height: calc(100% - 20px);
+  width: calc(100% - 140px);
   top: 0;
   left: 0;
-  border: none;
+  border: solid 1px #ddd;
 }
 .input button {
   position: absolute;
