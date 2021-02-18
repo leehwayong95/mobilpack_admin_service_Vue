@@ -18,9 +18,9 @@
             <td colspan="5">
             <select style="width:200px" v-model="language">
             <option value="KR">한국어</option>
-            <option value="KR">영어</option>
-            <option value="KR">일본어</option>
-            <option value="KR">중국어</option>
+            <option value="US">영어</option>
+            <option value="JP">일본어</option>
+            <option value="CN">중국어</option>
             </select>
            </td>
           </tr>
