@@ -22,6 +22,7 @@
               <li tabindex="-1" v-for="(item, index) in regionList"
               v-bind:key="index" @click="listButton(item.y,item.x,item.address_name)">
                 <span>{{item.place_name}}</span>
+                <span style="color:blue;"><br>{{item.address_name}}</span>
               </li>
             </ul>
           </div>
@@ -154,7 +155,7 @@ export default {
   overflow-y: auto;
 }
 .r >  li {
-  margin-top: -1px;
+  margin-top: px;
   padding: 0 20px;
   width: 100%;
   height: 40px;
@@ -163,7 +164,7 @@ export default {
   border: 1px solid #888;
   outline: none;
   font-size: 16px;
-  line-height: 40px;
+  line-height: 15px;
   cursor: pointer;
 }
 .r > li:hover {
