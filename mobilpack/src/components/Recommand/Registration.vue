@@ -209,28 +209,28 @@
                 <label for="seven">일요일</label>
                 <div>
                 <select style="width:80px" v-model="openhour">
-                <option v-for="(n,oh) in openhour" :key="oh" >{{n}}</option>
+                <option v-for="(n,oh) in hour" :key="oh" v-bind:value="n">{{n}}</option>
                 </select>
                 <select style="width:80px" v-model="openmin">
-                <option v-for="(n,om) in openmin" :key="om" >{{n}}</option>
+                <option v-for="(n,om) in min" :key="om" v-bind:value="n">{{n}}</option>
                 </select>
                 <span>~</span>
                 <select style="width:80px" v-model="endhour">
-                <option v-for="(n,eh) in endhour" :key="eh" >{{n}}</option>
+                <option v-for="(n,eh) in hour" :key="eh" v-bind:value="n">{{n}}</option>
                 </select>
                 <select style="width:80px" v-model="endmin">
-                <option v-for="(n,em) in endmin" :key="em" >{{n}}</option>
+                <option v-for="(n,em) in min" :key="em" v-bind:value="n">{{n}}</option>
                 </select>
                 </div>
              </td>
              <tr>
              <th>입장마감 시간</th>
              <td colspan="7">
-               <select style="width:80px" v-model="endhour">
-                <option v-for="(n,eh) in endhour" :key="eh" >{{n}}</option>
+               <select style="width:80px" v-model="entrancehour">
+                <option v-for="(n,eh) in hour" :key="eh" v-bind:value="n">{{n}}</option>
                 </select>
-                <select style="width:80px" v-model="endmin">
-                <option v-for="(n,em) in endmin" :key="em" >{{n}}</option>
+                <select style="width:80px" v-model="entrancemin">
+                <option v-for="(n,em) in min" :key="em" v-bind:value="n">{{n}}</option>
                 </select>
              </td>
              </tr>
@@ -238,7 +238,7 @@
         </table>
         <div class="center">
           <button class="centerbutton" style="background:  rgb(230, 120, 120)" >취소</button>
-          <button class="centerbutton">저장</button>
+          <button class="centerbutton" @click="saveButton">저장</button>
         </div>
     </section>
     </div>
@@ -254,15 +254,17 @@ export default {
       content: '',
       tag: '',
       voice: '',
-      adress: '',
       phone: '',
+      openday: 0,
       checkedValues: [],
-      openhour: ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14'],
-      openmin: ['00', '10', '20', '30', '40', '50'],
-      endhour: ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20'],
-      endmin: ['00', '10', '20', '30', '40', '50'],
-      Entrancehour: ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20'],
-      Entrancemin: ['00', '10', '20', '30', '40', '50'],
+      hour: ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'],
+      min: ['00', '10', '20', '30', '40', '50'],
+      openhour: '',
+      openmin: '',
+      endhour: '',
+      endmin: '',
+      entrancehour: '',
+      entrancemin: '',
       imageUrl1: null,
       imageUrl2: null,
       imageUrl3: null,
@@ -376,6 +378,24 @@ export default {
       this.address_lat = y
       this.address_lng = x
       this.address = address
+    },
+    submmitButton () {
+      const formData = new FormData()
+      formData.append('default_lang', this.language)
+      formData.append('category', this.select)
+      formData.append('title', this.position)
+      formData.append('content', this.content)
+      formData.append('tag', this.tag)
+      formData.append('files', this.imagelist)
+      formData.append('voice_info', this.voice)
+      formData.append('location', this.address_lat + ',' + this.address_lng)
+      formData.append('address', this.address)
+      formData.append('phone', this.phone)
+      var repeat
+      for (repeat = 0; repeat < this.checkedValues.length(); repeat++) {
+        this.openday = this.openday + this.checkedValues[repeat]
+      }
+      formData.append('openday', this.openday)
     }
   }
 }
