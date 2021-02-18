@@ -22,6 +22,8 @@ import test from '@/components/Recommand/test'
 import RecommandDetails from '@/components/Recommand/Details'
 import RecommandRegistrtion from '@/components/Recommand/Registration'
 import RecommandEdit from '@/components/Recommand/Edit'
+import Translation from '@/components/Recommand/Translation'
+import TranslationEdit from '@/components/Recommand/TranslationEdit'
 
 import VueCookie from 'vue-cookie'
 import axios from 'axios'
@@ -160,6 +162,30 @@ const router = new Router({
       name: 'recommandregistrtion',
       components: {
         default: RecommandRegistrtion,
+        top: topbar,
+        left: sidebar
+      },
+      beforeEnter: (to, from, next) => {
+        checklogin(to, from, next)
+      }
+    },
+    {
+      path: '/translation',
+      name: 'translation',
+      components: {
+        default: Translation,
+        top: topbar,
+        left: sidebar
+      },
+      beforeEnter: (to, from, next) => {
+        checklogin(to, from, next)
+      }
+    },
+    {
+      path: '/translationedit',
+      name: 'translationedit',
+      components: {
+        default: TranslationEdit,
         top: topbar,
         left: sidebar
       },
