@@ -282,7 +282,14 @@ export default {
         zoom: 16,
         zoomControl: true,
         zoomControlOptions: {position: 'TOP_RIGHT'},
-        mapTypeControl: true
+        mapTypeControl: true,
+        draggable: false,
+        pinchZoom: false,
+        scrollWheel: false,
+        keyboardShortcuts: false,
+        disableDoubleTapZoom: true,
+        disableDoubleClickZoom: true,
+        disableTwoFingerTapZoom: true
       },
       initLayers: ['BACKGROUND', 'BACKGROUND_DETAIL', 'POI_KOREAN', 'TRANSIT', 'ENGLISH', 'CHINESE', 'JAPANESE'],
       address_lat: '',
