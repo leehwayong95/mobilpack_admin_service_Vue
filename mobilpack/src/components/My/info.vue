@@ -1,5 +1,9 @@
 <template>
   <div id="content">
+    <div class="cont_header">
+      <h2 class="page_title">설정</h2>
+      <span class="page_path">HOME > 설정</span>
+    </div>
     <div class='cont_inner'>
       <div class="acountinfo_wrap">
         <h3>계정 정보</h3>
@@ -17,7 +21,7 @@
         </table>
       </div>
       <div class="userinfo_wrap">
-        <h2>사용자 정보</h2>
+        <h3>사용자 정보</h3>
         <table>
           <tbody>
             <tr>
@@ -172,3 +176,41 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+#content > .cont_inner{
+  margin: 0;
+}
+#content h3{
+    height: 60px;
+    padding-top: 20px;
+    font-weight: 500;
+    font-size: 1.25em;
+    line-height: 2em;
+}
+#content table tr{
+  cursor: default;
+}
+#content table tr:hover{
+  background: none;
+}
+.acountinfo_wrap, .userinfo_wrap{
+  padding: 0;
+}
+#content table th{
+  width: 160px;
+}
+#content input[type="text"]{
+
+    width: 540px;
+    border: 1px solid #ddd;
+}
+#content input[type="button"]{
+    border: 0;
+    background: #3d4b64;
+    cursor: pointer;
+    border-radius: 5px;
+    color: #fff;
+    margin-top: 20px;
+}
+</style>

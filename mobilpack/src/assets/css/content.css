@@ -75,12 +75,6 @@
   background-color: #eee;
 }
 
-#content {
-  width: 100%;
-  min-width: 1127px;
-  padding: 0 30px 30px;
-}
-
 .cont_header {
   overflow: hidden;
   width: 100%;

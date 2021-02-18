@@ -4,36 +4,36 @@
       <h1>| 회원 관리</h1>
       <h3>home > 회원관리</h3>
     </span>
-    <div class = "Search">
-      <div id="search_contry">
-        <span>국가</span>
-        <select name="region" v-model="tmp.region">
-          <option value="">전체</option>
-          <option value="KR">대한민국</option>
-          <option value="US">미국</option>
-          <option value="JP">일본</option>
-          <option value="CN">중국</option>
-        </select>
-      </div>
-      <div id="search_createat">
+    <div class = "search">
+      <ul>
+        <li>
+          <span>국가</span>
+          <select name="region" v-model="tmp.region">
+            <option value="">전체</option>
+            <option value="KR">대한민국</option>
+            <option value="US">미국</option>
+            <option value="JP">일본</option>
+            <option value="CN">중국</option>
+          </select>
+        </li>
+      <li style="width: fit-content;">
           <span>가입 기간</span>
-          <div class="signin_date">
+          <p class="date">
             <input type="date" v-model="tmp.min" max="9999-12-31">
             <span>~</span>
             <input type="date" v-model="tmp.max" max="9999-12-31">
-          </div>
-      </div>
-      <div id="search_id">
+          </p>
+      </li>
+      <li>
         <span>ID</span>
         <input type="text" v-model="tmp.userid">
-      </div>
-      <div id="search_name">
+      </li>
+      <li>
         <span>이름</span>
         <input type="text" v-model="tmp.username">
-      </div>
-      <div class="btn">
+      </li>
+      </ul>
         <button type="button" @click="getSearch">검색</button>
-      </div>
     </div>
     <div class="cont_inner">
       <p>| 검색 결과</p>

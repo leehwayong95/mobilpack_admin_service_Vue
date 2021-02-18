@@ -66,6 +66,7 @@ select {
   height: calc(100% - 40px);
   padding: 0 30px 30px 30px;
   background: #eee;
+  overflow: auto;
 }
 
 /* 상단 로그인바 세부설정 */
@@ -181,8 +182,12 @@ select {
 }
 #content > .search > ul > li {
   display: inline-block;
-  width: 200px;
+  width: fit-content;
   margin-left: 10px;
+}
+#content > .search > ul > li input,
+#content > .search > ul > li select{
+  width: 200px;
 }
 #content > .search li:first-child {
   margin-left: 0;
@@ -195,7 +200,7 @@ select {
   font-size: 15px;
 }
 #content > .search li > p.date {
-  width: 400px;
+  width: fit-content;
 }
 #content > .search li > p.date > input {
   width: 180px;

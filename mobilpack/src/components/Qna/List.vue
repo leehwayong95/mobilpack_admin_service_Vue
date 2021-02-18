@@ -1,10 +1,10 @@
 <template>
   <div id='content'>
     <div class="title">
-      <h1>| 문의 관리</h1>
+      <h1>문의 관리</h1>
       <h3>HOME > 서비스관리 > 고객문의</h3>
     </div>
-    <div class="search" style="margin: 10px 0;">
+    <div class="search">
       <ul>
         <li>
           <span>문의 유형</span>
@@ -19,7 +19,7 @@
           <span>제목</span>
           <input type="text" v-model="tmp.title">
         </li>
-        <li class ="date" style="width: 370px">
+        <li class ="date">
           <span>문의 일시</span>
           <p class="date">
             <input type="date" v-model="tmp.min">
@@ -39,7 +39,8 @@
       <button @click="getSearch">검색</button>
     </div>
     <div class="cont_inner">
-      <table style="margin: 20px 0;">
+      <p class="admintitle">| 문의 목록</p>
+      <table>
         <colgroup>
           <col width="5%">
           <col width="10%">
@@ -174,9 +175,6 @@ export default {
 </script>
 
 <style scoped>
-#content {
-  overflow: scroll;
-}
 td.long {
   overflow: hidden;
 }
