@@ -3,10 +3,6 @@
         <ul id='menu'>
             <li class='logo' v-on:click="jump('admin')">T-Mas<br>Admin Service</li>
             <li>
-              <span v-if="route == 'myinfo'" style="background: #3e61dc;" v-on:click="jump('myinfo')">프로필 변경</span>
-              <span v-else v-on:click="jump('myinfo')">프로필 변경</span>
-            </li>
-            <li>
               <span v-if="route == 'userList'" style="background: #3e61dc;" v-on:click="jump('userList')">회원 관리</span>
               <span v-else v-on:click="jump('userList')">회원 관리</span>
             </li>

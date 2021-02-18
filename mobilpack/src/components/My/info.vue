@@ -1,8 +1,12 @@
 <template>
   <div id="content">
+    <div class="title">
+      <h1>| 내 정보 수정</h1>
+      <h3>HOME > 내정보수정</h3>
+    </div>
     <div class='cont_inner'>
       <div class="acountinfo_wrap">
-        <h3>계정 정보</h3>
+        <h3>| 계정 정보</h3>
         <table>
           <tbody>
             <tr>
@@ -17,7 +21,7 @@
         </table>
       </div>
       <div class="userinfo_wrap">
-        <h2>사용자 정보</h2>
+        <h3>|사용자 정보</h3>
         <table>
           <tbody>
             <tr>
@@ -36,7 +40,7 @@
         </table>
       </div>
       <div class="button_wrap">
-        <input type="button" value="저장" style="width: 150px;" @click="editInfo">
+        <button @click="editInfo">저장</button>
       </div>
     </div>
   </div>
@@ -172,3 +176,27 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+#content table tr:hover{
+  background: initial;
+  cursor: initial;
+}
+#content table tr{
+  cursor: initial;
+}
+.button_wrap button {
+  width: 100px;
+  height: 30px;
+}
+table {
+  margin: 10px 0;
+}
+table th {
+  width: 20%;
+}
+table input {
+  border: solid 1px #ddd;
+  width: 50%;
+}
+</style>
