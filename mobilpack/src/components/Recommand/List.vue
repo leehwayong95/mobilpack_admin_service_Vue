@@ -1,94 +1,267 @@
 <template>
   <div id="content">
-    <div>
-      <naver-maps
-        :height="height"
-        :width="width"
-        :mapOptions="mapOptions"
-        :initLayers="initLayers"
-        @load="onLoad">
-      </naver-maps>
+    <div class="title">
+      <h1>| 추천 장소 관리</h1>
+      <h3>HOME > 서비스관리 > 추천장소관리</h3>
     </div>
-    <div>
-      <input class="input-text" type="text" v-model="testOne" placeholder='위도'>
-      <input class="input-text" type="text" v-model="testTwo" placeholder='경도'>
+    <div class="search">
+      <ul>
+        <li>
+          <span>카테고리</span>
+          <select v-model="tmp.category">
+            <option value="">전체</option>
+            <option value="관광지">관광지</option>
+            <option value="숙소">숙소</option>
+            <option value="맛집">맛집</option>
+          </select>
+        </li>
+        <li class="lang" style="width: 26%;">
+          <span>등록언어</span>
+          <multiselect
+            v-model="tmp.selecttag"
+            label="name"
+            :options="language"
+            track-by="value"
+            :multiple="true"
+            :tagable="true"
+            @tag="addLanguageOption"
+            :close-on-select="false"
+            :searchable="false"
+            placeholder="">
+            <template template slot="selection">
+            </template>
+          </multiselect>
+        </li>
+        <li>
+          <span>서비스상태</span>
+          <select v-model="tmp.state">
+            <option value="">전체</option>
+            <option value="1">서비스 중</option>
+            <option value="0">서비스 중지</option>
+          </select>
+        </li>
+        <li>
+          <span>추천장소명</span>
+          <input type="text" v-model="tmp.title">
+        </li>
+      </ul>
+      <button @click="getSearch">검색</button>
     </div>
-    <button @click="mapinput">submit</button>
-    <button @click="pop">지도 선택</button>
-    <div>
-      <naver-map
-          :height="height"
-          :width="width"
-          :mapOptions="mapOptions"
-          :initLayers="initLayers"
-          @load="onLoad">
-        </naver-map>
+    <div class="cont_inner">
+      <div class="title">
+        <span>| 검색결과</span>
+        <button>신규등록</button>
+      </div>
+      <table>
+        <colgroup>
+          <col width="5%">
+          <col width="8%">
+          <col width="20%">
+          <col width="5%">
+          <col width="4%">
+          <col width="4%">
+          <col width="4%">
+          <col width="4%">
+          <col width="5%">
+          <col width="10%">
+          <col width="20%">
+          <col width="10%">
+        </colgroup>
+        <tr>
+          <th rowspan="2">No.</th>
+          <th rowspan="2">카테고리</th>
+          <th rowspan="2">추천장소명</th>
+          <th rowspan="2">원본</th>
+          <th colspan="4">등록언어</th>
+          <th rowspan="2">댓글수</th>
+          <th rowspan="2">등록자</th>
+          <th rowspan="2">등록일시</th>
+          <th rowspan="2">서비스상태</th>
+        </tr>
+        <tr>
+          <th>한국어</th>
+          <th>영어</th>
+          <th>일본어</th>
+          <th>중국어</th>
+        </tr>
+        <tr v-for="i of List" :key="i.postindex">
+          <td>{{i.postindex}}</td>
+          <td>{{i.category}}</td>
+          <td>{{i.title}}</td>
+          <td>{{i['default_lang']}}</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>{{i.count}}</td>
+          <td>{{i.name}}</td>
+          <td>{{i.date}}</td>
+          <td v-if="i.state == 1" style="color: blue;">서비스중</td>
+          <td v-else>서비스 중지</td>
+        </tr>
+      </table>
+      <div class="paging">
+      <a class ="pagingFirst"  @click="getNextBeforePage('0')"/>
+        <ul v-for="(n,index) in paging()" v-bind:key="index" @click="getPage(n)">
+          <li  v-if="page !== n" class = "Nothere">{{n}}</li>
+          <li v-else class="here">{{n}}</li>
+        </ul>
+      <a class="pagingLast" @click="getNextBeforePage('1')"/>
+    </div>
     </div>
   </div>
 </template>
 
 <script>
+import Multiselect from 'vue-multiselect'
 export default {
-  name: 'HelloWorld',
+  components: {
+    Multiselect
+  },
+  mounted () {
+    for (let i of this.language) {
+      this.tmp.selecttag.push(i)
+    }
+    this.getSearch()
+  },
   data () {
     return {
-      width: 400,
-      height: 400,
-      info: false,
-      marker: null,
-      count: 1,
-      map: null,
-      isCTT: false,
-      testOne: '',
-      testTwo: '',
-      setCenter: '',
-      mapOptions: { /* 제주 시청을 기본값으로 설정함 */
-        lat: 33.49959,
-        lng: 126.53126,
-        zoom: 16,
-        zoomControl: true,
-        zoomControlOptions: {position: 'TOP_RIGHT'},
-        mapTypeControl: true
+      language: [ // 언어 선택 옵션
+        {name: '한국어', value: 1},
+        {name: '영어', value: 2},
+        {name: '일본어', value: 4},
+        {name: '중국어', value: 8}
+      ],
+      tmp: {
+        category: '',
+        language: '',
+        title: '',
+        state: '',
+        selecttag: []
       },
-      initLayers: ['BACKGROUND', 'BACKGROUND_DETAIL', 'POI_KOREAN', 'TRANSIT', 'ENGLISH', 'CHINESE', 'JAPANESE']
-    }
-  },
-  computed: {
-    hello () {
-      return `Hello, World! × ${this.count}`
+      Search: {
+        category: '',
+        language: '',
+        title: '',
+        state: '',
+        selecttag: []
+      },
+      page: 1,
+      List: '',
+      endpage: '',
+      paging: function () {
+        var pagenumber = []
+        for (var i = 1; i <= this.endpage; i++) {
+          pagenumber.push(i)
+        }
+        return pagenumber
+      }
     }
   },
   methods: {
-    onLoad (vue) {
-      this.map = vue
+    addLanguageOption (newTag) {
+      let value = ''
+      switch (newTag) {
+        case ('한국어'):
+          value = 1
+          break
+        case ('영어'):
+          value = 2
+          break
+        case ('일본어'):
+          value = 4
+          break
+        case ('중국어'):
+          value = 8
+          break
+      }
+      const tag = {
+        name: newTag,
+        value: value
+      }
+      this.language.push(tag)
+      this.tmp.selecttag.push(tag)
     },
-    onWindowLoad (that) {
+    getSearch () {
+      this.Search = this.tmp
+      this.getList()
     },
-    onMarkerClicked (event) {
-      this.info = !this.info
+    getList () {
+      this.$axios.get('http://localhost:9000/api/su/post/search', {
+        params: {
+          category: this.Search.category,
+          language: this.test(this.Search.selecttag),
+          state: this.Search.state,
+          titlename: this.Search.title,
+          currentPage: this.page,
+          number: 20
+        }
+      })
+        .then((res) => {
+          this.endpage = res.data.pageCount
+          this.List = res.data.List
+        })
     },
-    onMarkerLoaded (vue) {
-      this.marker = vue.marker
+    test (n) {
+      // 선택 태그 value 총합
+      let sum = 0
+      for (let i of n) {
+        sum += i.value
+      }
+      return sum
     },
-    mapinput () {
-      this.map.setCenter({lat: this.testOne, lng: this.testTwo})
+    getPage (n) {
+      if (this.page !== n) {
+        this.page = n
+        this.getList()
+        console.log(this.page)
+      }
     },
-    pop () {
-      window.open('/pop', '_blank')
+    getNextBeforePage (n) {
+      if (n === '0' && this.page > 1) {
+        this.page--
+      } else if (n === '1' && this.page < this.endpage) {
+        this.page++
+      }
+      this.getList()
     }
-  },
-  mounted () {
-    setInterval(() => this.count++, 1000)
   }
 }
 </script>
+
+<style src="vue-multiselect/dist/vue-multiselect.min.css">
+</style>
+
 <style scoped>
-.info-window-container {
-  padding: 10px;
-  width: 300px;
-  height: 100px;
-  }
-.input-text{
-  width: 200px;
+div#content {
+  overflow: auto;
+}
+div.search {
+  margin: 10px 0;
+}
+div.search ul {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+div.search select {
+  height: 40px;
+}
+div.search input {
+  height: 40px;
+}
+div.cont_inner div.title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+}
+div.cont_inner div.title span{
+  font-size: 15px
+}
+div.cont_inner div.title button{
+  height: 30px;
+  width: 100px;
 }
 </style>
