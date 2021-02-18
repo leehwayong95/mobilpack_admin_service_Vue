@@ -148,7 +148,6 @@ export default {
       this.$axios.post('http://localhost:9000/api/su/qna/chat/' + this.index, {content: HTMLReply})
         .then((res) => {
           if (res.data.status) {
-            alert('등록되었습니다.')
             this.inputReply = HTMLReply
             this.editmode = false
             this.getQnaPost()
@@ -167,7 +166,6 @@ export default {
         this.$axios.delete('http://localhost:9000/api/su/qna/' + this.index)
           .then((res) => {
             if (res.data.status) {
-              alert('삭제되었습니다.')
               this.$router.push('/qna')
             }
           })
@@ -181,7 +179,6 @@ export default {
       if (confirm('답변을 삭제하시겠습니까?')) {
         this.$axios.delete('http://localhost:9000/api/su/qna/chat/' + this.index)
           .then((res) => {
-            alert('삭제되었습니다.')
             this.inputReply = ''
             this.getQnaPost()
           })
