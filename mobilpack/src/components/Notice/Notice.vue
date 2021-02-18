@@ -20,7 +20,7 @@
       <div class="cont_inner">
           <p class="admintitle">| 공지사항 목록</p>
           <button class="insertbutton" @click="NoticeRegister"> 글쓰기</button>
-        <table>
+        <table class="list">
             <colgroup>
             <col width="10%"><!-- No 너비를 조절가능 -->
             <col width="10%"><!-- 언어 너비를 조절가능 -->

@@ -25,7 +25,7 @@
       <div class="cont_inner">
           <p class="admintitle">| 관리자 목록</p>
           <button class="joinbutton" @click="Register"> 신규등록</button>
-      <table>
+      <table class="list">
         <colgroup>
           <col width="10%"><!-- No 너비를 조절가능 -->
           <col width="10%"><!-- ID 너비를 조절가능 -->

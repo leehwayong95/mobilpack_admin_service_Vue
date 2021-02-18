@@ -52,7 +52,7 @@
         <span>| 검색결과</span>
         <button>신규등록</button>
       </div>
-      <table>
+      <table class="list">
         <colgroup>
           <col width="5%">
           <col width="8%">

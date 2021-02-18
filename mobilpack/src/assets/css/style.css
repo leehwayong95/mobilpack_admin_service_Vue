@@ -67,6 +67,7 @@ select {
   padding: 0 30px 30px 30px;
   background: #eee;
   overflow: auto;
+  min-width: 1230px;
 }
 
 /* 상단 로그인바 세부설정 */
@@ -248,10 +249,10 @@ select {
   table-layout: fixed;
   font-size: 14px;
 }
-#content table tr {
+#content table.list tr {
   cursor: pointer;
 }
-#content table tr:hover {
+#content table.list tr:hover {
   background: #dce7fa;
 }
 #content table th {

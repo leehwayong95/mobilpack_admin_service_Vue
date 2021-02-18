@@ -11,7 +11,7 @@
           <th>ID</th>
           <td>{{userdata['user_id']}}</td>
         </tr>
-        <tr>
+        <tr class="pwd">
           <th>비밀번호</th>
           <td><button @click="setPwReset">비밀번호 초기화</button> <h3>*비밀번호 초기화 선택시, "password123"으로 초기화됩니다.</h3></td>
         </tr>
@@ -113,16 +113,8 @@ export default {
 </script>
 
 <style scoped>
-#content {
-  overflow: scroll;
-}
 .cont_inner > table > tr >th {
   width: 25%;
-}
-.cont_inner > table > tr > td {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
 }
 .btn_wrap{
   margin-top: 10px;
@@ -136,5 +128,8 @@ export default {
 }
 .btn_wrap button#delete {
   background-color: red;
+}
+.pwd>td>*{
+  display:inline;
 }
 </style>

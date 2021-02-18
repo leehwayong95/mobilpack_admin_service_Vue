@@ -40,7 +40,7 @@
     </div>
     <div class="cont_inner">
       <p class="admintitle">| 문의 목록</p>
-      <table>
+      <table class="list">
         <colgroup>
           <col width="5%">
           <col width="10%">

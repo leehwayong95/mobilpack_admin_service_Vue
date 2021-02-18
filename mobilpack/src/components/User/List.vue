@@ -37,7 +37,7 @@
     </div>
     <div class="cont_inner">
       <p>| 검색 결과</p>
-      <table>
+      <table class="list">
         <colgroup>
           <col width="5%">
           <col width="20%">
