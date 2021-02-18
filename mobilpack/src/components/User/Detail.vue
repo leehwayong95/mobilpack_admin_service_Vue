@@ -114,7 +114,7 @@ export default {
 
 <style scoped>
 #content {
-  overflow: scroll;
+  overflow: auto;
 }
 .cont_inner > table > tr >th {
   width: 25%;
@@ -137,4 +137,5 @@ export default {
 .btn_wrap button#delete {
   background-color: red;
 }
+
 </style>

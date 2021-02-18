@@ -65,11 +65,11 @@
           <th scope="col">답변 일시</th>
         </tr>
         <tr v-for="(post,index) in List" v-bind:key="index" @click="view(post.qnaindex)">
-          <td>{{((page-1) * 20) + (index+1)}}</td>
+          <td>{{postcount - ((page-1) * 20 + (index))}}</td>
             <td v-if="post.category == 1">이용</td>
             <td v-else-if="post.category == 2">오류</td>
             <td v-else-if="post.category == 3">기타</td>
-          <td class="long">{{post.title}}</td>
+          <td id="title">{{post.title}}</td>
           <td>{{post.createat}}</td>
             <td v-if="post['user_name'] == null">삭제된 회원</td>
             <td v-else>{{post['user_name']}}</td>
@@ -115,6 +115,7 @@ export default {
       },
       page: 1,
       endpage: null,
+      postcount: '',
       paging: function () {
         var pagenumber = []
         for (var i = 1; i <= this.endpage; i++) {
@@ -152,6 +153,7 @@ export default {
       })
         .then((res) => {
           this.List = res.data.list
+          this.postcount = res.data.count
           this.endpage = res.data.count / 20
           this.endpage += (res.data.count % 20) ? 1 : 0
         })
@@ -177,8 +179,9 @@ export default {
 #content {
   overflow: scroll;
 }
-td.long {
+td.title {
   overflow: hidden;
+  text-align: left;
 }
 .here {
   background-color: #3e61dc;
