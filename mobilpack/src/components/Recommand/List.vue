@@ -84,7 +84,7 @@
           <th>일본어</th>
           <th>중국어</th>
         </tr>
-        <tr v-for="i of List" :key="i.postindex">
+        <tr v-for="i of List" :key="i.postindex" @click="getPost(i.postindex)">
           <td>{{i.postindex}}</td>
           <td>{{i.category}}</td>
           <td>{{i.title}}</td>
@@ -190,7 +190,7 @@ export default {
       this.$axios.get('http://localhost:9000/api/su/post/search', {
         params: {
           category: this.Search.category,
-          language: this.test(this.Search.selecttag),
+          language: this.getSelectSum(this.Search.selecttag),
           state: this.Search.state,
           titlename: this.Search.title,
           currentPage: this.page,
@@ -202,13 +202,16 @@ export default {
           this.List = res.data.List
         })
     },
-    test (n) {
+    getSelectSum (n) {
       // 선택 태그 value 총합
       let sum = 0
       for (let i of n) {
         sum += i.value
       }
       return sum
+    },
+    getPost (n) {
+      this.$router.push('recommands/' + n)
     },
     getPage (n) {
       if (this.page !== n) {

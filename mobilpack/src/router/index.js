@@ -146,7 +146,7 @@ const router = new Router({
       }
     },
     {
-      path: '/recommandsdetails',
+      path: '/recommands/:index',
       name: 'recommandsdetails',
       components: {
         default: RecommandDetails,
