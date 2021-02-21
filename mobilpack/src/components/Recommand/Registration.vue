@@ -238,7 +238,7 @@
         </table>
         <div class="center">
           <button class="centerbutton" style="background:  rgb(230, 120, 120)" >취소</button>
-          <button class="centerbutton" @click="saveButton">저장</button>
+          <button class="centerbutton" @click="submmitButton">저장</button>
         </div>
     </section>
     </div>
@@ -263,6 +263,7 @@ export default {
       openmin: '',
       endhour: '',
       endmin: '',
+      result: '',
       entrancehour: '',
       entrancemin: '',
       imageUrl1: null,
@@ -379,7 +380,7 @@ export default {
     },
     pop () {
       window.v.Mom = this
-      window.open('/pop', '_blank')
+      window.open('/pop', 'Popup')
     },
     save: function (y, x, address) {
       this.address_lat = y
@@ -399,10 +400,20 @@ export default {
       formData.append('address', this.address)
       formData.append('phone', this.phone)
       var repeat
-      for (repeat = 0; repeat < this.checkedValues.length(); repeat++) {
+      for (repeat = 0; repeat < this.checkedValues.length; repeat++) {
         this.openday = this.openday + this.checkedValues[repeat]
       }
       formData.append('openday', this.openday)
+      formData.append('opentime', this.openhour + ':' + this.openmin)
+      formData.append('closetime', this.endhour + ':' + this.endmin)
+      formData.append('endtime', this.entrancehour + ':' + this.entrancemin)
+      this.$axios.post('http://localhost:9000/api/su/post/create', formData)
+        .then((response) => {
+          this.result = response.data
+        })
+        .catch((ex) => {
+          console.log(ex)
+        })
     }
   }
 }
