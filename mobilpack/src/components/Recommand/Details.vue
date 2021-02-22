@@ -38,7 +38,9 @@
         </tr>
         <tr>
           <th>사진</th>
-          <td colspan="7">...</td>
+          <td>
+            <img v-for="i in img" :key="i" :src="img[i]">
+          </td>
         </tr>
         </tbody>
       </table>
@@ -87,17 +89,29 @@
         </tr>
         <tr>
           <th>서비스 상태</th>
-          <td colspan="7">{{post.state}}</td>
+          <td colspan="7" v-if="post.state == 1" style="color: blue;">
+            서비스 중 <button>서비스 중지</button>
+          </td>
+          <td v-else >
+            서비스 중지 <button>서비스 시작</button>
+          </td>
         </tr>
       </tbody>
       </table>
-      <div>
+      <div class="button_wrap">
         <button class="leftbutton">번역 보기</button>
-        <button class="centerbutton">삭제</button>
-        <button class="centerbutton">수정</button>
+        <button class="delete">삭제</button>
+        <button>수정</button>
       </div>
         <h3 class="cont_title">|리뷰</h3>
       <table>
+        <colgroup>
+          <col width="5%">
+          <col width="40%">
+          <col width="10%">
+          <col width="20%">
+          <col width="10%">
+        </colgroup>
         <tr>
           <th>No</th>
           <th>리뷰내용</th>
@@ -105,16 +119,20 @@
           <th>등록 일시</th>
           <th>삭제</th>
         </tr>
-        <tr v-if="comments.length !=0" v-for="(i,index) in comments" :key="i.commentindex">
-            <td>{{index}}</td>
-            <td>{{i.content}}</td>
-            <td>{{i.name}}</td>
-            <td>{{i.createat}}</td>
-            <td><button @click="deleteComment(i.commentindex)">삭제</button></td>
-        </tr>
-        <tr v-else>
-            <td rowspan="5">작성된 리뷰가 없습니다.</td>
-        </tr>
+        <tbody v-if="comments.length !==0">
+          <tr v-for="(i,index) in comments" :key="i.commentindex">
+              <td style="text-align: center;">{{index}}</td>
+              <td>{{i.content}}</td>
+              <td style="text-align: center;">{{i.name}}</td>
+              <td style="text-align: center;">{{i.createat}}</td>
+              <td style="text-align: center;"><button @click="deleteComment(i.commentindex)">삭제</button></td>
+          </tr>
+        </tbody>
+        <tbody v-else>
+          <tr>
+              <td colspan="5" style="text-align: center;">작성된 리뷰가 없습니다.</td>
+          </tr>
+        </tbody>
       </table>
     </section>
   </div>
@@ -142,8 +160,9 @@ export default {
         .then((res) => {
           this.post = res.data.postModel
           this.comments = res.data.comment
-          this.img = res.data.img
-          console.log(this.comments)
+          for (var i of res.data.fileList) {
+            this.img.push('http://localhost:9000/img' + i.filepath.split('.\\upload')[1])
+          }
         })
     },
     deleteComment (n) {
@@ -167,15 +186,27 @@ export default {
   height: 50px; /* 테이블과 버튼 간격 */
 }
 .leftbutton {
-  width: 100px;
-  height: 30px;
-}
-.centerbutton {
-  width: 100px;
-  height: 30px;
+  position: absolute;
+  left: 0px;
 }
 .scroll {
   overflow: scroll;
   background: #fff;
+}
+div.button_wrap {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+div.button_wrap button {
+  width: 100px;
+  height: 30px;
+  margin: 0 10px;
+}
+div.button_wrap button.delete {
+  background: rgb(100, 100, 100);
 }
 </style>
