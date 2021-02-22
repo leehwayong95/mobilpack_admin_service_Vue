@@ -80,7 +80,7 @@
         </tr>
         <tr>
           <th>운영시간</th>
-          <td colspan="2">{{runningdate}}</td>
+          <td colspan="2">{{runningdate}} {{post.opentime}}</td>
           <th>입장마감 시간</th>
           <td colspan="4">{{post.endtime}}</td>
         </tr>
@@ -163,7 +163,8 @@ export default {
       })
         .then((res) => {
           this.post = res.data.postModel
-          this.runningdate = res.data.postModel.openday.toString(2)
+          let runningDateBit = parseInt(res.data.postModel.openday, 10).toString(2).split('')
+          this.runningdate = this.getRunningDate(runningDateBit).join('')
           this.comments = res.data.comment
           for (var i of res.data.fileList) {
             this.img.push('http://localhost/img' + i.filepath.split('.\\upload')[1])
@@ -186,6 +187,56 @@ export default {
           address: this.post.address
         }}
       })
+    },
+    getRunningDate (runningDateBit) {
+      let result = []
+      let countinueDay = false
+      if (runningDateBit.length !== 7) {
+        for (let i = runningDateBit.length; i < 7; i++) {
+          runningDateBit.unshift('0')
+        }
+      }
+      console.log(runningDateBit)
+      for (let index in runningDateBit) {
+        if (countinueDay && runningDateBit[index] === '1') {
+          if (result[result.length - 1] !== '~') {
+            result.push('~')
+          }
+          if (index === (runningDateBit.length - 1).toString()) {
+            result.push(this.getDay(index))
+          }
+        } else if (countinueDay && runningDateBit[index] === '0' && result[result.length - 1] === '~') {
+          result.push(this.getDay(index - 1))
+          countinueDay = false
+        } else if (countinueDay && runningDateBit[index] === '0') {
+          countinueDay = false
+        } else if (!countinueDay && runningDateBit[index] === '1') {
+          result.push(this.getDay(index))
+          countinueDay = true
+        }
+        if (!countinueDay && result[result.length - 1] !== ', ' && result.length !== 0) {
+          result.push(', ')
+        }
+        console.log(result)
+      }
+      if (result[result.length - 1] === ', ') {
+        result = result.splice(0, result.length - 1).reverse()
+      } else {
+        result = result.reverse()
+      }
+      return result
+    },
+    getDay (index) {
+      let result = {
+        0: '일',
+        1: '토',
+        2: '금',
+        3: '목',
+        4: '수',
+        5: '화',
+        6: '월'
+      }
+      return result[parseInt(index)]
     }
   }
 }
