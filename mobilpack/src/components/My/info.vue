@@ -1,8 +1,8 @@
 <template>
   <div id="content">
-    <div class="title">
-      <h1>| 내 정보 수정</h1>
-      <h3>HOME > 내정보수정</h3>
+    <div class="cont_header">
+      <h2 class="page_title">설정</h2>
+      <span class="page_path">HOME > 설정</span>
     </div>
     <div class='cont_inner'>
       <div class="acountinfo_wrap">
@@ -178,25 +178,39 @@ export default {
 </script>
 
 <style scoped>
-#content table tr:hover{
-  background: initial;
-  cursor: initial;
+#content > .cont_inner{
+  margin: 0;
+}
+#content h3{
+    height: 60px;
+    padding-top: 20px;
+    font-weight: 500;
+    font-size: 1.25em;
+    line-height: 2em;
 }
 #content table tr{
-  cursor: initial;
+  cursor: default;
 }
-.button_wrap button {
-  width: 100px;
-  height: 30px;
+#content table tr:hover{
+  background: none;
 }
-table {
-  margin: 10px 0;
+.acountinfo_wrap, .userinfo_wrap{
+  padding: 0;
 }
-table th {
-  width: 20%;
+#content table th{
+  width: 160px;
 }
-table input {
-  border: solid 1px #ddd;
-  width: 50%;
+#content input[type="text"]{
+
+    width: 540px;
+    border: 1px solid #ddd;
+}
+#content input[type="button"]{
+    border: 0;
+    background: #3d4b64;
+    cursor: pointer;
+    border-radius: 5px;
+    color: #fff;
+    margin-top: 20px;
 }
 </style>

@@ -17,13 +17,10 @@
       </ul>
       <button v-on:click="search">검색</button>
     </div>
-    <div>
       <div class="cont_inner">
-        <div class="indecate">
-          <p style="font-size:20px">| 공지사항 목록   </p>
+          <p class="admintitle">| 공지사항 목록</p>
           <button class="insertbutton" @click="NoticeRegister"> 글쓰기</button>
-        </div>
-        <table>
+        <table class="list">
             <colgroup>
             <col width="10%"><!-- No 너비를 조절가능 -->
             <col width="10%"><!-- 언어 너비를 조절가능 -->
@@ -75,7 +72,6 @@
         <a class="pagingLast"/>
       </div>
       </div>
-    </div>
     </div>
 </template>
 
@@ -157,25 +153,13 @@ export default {
 </script>
 
 <style scoped>
-.scroll {
-  overflow: scroll;
-  background: lightgray;
-}
-.insertbutton { /* 신규등록 버튼 */
-  /* float: right; 신규등록 위치 */
-  font-size: 15px;
-  height: 40%;
-  width: 90px;
-}
-.cont_inner > .indecate {
-    width: 100%;
-    height: 50px;
-}
-.imp { /* 제목 앞에 붙는 중요빨간 표지 */
-  width: 30px;
-  height: 20px;
-  background-color: red;
-  color: #fff;
-  float: left; /* 방향 왼쪽으로 이동 */
+
+button.insertbutton{
+    position: absolute;
+    right: 30px;
+    top: 20px;
+    width: auto;
+    height: 30px;
+    padding: 0 15px;
 }
 </style>

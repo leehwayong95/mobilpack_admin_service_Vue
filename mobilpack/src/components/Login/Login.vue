@@ -63,7 +63,6 @@ export default {
 </script>
 
 <style>
-    @import url('../../assets/css/content');
 .btn_wrap {
     display: flex;
     flex-direction: column;

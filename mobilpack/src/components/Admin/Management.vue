@@ -23,11 +23,9 @@
       <button v-on:click="search">검색</button>
     </div>
       <div class="cont_inner">
-        <div class="indecate">
-          <p class="admintitle">| 관리자 목록   </p>
+          <p class="admintitle">| 관리자 목록</p>
           <button class="joinbutton" @click="Register"> 신규등록</button>
-        </div>
-      <table>
+      <table class="list">
         <colgroup>
           <col width="10%"><!-- No 너비를 조절가능 -->
           <col width="10%"><!-- ID 너비를 조절가능 -->
@@ -184,33 +182,12 @@ export default {
 </script>
 
 <style scoped>
-.test4 {
-  display:flex; /* 페이징을 가운데로 정렬시켜줌 */
-  justify-content:center;/*  페이징을 가운데로 정렬시켜줌 */
-  align-items:center; /* 없어도 되는 놈 공부는 필요함 */
-}
-.scroll {
-  overflow: scroll;
-  background: lightgray;
-}
-.cont_inner {
-  position: relative;
-  height: 100%;
-  min-height: calc(100vh - 239px);
-  margin-top: 20px;
-  padding: 0 30px 30px;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-}
-.joinbutton { /* 신규등록 버튼 */
-  /* float: right; 신규등록 위치 */
-  font-size: 15px;
-  height: 40%;
-  width: 90px;
-}
-.admintitle { /* 관리자 목록 버튼 */
-  font-size: 20px;
-  margin: 5px;/* 관리자 목록 글자 박스에 간격 벌리기 */
+button.joinbutton{
+    position: absolute;
+    right: 30px;
+    top: 20px;
+    width: auto;
+    height: 30px;
+    padding: 0 15px;
 }
 </style>

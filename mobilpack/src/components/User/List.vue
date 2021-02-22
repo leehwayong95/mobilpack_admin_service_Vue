@@ -16,28 +16,28 @@
             <option value="CN">중국</option>
           </select>
         </li>
-        <li style="width: 370px;">
+      <li style="width: fit-content;">
           <span>가입 기간</span>
           <p class="date">
             <input type="date" v-model="tmp.min" max="9999-12-31">
             <i>~</i>
             <input type="date" v-model="tmp.max" max="9999-12-31">
           </p>
-        </li>
-        <li>
-          <span>ID</span>
-          <input type="text" v-model="tmp.userid">
-        </li>
-        <li>
-          <span>이름</span>
-          <input type="text" v-model="tmp.username">
-        </li>
+      </li>
+      <li>
+        <span>ID</span>
+        <input type="text" v-model="tmp.userid">
+      </li>
+      <li>
+        <span>이름</span>
+        <input type="text" v-model="tmp.username">
+      </li>
       </ul>
-      <button type="button" @click="getSearch">검색</button>
+        <button type="button" @click="getSearch">검색</button>
     </div>
     <div class="cont_inner">
       <p>| 검색 결과</p>
-      <table>
+      <table class="list">
         <colgroup>
           <col width="5%">
           <col width="20%">

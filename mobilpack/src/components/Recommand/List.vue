@@ -15,7 +15,7 @@
             <option value="맛집">맛집</option>
           </select>
         </li>
-        <li class="lang" style="width: 26%;">
+        <li class="lang" style="min-width: 376px;">
           <span>등록언어</span>
           <multiselect
             v-model="tmp.selecttag"
@@ -52,7 +52,7 @@
         <span>| 검색결과</span>
         <button>신규등록</button>
       </div>
-      <table>
+      <table class="list">
         <colgroup>
           <col width="5%">
           <col width="8%">
