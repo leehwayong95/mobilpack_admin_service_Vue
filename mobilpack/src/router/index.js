@@ -23,7 +23,6 @@ import RecommandDetails from '@/components/Recommand/Details'
 import RecommandRegistrtion from '@/components/Recommand/Registration'
 import RecommandEdit from '@/components/Recommand/Edit'
 import Translation from '@/components/Recommand/Translation'
-import TranslationEdit from '@/components/Recommand/TranslationEdit'
 
 import VueCookie from 'vue-cookie'
 import axios from 'axios'
@@ -185,7 +184,7 @@ const router = new Router({
       path: '/translationedit',
       name: 'translationedit',
       components: {
-        default: TranslationEdit,
+        default: Translation,
         top: topbar,
         left: sidebar
       },

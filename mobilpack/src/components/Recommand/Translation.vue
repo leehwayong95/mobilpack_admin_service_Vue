@@ -32,17 +32,23 @@
           <td >{{ items.language }}</td>
           <td class="center">
             <select style="width:200px" v-model="language">
-            <option @click="changelanguage" >한국어</option>
-            <option @click="changelanguage">English</option>
-            <option @click="changelanguage">日本語</option>
-            <option @click="changelanguage">中國語</option>
+              <option @click="changelanguage" >한국어</option>
+              <option @click="changelanguage">English</option>
+              <option @click="changelanguage">日本語</option>
+              <option @click="changelanguage">中國語</option>
             </select>
           </td>
           </tr>
           <tr>
             <th>추천장소명</th>
            <td ></td>
-           <td >{{ items.title }}</td>
+           <td v-if="path='/translation'" >{{ items.title }}</td>
+           <td v-else >
+            <input
+            type="text"
+            v-model="placename"
+           />
+           </td>
           </tr>
           <tr>
             <th>관광정보</th>
@@ -99,12 +105,11 @@ export default {
   methods: {
     edit () {
       this.$router.push({
-        path: '/translationedit',
-        query: {index: this.items.postindex, language: this.items.language}
+        path: 'translationedit'
       })
     },
     changelanguage () {
-      this.$axios.post('http://localhost:9000//api/su/notice/edit', {
+      this.$axios.post('http://localhost:9000//api/su/post/edit', {
         postindex: this.$route.query.items.postindex,
         id: this.id,
         language: this.language,

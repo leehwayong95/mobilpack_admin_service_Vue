@@ -103,12 +103,55 @@
 export default {
   data () {
     return {
-      language: '',
-      placename: '',
-      info: '',
-      tag: '',
-      voice: '',
-      adress: ''
+      language: this.$route.query.items.language,
+      placename: this.$route.query.items.title,
+      info: this.$route.query.items.content,
+      tag: this.$route.query.items.tag,
+      voice: this.$route.query.items.voice_info,
+      adress: this.$route.query.items.address,
+      items: []
+    }
+  },
+  mounted () {
+    this.$axios.get('http://localhost:9000/api/su/post/translate/info', {
+      params: {
+        postindex: this.$route.query.items.index, language: this.$route.query.items.language}
+    })
+      .then((res) => {
+        this.items = res.data[0]
+        console.log(res)
+        console.log(this.items)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  },
+  methods: {
+    cancel () {
+      this.$router.push({
+        path: '/translationedit',
+        query: {index: this.items.postindex, language: this.items.language}
+      })
+    },
+    update () {
+      this.$axios.post('http://localhost:9000//api/su/notice/edit', {
+        postindex: this.$route.query.items.postindex,
+        id: this.id,
+        language: this.language,
+        title: this.title,
+        content: this.content,
+        topsetting: this.topsetting
+      })
+        .then((res) => {
+          if (res.data === 'ok') {
+            console.log(res)
+            alert('등록 성공')
+            this.$router.push('/recommandsdetails')
+          } else {
+            console.log(res)
+            console.log('등록 실패 다시 작성해주세요')
+          }
+        })
     }
   }
 }
