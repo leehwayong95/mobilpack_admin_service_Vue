@@ -20,7 +20,10 @@
         <tbody>
         <tr>
           <th>입력 언어(원본)</th>
-          <td colspan="3">{{post.default_lang}}</td>
+          <td colspan="3" v-if="post.default_lang == 'KR'">한국어</td>
+          <td colspan="3" v-if="post.default_lang == 'EN'">영어</td>
+          <td colspan="3" v-if="post.default_lang == 'JP'">일본어</td>
+          <td colspan="3" v-else>중국어</td>
           <th>카테고리</th>
           <td colspan="3">{{post.category}}</td>
         </tr>
@@ -38,8 +41,8 @@
         </tr>
         <tr>
           <th>사진</th>
-          <td>
-            <img v-for="i in img" :key="i" :src="img[i]">
+          <td colspan="7">
+            <img v-for="i of img" :key="i" :src="i" alt="recommandFile" style="width: 60%;">
           </td>
         </tr>
         </tbody>
@@ -77,7 +80,7 @@
         </tr>
         <tr>
           <th>운영시간</th>
-          <td colspan="2">{{post.openday}}</td>
+          <td colspan="2">{{runningdate}}</td>
           <th>입장마감 시간</th>
           <td colspan="4">{{post.endtime}}</td>
         </tr>
@@ -99,7 +102,7 @@
       </tbody>
       </table>
       <div class="button_wrap">
-        <button class="leftbutton">번역 보기</button>
+        <button class="leftbutton" @click="gotoTranslate">번역 보기</button>
         <button class="delete">삭제</button>
         <button>수정</button>
       </div>
@@ -147,7 +150,8 @@ export default {
     return {
       post: '',
       comments: '',
-      img: []
+      img: [],
+      runningdate: ''
     }
   },
   methods: {
@@ -159,14 +163,29 @@ export default {
       })
         .then((res) => {
           this.post = res.data.postModel
+          this.runningdate = res.data.postModel.openday.toString(2)
           this.comments = res.data.comment
           for (var i of res.data.fileList) {
-            this.img.push('http://localhost:9000/img' + i.filepath.split('.\\upload')[1])
+            this.img.push('http://localhost/img' + i.filepath.split('.\\upload')[1])
           }
         })
     },
     deleteComment (n) {
       alert(n + '번 댓글')
+    },
+    gotoTranslate () {
+      this.$router.push({
+        name: 'translation',
+        query: {data: {
+          postindex: this.$route.params.index,
+          default: this.post.default_lang,
+          title: this.post.title,
+          content: this.post.content,
+          tag: this.post.tag,
+          voice: this.post.voice_info,
+          address: this.post.address
+        }}
+      })
     }
   }
 }
@@ -204,7 +223,7 @@ div.button_wrap {
 div.button_wrap button {
   width: 100px;
   height: 30px;
-  margin: 0 10px;
+  margin-right: 10px;
 }
 div.button_wrap button.delete {
   background: rgb(100, 100, 100);
