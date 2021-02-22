@@ -31,6 +31,7 @@
              <th>카테고리</th>
              <td colspan="3">
                 <select style="width:200px" v-model="select">
+                <option>선택</option>
                 <option >관광지</option>
                 <option >숙소</option>
                 <option >맛집</option>
@@ -208,28 +209,28 @@
                 <label for="seven">일요일</label>
                 <div>
                 <select style="width:80px" v-model="openhour">
-                <option v-for="(n,oh) in openhour" :key="oh" >{{n}}</option>
+                <option v-for="(n,oh) in openhour" :key="oh" v-bind:value="n">{{n}}</option>
                 </select>
                 <select style="width:80px" v-model="openmin">
-                <option v-for="(n,om) in openmin" :key="om" >{{n}}</option>
+                <option v-for="(n,om) in openmin" :key="om" v-bind:value="n">{{n}}</option>
                 </select>
                 <span>~</span>
                 <select style="width:80px" v-model="endhour">
-                <option v-for="(n,eh) in endhour" :key="eh" >{{n}}</option>
+                <option v-for="(n,eh) in endhour" :key="eh" v-bind:value="n">{{n}}</option>
                 </select>
                 <select style="width:80px" v-model="endmin">
-                <option v-for="(n,em) in endmin" :key="em" >{{n}}</option>
+                <option v-for="(n,em) in endmin" :key="em" v-bind:value="n">{{n}}</option>
                 </select>
                 </div>
              </td>
              <tr>
              <th>입장마감 시간</th>
              <td colspan="7">
-               <select style="width:80px" v-model="endhour">
-                <option v-for="(n,eh) in endhour" :key="eh" >{{n}}</option>
+               <select style="width:80px" v-model="entrancehour">
+                <option v-for="(n,eh) in endhour" :key="eh" v-bind:value="n">{{n}}</option>
                 </select>
-                <select style="width:80px" v-model="endmin">
-                <option v-for="(n,em) in endmin" :key="em" >{{n}}</option>
+                <select style="width:80px" v-model="entrancemin">
+                <option v-for="(n,em) in endmin" :key="em" v-bind:value="n">{{n}}</option>
                 </select>
              </td>
              </tr>
@@ -237,7 +238,7 @@
         </table>
         <div class="center">
           <button class="centerbutton" style="background:  rgb(230, 120, 120)" >취소</button>
-          <button class="centerbutton" @click="saveButton">저장</button>
+          <button class="centerbutton" @click="submmitButton">저장</button>
         </div>
     </section>
     </div>
@@ -257,13 +258,22 @@ export default {
       address_lng: '',
       address: '',
       phone: '',
+      index: '76',
       checkedValues: [],
-      openhour: ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14'],
-      openmin: ['00', '10', '20', '30', '40', '50'],
-      endhour: ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20'],
-      endmin: ['00', '10', '20', '30', '40', '50'],
-      Entrancehour: ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20'],
-      Entrancemin: ['00', '10', '20', '30', '40', '50'],
+      file1: [],
+      file2: [],
+      file3: [],
+      file4: [],
+      file5: [],
+      hour: ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'],
+      min: ['00', '10', '20', '30', '40', '50'],
+      openhour: '',
+      openmin: '',
+      endhour: '',
+      endmin: '',
+      result: '',
+      entrancehour: '',
+      entrancemin: '',
       imageUrl1: null,
       imageUrl2: null,
       imageUrl3: null,
@@ -393,7 +403,45 @@ export default {
       formData.append('tag', this.tag)
       formData.append('files', this.imagelist)
       formData.append('voice_info', this.voice)
+      formData.append('location', this.address_lat + ',' + this.address_lng)
+      formData.append('address', this.address)
+      formData.append('phone', this.phone)
+      var repeat
+      for (repeat = 0; repeat < this.checkedValues.length; repeat++) {
+        this.openday = this.openday + this.checkedValues[repeat]
+      }
+      formData.append('openday', this.openday)
+      formData.append('opentime', this.openhour + ':' + this.openmin)
+      formData.append('closetime', this.endhour + ':' + this.endmin)
+      formData.append('endtime', this.entrancehour + ':' + this.entrancemin)
+      formData.append('files', this.file1)
+      formData.append('files', this.file2)
+      formData.append('files', this.file3)
+      formData.append('files', this.file4)
+      formData.append('files', this.file5)
     }
+  },
+  mounted () {
+    this.$axios.get('http://localhost:9000/api/su/post/info', {params: {postindex: this.index}})
+      .then(response => {
+        console.log(response.data)
+        const model = response.data
+        this.language = model.postModel.default_lang
+        this.select = model.postModel.category
+        this.position = model.postModel.title
+        this.content = model.postModel.content
+        this.tag = model.postModel.tag
+        this.imagelist = model.fileList
+        this.voice = model.postModel.voice_info
+        const loca = model.postModel.location.split(',')
+        this.address_lat = loca[0]
+        this.address_lng = loca[1]
+        this.address = model.postModel.address
+        this.phone = model.postModel.phone
+      })
+      .catch((error) => {
+        console.log(error)
+      })
   }
 }
 </script>

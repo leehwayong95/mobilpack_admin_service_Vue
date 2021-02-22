@@ -31,6 +31,7 @@
              <th>카테고리</th>
              <td colspan="3">
                 <select style="width:200px" v-model="select">
+                <option>선택</option>
                 <option >관광지</option>
                 <option >숙소</option>
                 <option >맛집</option>
@@ -257,6 +258,11 @@ export default {
       phone: '',
       openday: 0,
       checkedValues: [],
+      file1: [],
+      file2: [],
+      file3: [],
+      file4: [],
+      file5: [],
       hour: ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'],
       min: ['00', '10', '20', '30', '40', '50'],
       openhour: '',
@@ -305,7 +311,9 @@ export default {
     onChangeImages (e) {
       if (e.target.files[0].name.match('png') || e.target.files[0].name.match('jpg')) {
         const file = e.target.files[0]
-        console.log(e)
+        this.file1 = file
+        console.log(this.file1)
+        // console.log(e)
         if (this.imagelist.length === 0) {
           this.imageUrl1 = URL.createObjectURL(file)
         } else if (this.imagelist.length === 1) {
@@ -317,8 +325,7 @@ export default {
         } else if (this.imagelist.length === 4) {
           this.imageUrl5 = URL.createObjectURL(file)
         }
-        this.imagelist.push(file)
-        console.log(this.imagelist)
+        // console.log(this.imagelist)
         this.imagecheck = this.imagelist.length
       } else {
         alert('png,jpg 형식만 가능합니다.')
@@ -394,7 +401,6 @@ export default {
       formData.append('title', this.position)
       formData.append('content', this.content)
       formData.append('tag', this.tag)
-      formData.append('files', this.imagelist)
       formData.append('voice_info', this.voice)
       formData.append('location', this.address_lat + ',' + this.address_lng)
       formData.append('address', this.address)
@@ -407,9 +413,15 @@ export default {
       formData.append('opentime', this.openhour + ':' + this.openmin)
       formData.append('closetime', this.endhour + ':' + this.endmin)
       formData.append('endtime', this.entrancehour + ':' + this.entrancemin)
+      formData.append('files', this.file1)
+      formData.append('files', this.file2)
+      formData.append('files', this.file3)
+      formData.append('files', this.file4)
+      formData.append('files', this.file5)
       this.$axios.post('http://localhost:9000/api/su/post/create', formData)
         .then((response) => {
           this.result = response.data
+          alert(this.result)
         })
         .catch((ex) => {
           console.log(ex)
