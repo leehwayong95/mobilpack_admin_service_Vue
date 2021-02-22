@@ -6,12 +6,14 @@
     </span>
       <div class="cont_inner">
         <div class="indecate">
-          <p class="admintitle">| 컨텐츠 번역  </p>
+          <p  v-if="$route.name ==='translation'" class="admintitle">| 컨텐츠 번역  </p>
+          <p class="admintitle">| 컨텐츠 번역 등록/수정 </p>
         </div>
         <div>
-        <td>번역 컨텐츠는 원본을 기준으로 우측에 입력 가능합니다. 현재 한국어,일본어,영어,중국어 등록이 가능합니다<br>
+        <td v-if="$route.name ==='translation'">번역 컨텐츠는 원본을 기준으로 우측에 입력 가능합니다. 현재 한국어,일본어,영어,중국어 등록이 가능합니다<br>
         전체 컨테츠 중에서 번역이 필요한 항목만 요약되어 제공됩니다.<br>
         번역본을 신규 등록하거나, 수정하고자 할 경우 우측의 입력 언어를 선택한 후 [등록/수정] 버튼을 눌러주세요</td>
+        <td v-else>전체 컨텐츠 중에서 번역이 필요한 항목만 요약되어 제공됩니다.</td>
         </div>
       <table>
         <colgroup>
@@ -42,7 +44,7 @@
           <tr>
             <th>추천장소명</th>
            <td ></td>
-           <td v-if="path='/translation'" >{{ items.title }}</td>
+           <td  v-if="$route.name ==='translation'" >{{ items.title }}</td>
            <td v-else >
             <input
             type="text"
@@ -53,27 +55,55 @@
           <tr>
             <th>관광정보</th>
             <td style="height:200px"></td>
-            <td>{{ items.content }}</td>
+            <td v-if="$route.name ==='translation'" >{{ items.content }}</td>
+            <td v-else>
+              <textarea
+                style="width:600px; height:200px"
+                type="text"
+                v-model="info"
+            />
+            </td>
           </tr>
            <tr>
             <th>태그</th>
             <td></td>
-            <td>{{ items.tag }}</td>
+            <td v-if="$route.name ==='translation'">{{ items.tag }}</td>
+            <td v-else >
+               <input
+                type="text"
+                v-model="tag"
+             />
+            </td>
           </tr>
            <tr>
             <th>음성안내문구</th>
             <td  style="height:200px"></td>
-            <td>{{ items.voice_info }}</td>
+            <td v-if="$route.name ==='translation'">{{ items.voice_info }}</td>
+            <td v-else>
+              <textarea
+                style="width:600px; height:200px"
+                type="text"
+                v-model="voice"
+            />
+            </td>
           </tr>
            <tr>
             <th>주소</th>
             <td></td>
-            <td>{{ items.address }}</td>
+            <td v-if="$route.name ==='translation'">{{ items.address }}</td>
+            <td v-else>
+               <input
+                type="text"
+                v-model="adress"
+             />
+            </td>
           </tr>
           </tbody>
       </table>
       <div class="center">
-          <button class="centerbutton" @click="edit" >등록/수정</button>
+          <button v-if="$route.name !== 'translation'" class="centerbutton" >취소</button>
+          <button v-if="$route.name !== 'translation'" class="centerbutton" >저장</button>
+           <button v-else class="centerbutton" @click="edit" >등록/수정</button>
         </div>
   </div>
  </div>
@@ -84,7 +114,12 @@ export default {
   data () {
     return {
       language: '',
-      items: []
+      items: [],
+      placename: '',
+      info: '',
+      tag: '',
+      voice: '',
+      adress: ''
     }
   },
   mounted () {
@@ -104,9 +139,14 @@ export default {
   },
   methods: {
     edit () {
-      this.$router.push({
-        path: 'translationedit'
-      })
+      if (this.$route.path !== '/translationedit') {
+        this.$router.push({path: '/translationedit'})
+        this.placename = this.items.title
+        this.info = this.items.content
+        this.tag = this.items.tag
+        this.voice = this.items.voice_info
+        this.adress = this.items.address
+      }
     },
     changelanguage () {
       this.$axios.post('http://localhost:9000//api/su/post/edit', {
@@ -145,6 +185,7 @@ export default {
   width: 100px;
   height: 30px;
   margin-top: 50px;
+  margin-left: 30px;
 }
 .center {
   display:flex; /* 버튼을 정렬시켜줌 */
