@@ -1,7 +1,7 @@
 <template>
   <div id='top'>
       <span>{{route}}</span>
-      <span><a v-on:click="editinfo">안녕하세요 {{name}}님</a></span>
+      <span><a v-on:click="editinfo">{{name}}님(관리자)</a></span>
       <button type="button" v-on:click="logout" >로그아웃</button>
   </div >
 </template>

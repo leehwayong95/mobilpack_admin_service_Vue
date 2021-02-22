@@ -87,12 +87,19 @@
         <tr v-for="i of List" :key="i.postindex" @click="getPost(i.postindex)">
           <td>{{i.postindex}}</td>
           <td>{{i.category}}</td>
-          <td>{{i.title}}</td>
-          <td>{{i['default_lang']}}</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td class="title">{{i.title}}</td>
+          <td v-if = "i['default_lang'] === 'KR'">한국어</td>
+          <td v-else-if = "i['default_lang'] === 'EN'">영어</td>
+          <td v-else-if = "i['default_lang'] === 'JP'">일본어</td>
+          <td v-else>중국어</td>
+          <td v-if="i.language & 1"> O </td>
+          <td v-else></td>
+          <td v-if="i.language & 2"> O </td>
+          <td v-else></td>
+          <td v-if="i.language & 4"> O </td>
+          <td v-else></td>
+          <td v-if="i.language & 8"> O </td>
+          <td v-else></td>
           <td>{{i.count}}</td>
           <td>{{i.name}}</td>
           <td>{{i.date}}</td>
@@ -198,7 +205,7 @@ export default {
         }
       })
         .then((res) => {
-          this.endpage = res.data.pageCount
+          this.endpage = res.data.pageCount / 20 + (res.data.pageCount % 20 > 0 ? 1 : 0)
           this.List = res.data.List
         })
     },
@@ -266,5 +273,11 @@ div.cont_inner div.title span{
 div.cont_inner div.title button{
   height: 30px;
   width: 100px;
+}
+#content * td {
+  text-align: center;
+}
+#content td.title {
+  text-align: left;
 }
 </style>
