@@ -31,21 +31,31 @@
         <tbody>
           <tr>
           <th>입력 언어</th>
-          <td >{{ items.language }}</td>
+          <td v-if="'KR'===copylanguage">한국어</td>
+          <td v-if="'EN'===copylanguage">English</td>
+          <td v-if="'JP'===copylanguage">日本語</td>
+          <td v-if="'CN'===copylanguage">中國語</td>
           <td class="center">
-            <select style="width:200px" v-model="language">
-              <option @click="changelanguage" >한국어</option>
-              <option @click="changelanguage">English</option>
-              <option @click="changelanguage">日本語</option>
-              <option @click="changelanguage">中國語</option>
+            <select v-if="$route.name ==='translation'" style="width:200px" v-model="choicelanguage" @click="changelanguage">
+              <option v-if="copylanguage != 'KR'" value="KR" >한국어</option>
+              <option v-if="copylanguage != 'EN'" value="EN" >English</option>
+              <option v-if="copylanguage != 'JP'" value="JP" >日本語</option>
+              <option v-if="copylanguage != 'CN'" value="CN" >中國語</option>
+            </select><!-- v-bind:disabled 이친구가 "" 안에 있는 조건이 됬을경우 언어를 선택 못하게 비활성화 해줍니다.  -->
+             <select v-if="$route.name ==='translationedit'" style="width:200px" v-model="choicelanguage" v-bind:disabled="$route.name ==='translationedit'">
+              <option v-if="copylanguage != 'KR'" value="KR" >한국어</option>
+              <option v-if="copylanguage != 'EN'" value="EN" >English</option>
+              <option v-if="copylanguage != 'JP'" value="JP" >日本語</option>
+              <option v-if="copylanguage != 'CN'" value="CN" >中國語</option>
             </select>
           </td>
           </tr>
           <tr>
             <th>추천장소명</th>
-           <td ></td>
-           <td  v-if="$route.name ==='translation'" >{{ items.title }}</td>
-           <td v-else >
+           <td >{{copyplacename}}</td>
+           <td v-if="$route.name ==='translation' && checkNolist ==='true' || checkNolist ===''" >{{ placename }}</td>
+           <td v-if="$route.name ==='translation' && checkNolist ==='false'"></td>
+           <td v-else-if="$route.name ==='translationedit'" >
             <input
             type="text"
             v-model="placename"
@@ -54,9 +64,10 @@
           </tr>
           <tr>
             <th>관광정보</th>
-            <td style="height:200px"></td>
-            <td v-if="$route.name ==='translation'" >{{ items.content }}</td>
-            <td v-else>
+            <td style="height:200px">{{copyinfo}}</td>
+            <td v-if="$route.name ==='translation' && checkNolist ==='true' || checkNolist ===''" >{{ info }}</td>
+            <td v-if="$route.name ==='translation' && checkNolist ==='false'"></td>
+            <td v-else-if="$route.name ==='translationedit'" >
               <textarea
                 style="width:600px; height:200px"
                 type="text"
@@ -66,9 +77,10 @@
           </tr>
            <tr>
             <th>태그</th>
-            <td></td>
-            <td v-if="$route.name ==='translation'">{{ items.tag }}</td>
-            <td v-else >
+            <td>{{copytag}}</td>
+            <td v-if="$route.name ==='translation' && checkNolist ==='true' || checkNolist ===''">{{ tag }}</td>
+            <td v-if="$route.name ==='translation' && checkNolist ==='false'"></td>
+            <td v-else-if="$route.name ==='translationedit'"  >
                <input
                 type="text"
                 v-model="tag"
@@ -77,9 +89,10 @@
           </tr>
            <tr>
             <th>음성안내문구</th>
-            <td  style="height:200px"></td>
-            <td v-if="$route.name ==='translation'">{{ items.voice_info }}</td>
-            <td v-else>
+            <td  style="height:200px">{{copyvoice}}</td>
+            <td v-if="$route.name ==='translation' && checkNolist ==='true' || checkNolist ===''">{{ voice }}</td>
+            <td v-if="$route.name ==='translation' && checkNolist ==='false'"></td>
+            <td v-else-if="$route.name ==='translationedit'" >
               <textarea
                 style="width:600px; height:200px"
                 type="text"
@@ -89,12 +102,13 @@
           </tr>
            <tr>
             <th>주소</th>
-            <td></td>
-            <td v-if="$route.name ==='translation'">{{ items.address }}</td>
-            <td v-else>
+            <td>{{copyaddress}}</td>
+            <td v-if="$route.name ==='translation' && checkNolist ==='true' || checkNolist ===''">{{ address }}</td>
+            <td v-if="$route.name ==='translation' && checkNolist ==='false'"></td>
+            <td v-else-if="$route.name ==='translationedit'" >
                <input
                 type="text"
-                v-model="adress"
+                v-model="address"
              />
             </td>
           </tr>
@@ -113,59 +127,65 @@
 export default {
   data () {
     return {
-      language: '',
       items: [],
+      language: '', // COPY가 안붙은 변수들은 언어를 선택했을때DB파일 가져온것을 담아요
       placename: '',
       info: '',
       tag: '',
       voice: '',
-      adress: ''
+      address: '',
+      choicelanguage: '', // 입력 언어 리스트에서 언어 선택 한것
+      copylanguage: this.$route.query.default, // COPY가 붙은 변수들은 상세페이지에서 선택한 원본의 데이터를 가져옵니다
+      copypostindex: this.$route.query.postindex,
+      copyplacename: this.$route.query.title,
+      copyinfo: this.$route.query.content,
+      copytag: this.$route.query.tag,
+      copyvoice: this.$route.query.voice,
+      copyaddress: this.$route.query.address,
+      checkNolist: '' // 번역 게시글 DB파일을 가져올때 성공,실패여부를 체크합니다.(DB에 글이 없으면 공백으로 만들어야 합니다.)
     }
   },
   mounted () {
-    this.$axios.get('http://localhost:9000/api/su/post/translate/info', {
-      params: {
-      // postindex: this.$route.query.items.postindex, language: this.$route.query.items.language}
-        postindex: '8', language: 'EN'}
-    })
-      .then((res) => {
-        this.items = res.data[0]
-        console.log(res)
-        console.log(this.items)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+    console.log(this.$route.query.data)
   },
   methods: {
-    edit () {
-      if (this.$route.path !== '/translationedit') {
+    edit () { // 수정/등록 버튼을 누를경우 해당DB 내용이 있으면 가져가고 없으면 공백으로 갑니다
+      if (this.$route.path !== '/translationedit' && this.checkNolist === 'true') {
         this.$router.push({path: '/translationedit'})
         this.placename = this.items.title
         this.info = this.items.content
         this.tag = this.items.tag
         this.voice = this.items.voice_info
-        this.adress = this.items.address
+        this.address = this.items.address
+      } else if (this.$route.path !== '/translationedit' && this.checkNolist === 'false') {
+        this.$router.push({path: '/translationedit'})
+        this.placename = ''
+        this.info = ''
+        this.tag = ''
+        this.voice = ''
+        this.address = ''
       }
     },
-    changelanguage () {
-      this.$axios.post('http://localhost:9000//api/su/post/edit', {
-        postindex: this.$route.query.items.postindex,
-        id: this.id,
-        language: this.language,
-        title: this.title,
-        content: this.content,
-        topsetting: this.topsetting
+    changelanguage () { // 입력언어에서 언어를 선택할떄마다 각 언어에 맞는 DB파일을 가져옵니다 checkNolist에 true false로 성공/실패 기록
+      this.$axios.get('http://localhost:9000/api/su/post/translate/info', {
+        params: {
+          postindex: this.copypostindex, language: this.choicelanguage}
       })
         .then((res) => {
-          if (res.data === 'ok') {
-            console.log(res)
-            alert('등록 성공')
-            this.$router.push('/notice')
-          } else {
-            console.log(res)
-            console.log('등록 실패 다시 작성해주세요')
-          }
+          this.items = res.data[0]
+          this.language = this.items.language
+          this.placename = this.items.title
+          this.info = this.items.content
+          this.tag = this.items.tag
+          this.voice = this.items.voice_info
+          this.address = this.items.address
+          this.checkNolist = 'true'
+          console.log(this.checkNolist)
+        })
+        .catch((err) => {
+          this.checkNolist = 'false'
+          console.log(this.checkNolist)
+          console.log(err)
         })
     }
   }

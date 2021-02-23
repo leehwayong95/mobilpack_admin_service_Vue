@@ -326,6 +326,7 @@ export default {
           this.imageUrl5 = URL.createObjectURL(file)
         }
         // console.log(this.imagelist)
+        this.imagelist.push(file)
         this.imagecheck = this.imagelist.length
       } else {
         alert('png,jpg 형식만 가능합니다.')
