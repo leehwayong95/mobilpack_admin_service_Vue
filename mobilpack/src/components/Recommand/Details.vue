@@ -227,7 +227,7 @@ export default {
     gotoTranslate () {
       this.$router.push({
         name: 'translation',
-        query: {data: {
+        query: {
           postindex: this.$route.params.index,
           default: this.post.default_lang,
           title: this.post.title,
@@ -235,7 +235,7 @@ export default {
           tag: this.post.tag,
           voice: this.post.voice_info,
           address: this.post.address
-        }}
+        }
       })
     },
     getRunningDate (runningDateBit) {
@@ -287,19 +287,17 @@ export default {
       return result[parseInt(index)]
     },
     gotoEdit () {
-      alert(this.$route.params.index)
-      // this.$router.push('/recommand/edit/' + this.$route.params.index)
+      this.$router.push('/recommand/edit/' + this.$route.params.index)
     },
     setDelete () {
-      alert(this.$route.params.index)
-      // this.$axios.post('http://localhost:9000/api/su/post/delete?postindex=' + this.$route.params.index)
-      //  .then((res) => {
-      //    if (res.data === 'TRUE') {
-      //      this.$router.push({name: recommands})
-      //    } else {
-      //      alert('잠시후 시도해주세요')
-      //    }
-      //  })
+      this.$axios.post('http://localhost:9000/api/su/post/delete?postindex=' + this.$route.params.index)
+        .then((res) => {
+          if (res.data === 'TRUE') {
+            this.$router.push({name: 'recommands'})
+          } else {
+            alert('잠시후 시도해주세요')
+          }
+        })
     },
     setStateToggle () {
       this.$axios.get('http://localhost:9000/api/su/post/place/enable?postindex=' + this.$route.params.index)
