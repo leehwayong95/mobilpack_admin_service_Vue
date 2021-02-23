@@ -7,15 +7,15 @@
       <div class="cont_inner">
         <div class="indecate">
           <p  v-if="$route.name ==='translation'" class="admintitle">| 컨텐츠 번역  </p>
-          <p class="admintitle">| 컨텐츠 번역 등록/수정 </p>
+          <p  v-else class="admintitle">| 컨텐츠 번역 등록/수정 </p>
         </div>
         <div>
-        <td v-if="$route.name ==='translation'">번역 컨텐츠는 원본을 기준으로 우측에 입력 가능합니다. 현재 한국어,일본어,영어,중국어 등록이 가능합니다<br>
-        전체 컨테츠 중에서 번역이 필요한 항목만 요약되어 제공됩니다.<br>
-        번역본을 신규 등록하거나, 수정하고자 할 경우 우측의 입력 언어를 선택한 후 [등록/수정] 버튼을 눌러주세요</td>
-        <td v-else>전체 컨텐츠 중에서 번역이 필요한 항목만 요약되어 제공됩니다.</td>
+        <td class="textbox" v-if="$route.name ==='translation'"><p class="text">※ 번역 컨텐츠는 원본을 기준으로 우측에 입력 가능합니다. 현재 한국어,일본어,영어,중국어 등록이 가능합니다<br>
+        ※ 전체 컨테츠 중에서 번역이 필요한 항목만 요약되어 제공됩니다.<br>
+        ※ 번역본을 신규 등록하거나, 수정하고자 할 경우 우측의 입력 언어를 선택한 후 [등록/수정] 버튼을 눌러주세요</p></td>
+        <td class="edittextbox" v-else><p class="text">※ 전체 컨텐츠 중에서 번역이 필요한 항목만 요약되어 제공됩니다.</p></td>
         </div>
-      <table>
+      <table class="n">
         <colgroup>
           <col width="30%"><!-- 공백(1행1열) 너비 조절가능 -->
           <col width="100%"><!-- 원본(칸) 너비 조절가능 -->
@@ -197,9 +197,11 @@ export default {
   overflow: scroll;
   background: lightgray;
 }
-.admintitle { /* 관리자 목록 버튼 */
+.admintitle { /* 컨텐츠 번역 제목 꾸미기 */
   font-size: 20px;
-  margin: 5px;/* 관리자 목록 글자 박스에 간격 벌리기 */
+  margin-top: 15px;
+  margin-bottom: 15px;
+  margin-left: 1px;
 }
 .centerbutton {
   width: 100px;
@@ -211,5 +213,28 @@ export default {
   display:flex; /* 버튼을 정렬시켜줌 */
   justify-content:center;/*  버튼을 가운데로 정렬시켜줌 */
   align-items:center;/*  해당하는 열에 가운데로 정렬 */
+}
+.n {
+  margin-top: 20px;
+}
+.textbox {
+  background: rgb(152, 155, 152);
+  max-width: 100%; /*  반응형 고려했지만 정답은 아님 화면을 축소할경우 이 box만 반응못함 */
+  width: 1530px;
+  height: 65px;
+  border-radius: 5px;
+  align-items:center;
+}
+.edittextbox {
+  background: rgb(152, 155, 152);
+  max-width: 100%; /*  반응형 고려했지만 정답은 아님 화면을 축소할경우 이 box만 반응못함 */
+  width: 1530px;
+  height: 40px;
+  border-radius: 5px;
+  align-items:center;
+}
+.text {
+  margin-top: 10px;
+  margin-left: 20px;
 }
 </style>
