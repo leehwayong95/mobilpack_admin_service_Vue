@@ -52,13 +52,14 @@
           </tr>
           <tr>
             <th>추천장소명</th>
-           <td >{{copyplacename}}</td>
+           <td >{{copyplacename}}</td><!-- maxlength이 친구가 글자수 제한입니다  -->
            <td v-if="$route.name ==='translation' && checkNolist ==='true' || checkNolist ===''" >{{ placename }}</td>
            <td v-if="$route.name ==='translation' && checkNolist ==='false'"></td>
            <td v-else-if="$route.name ==='translationedit'" >
             <input
             type="text"
             v-model="placename"
+            maxlength="50"
            />
            </td>
           </tr>
@@ -72,18 +73,20 @@
                 style="width:600px; height:200px"
                 type="text"
                 v-model="info"
+                maxlength="5000"
             />
             </td>
           </tr>
            <tr>
             <th>태그</th>
-            <td>{{copytag}}</td>
+            <td>{{copytag}}</td> <!-- @keyup.space 스페이스바를 눌렀을때 반응입니다 -->
             <td v-if="$route.name ==='translation' && checkNolist ==='true' || checkNolist ===''">{{ tag }}</td>
             <td v-if="$route.name ==='translation' && checkNolist ==='false'"></td>
-            <td v-else-if="$route.name ==='translationedit'"  >
+            <td v-else-if="$route.name ==='translationedit'" @keyup.space = "clickSpace">
                <input
                 type="text"
                 v-model="tag"
+                maxlength="50"
              />
             </td>
           </tr>
@@ -109,15 +112,18 @@
                <input
                 type="text"
                 v-model="address"
+                maxlength="50"
              />
             </td>
           </tr>
           </tbody>
       </table>
       <div class="center">
-          <button v-if="$route.name !== 'translation'" class="centerbutton" >취소</button>
-          <button v-if="$route.name !== 'translation'" class="centerbutton" >저장</button>
-           <button v-else class="centerbutton" @click="edit" >등록/수정</button>
+          <button v-if="$route.name !== 'translation'" class="centerbutton" @click="cancle" >취소</button>
+          <button v-if="$route.name !== 'translation' && checkNolist === 'false'" class="centerbutton" @click="save" >저장</button>
+          <button v-if="$route.name !== 'translation' && checkNolist === 'true'" class="centerbutton" @click="update" >수정</button>
+          <button v-if="$route.name !== 'translationedit'" class="centerbutton" @click="edit" >등록/수정</button>
+          <button v-if="$route.name !== 'translationedit'" class="centerbutton" @click="back" >돌아가기</button>
         </div>
   </div>
  </div>
@@ -128,6 +134,7 @@ export default {
   data () {
     return {
       items: [],
+      postindex: '',
       language: '', // COPY가 안붙은 변수들은 언어를 선택했을때DB파일 가져온것을 담아요
       placename: '',
       info: '',
@@ -145,25 +152,26 @@ export default {
       checkNolist: '' // 번역 게시글 DB파일을 가져올때 성공,실패여부를 체크합니다.(DB에 글이 없으면 공백으로 만들어야 합니다.)
     }
   },
-  mounted () {
-    console.log(this.$route.query.data)
-  },
   methods: {
     edit () { // 수정/등록 버튼을 누를경우 해당DB 내용이 있으면 가져가고 없으면 공백으로 갑니다
-      if (this.$route.path !== '/translationedit' && this.checkNolist === 'true') {
-        this.$router.push({path: '/translationedit'})
-        this.placename = this.items.title
-        this.info = this.items.content
-        this.tag = this.items.tag
-        this.voice = this.items.voice_info
-        this.address = this.items.address
-      } else if (this.$route.path !== '/translationedit' && this.checkNolist === 'false') {
-        this.$router.push({path: '/translationedit'})
-        this.placename = ''
-        this.info = ''
-        this.tag = ''
-        this.voice = ''
-        this.address = ''
+      if (this.choicelanguage !== '') { // 언어가 공백인 상태가 아니면 아래 함수를 실행
+        if (this.$route.path !== '/translationedit' && this.checkNolist === 'true') {
+          this.$router.push({path: '/translationedit'})
+          this.placename = this.items.title
+          this.info = this.items.content
+          this.tag = this.items.tag
+          this.voice = this.items.voice_info
+          this.address = this.items.address
+        } else if (this.$route.path !== '/translationedit' && this.checkNolist === 'false') {
+          this.$router.push({path: '/translationedit'})
+          this.placename = ''
+          this.info = ''
+          this.tag = ''
+          this.voice = ''
+          this.address = ''
+        }
+      } else { // 언어를 선택하지도 않고 등록/수정 버튼을 누르면 막아야하기 때문에 if else문을 추가함
+        alert('언어를 선택해주세요')
       }
     },
     changelanguage () { // 입력언어에서 언어를 선택할떄마다 각 언어에 맞는 DB파일을 가져옵니다 checkNolist에 true false로 성공/실패 기록
@@ -186,6 +194,67 @@ export default {
           this.checkNolist = 'false'
           console.log(this.checkNolist)
           console.log(err)
+        })
+    },
+    clickSpace () { // 태그에서 스페이스바를 눌렀을때 자동 #추가입니다.
+      this.tag = this.tag + ' #'
+    },
+    back () {
+      this.$router.push('/recommands/' + this.copypostindex)
+    },
+    cancle () {
+      this.$router.push('/recommands')
+    },
+    save () {
+      if (this.placename === '') {
+        alert('제목을 입력해주세요')
+      } else if (this.info === '') {
+        alert('내용을 입력해주세요')
+      } else if (this.tag === '') {
+        alert('태그를 입력해주세요')
+      } else if (this.address === '') {
+        alert('주소를 입력해주세요')
+      } else {
+        this.$axios.post('http://localhost:9000/api/su/post/translate/create', {
+          language: this.choicelanguage,
+          postindex: this.copypostindex,
+          title: this.placename,
+          content: this.info,
+          tag: this.tag,
+          voice_info: this.voice,
+          address: this.address
+        })
+          .then((res) => {
+            if (res.data === 'TRUE') {
+              console.log(res)
+              alert('등록 성공')
+              this.$router.push('/recommands/' + this.copypostindex)
+            } else {
+              console.log(res)
+              console.log('등록 오류')
+            }
+          })
+      }
+    },
+    update () {
+      this.$axios.post('http://localhost:9000/api/su/post/translate/update', {
+        language: this.choicelanguage,
+        postindex: this.copypostindex,
+        title: this.placename,
+        content: this.info,
+        tag: this.tag,
+        voice_info: this.voice,
+        address: this.address
+      })
+        .then((res) => {
+          if (res.data === 'TRUE') {
+            console.log(res)
+            alert('갱신 성공')
+            this.$router.push('/recommands/' + this.copypostindex)
+          } else {
+            console.log(res)
+            console.log('갱신 실패')
+          }
         })
     }
   }
