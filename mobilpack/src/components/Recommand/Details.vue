@@ -21,8 +21,8 @@
         <tr>
           <th>입력 언어(원본)</th>
           <td colspan="3" v-if="post.default_lang == 'KR'">한국어</td>
-          <td colspan="3" v-if="post.default_lang == 'EN'">영어</td>
-          <td colspan="3" v-if="post.default_lang == 'JP'">일본어</td>
+          <td colspan="3" v-else-if="post.default_lang == 'EN'">영어</td>
+          <td colspan="3" v-else-if="post.default_lang == 'JP'">일본어</td>
           <td colspan="3" v-else>중국어</td>
           <th>카테고리</th>
           <td colspan="3">{{post.category}}</td>
@@ -70,7 +70,16 @@
       <tbody>
         <tr>
           <th>위치 정보</th>
-          <td colspan="7">{{post.location}}</td>
+          <td colspan="7">
+            <naver-maps
+              :height="600"
+              :width="800"
+              :mapOptions="mapOptions"
+              :initLayers="initLayers"
+              @load="onLoad">
+              <naver-marker :lat="mapOptions.lat" :lng="mapOptions.lng" @load="onMarkerLoaded"/>  <!-- 네이버 지도에서 마커를 찍는다 -->
+            </naver-maps>
+          </td>
         </tr>
         <tr>
           <th>주소</th>
@@ -124,11 +133,11 @@
         </tr>
         <tbody v-if="comments.length !==0">
           <tr v-for="(i,index) in comments" :key="i.commentindex">
-              <td style="text-align: center;">{{index}}</td>
-              <td>{{i.content}}</td>
-              <td style="text-align: center;">{{i.name}}</td>
-              <td style="text-align: center;">{{i.createat}}</td>
-              <td style="text-align: center;"><button @click="deleteComment(i.commentindex)">삭제</button></td>
+            <td style="text-align: center;">{{index}}</td>
+            <td>{{i.content}}</td>
+            <td style="text-align: center;">{{i.name}}</td>
+            <td style="text-align: center;">{{i.createat}}</td>
+            <td style="text-align: center;"><button @click="deleteComment(i.commentindex)">삭제</button></td>
           </tr>
         </tbody>
         <tbody v-else>
@@ -143,7 +152,7 @@
 
 <script>
 export default {
-  mounted () {
+  created () {
     this.getPost()
   },
   data () {
@@ -151,7 +160,25 @@ export default {
       post: '',
       comments: '',
       img: [],
-      runningdate: ''
+      runningdate: '',
+      map: null, /* 지도를 사용하기 위해 map 객체를 생성 */
+      marker: null, /* 마커를 조작하기 위해 marker 객체를 생성 */
+      mapOptions: { /* 제주 시청을 기본값으로 설정함 */
+        lat: 33.49959,
+        lng: 126.53126,
+        zoom: 16,
+        zoomControl: true,
+        zoomControlOptions: {position: 'TOP_RIGHT'},
+        mapTypeControl: true,
+        draggable: false,
+        pinchZoom: false,
+        scrollWheel: false,
+        keyboardShortcuts: false,
+        disableDoubleTapZoom: true,
+        disableDoubleClickZoom: true,
+        disableTwoFingerTapZoom: true
+      },
+      initLayers: ['BACKGROUND', 'BACKGROUND_DETAIL', 'POI_KOREAN', 'TRANSIT', 'ENGLISH', 'CHINESE', 'JAPANESE']
     }
   },
   methods: {
@@ -163,6 +190,9 @@ export default {
       })
         .then((res) => {
           this.post = res.data.postModel
+          let location = res.data.postModel.location.split(',')
+          this.map.setCenter({lat: parseFloat(location[0]), lng: parseFloat(location[1])})
+          this.marker.setPosition({lat: parseFloat(location[0]), lng: parseFloat(location[1])})
           let runningDateBit = parseInt(res.data.postModel.openday, 10).toString(2).split('')
           this.runningdate = this.getRunningDate(runningDateBit).join('')
           this.comments = res.data.comment
@@ -196,7 +226,6 @@ export default {
           runningDateBit.unshift('0')
         }
       }
-      console.log(runningDateBit)
       for (let index in runningDateBit) {
         if (countinueDay && runningDateBit[index] === '1') {
           if (result[result.length - 1] !== '~') {
@@ -217,7 +246,6 @@ export default {
         if (!countinueDay && result[result.length - 1] !== ', ' && result.length !== 0) {
           result.push(', ')
         }
-        console.log(result)
       }
       if (result[result.length - 1] === ', ') {
         result = result.splice(0, result.length - 1).reverse()
@@ -237,6 +265,12 @@ export default {
         6: '월'
       }
       return result[parseInt(index)]
+    },
+    onMarkerLoaded (vue) { /** 마커를 이용하기 위해 마커 객체 생성 */
+      this.marker = vue.marker
+    },
+    onLoad (vue) { /* 네이버 지도 api 사용을 위해 객체 생성 */
+      this.map = vue
     }
   }
 }

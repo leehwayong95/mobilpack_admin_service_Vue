@@ -92,13 +92,13 @@
           <td v-else-if = "i['default_lang'] === 'EN'">영어</td>
           <td v-else-if = "i['default_lang'] === 'JP'">일본어</td>
           <td v-else>중국어</td>
-          <td v-if="i.language & 1"> O </td>
+          <td v-if="i.language & 1"> ○ </td>
           <td v-else></td>
-          <td v-if="i.language & 2"> O </td>
+          <td v-if="i.language & 2"> ○ </td>
           <td v-else></td>
-          <td v-if="i.language & 4"> O </td>
+          <td v-if="i.language & 4"> ○ </td>
           <td v-else></td>
-          <td v-if="i.language & 8"> O </td>
+          <td v-if="i.language & 8"> ○ </td>
           <td v-else></td>
           <td>{{i.count}}</td>
           <td>{{i.name}}</td>
