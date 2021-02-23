@@ -127,9 +127,10 @@ export default {
   },
   mounted () {
     for (let i of this.language) {
+      this.Search.selecttag.push(i)
       this.tmp.selecttag.push(i)
     }
-    this.getSearch()
+    this.getList()
   },
   data () {
     return {
@@ -224,7 +225,6 @@ export default {
       if (this.page !== n) {
         this.page = n
         this.getList()
-        console.log(this.page)
       }
     },
     getNextBeforePage (n) {
