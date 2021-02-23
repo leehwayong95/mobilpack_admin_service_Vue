@@ -21,7 +21,7 @@
              <tr>
              <th>입력 언어(원본)</th>
              <td colspan="3">
-                <select style="width:200px" v-model="language">
+                <select style="width:200px" v-model="language" v-on:change="languageSelect">
                 <option value="KR">한국어</option>
                 <option value="US">영어</option>
                 <option value="JP">일본어</option>
@@ -250,6 +250,7 @@ export default {
   data () {
     return {
       language: 'KR',
+      languageList: 0,
       select: '선택',
       position: '',
       content: '',
@@ -305,6 +306,18 @@ export default {
     }
   },
   methods: {
+    languageSelect (event) {
+      if (event.target.value === 'KR') {
+        this.languageList = 1
+      } else if (event.target.value === 'US') {
+        this.languageList = 2
+      } else if (event.target.value === 'JP') {
+        this.languageList = 4
+      } else if (event.target.value === 'CN') {
+        this.languageList = 8
+      }
+      console.log(this.languageList)
+    },
     onClickImageUpload () {
       this.$refs.imageInput.click()
     },
@@ -325,7 +338,8 @@ export default {
         } else if (this.imagelist.length === 4) {
           this.imageUrl5 = URL.createObjectURL(file)
         }
-        // console.log(this.imagelist)
+        this.imagelist.push(file)
+        console.log(this.imagelist.length)
         this.imagecheck = this.imagelist.length
       } else {
         alert('png,jpg 형식만 가능합니다.')
@@ -397,6 +411,10 @@ export default {
     submmitButton () {
       const formData = new FormData()
       formData.append('default_lang', this.language)
+      if (this.language === 'KR') {
+        this.languageList = 1
+      }
+      formData.append('language', this.languageList)
       formData.append('category', this.select)
       formData.append('title', this.position)
       formData.append('content', this.content)

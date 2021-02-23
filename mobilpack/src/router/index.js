@@ -157,7 +157,7 @@ const router = new Router({
       }
     },
     {
-      path: '/recommandregistrtion',
+      path: '/recommand/write',
       name: 'recommandregistrtion',
       components: {
         default: RecommandRegistrtion,
