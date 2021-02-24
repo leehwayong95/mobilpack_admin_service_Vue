@@ -15,13 +15,19 @@
 </template>
 
 <style scoped>
-.modal_message {
+#modal {
   width: 100%;
   height: 100%;
+  position: relative;
+}
+.modal_message {
+  width: 100%;
+  position: absolute;
+  top: 40px;
   margin: 0;
   margin-bottom: 10px;
-  margin-top: 20px;
-  padding: 10px;
+  margin-top: 10px;
+  padding: 0 20px;
 }
 div.closebtn {
   position: absolute;
@@ -29,7 +35,9 @@ div.closebtn {
   right: 10px;
   cursor: pointer;
 }
-div.modal_button_wrap input{
+div.modal_button_wrap{
+  position: absolute;
+  bottom: 10px;
   cursor: pointer;
   width: 100px;
   height: 30px;

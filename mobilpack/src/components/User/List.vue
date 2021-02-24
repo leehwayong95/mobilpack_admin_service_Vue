@@ -62,8 +62,8 @@
             <td v-else >중국</td>
           <td id="userid">{{row.user_id}}</td>
           <td id="name">{{row.name}}</td>
-          <td id="phone">{{row.phone}}</td>
-          <td id="createat">{{row.createat}}</td>
+          <td id="phone">{{row.phone.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/, '$1-$2-$3')}}</td>
+          <td id="createat">{{row.createat.split(' ')[0]}} {{row.createat.split(' ')[1].substr(0,5)}}</td>
         </tr>
       </table>
       <div class="paging">
@@ -173,7 +173,9 @@ export default {
 #content {
   overflow: scroll;
 }
-
+#content table td {
+  text-align: center;
+}
 .here {
   background-color: #3e61dc;
   color: #fff;

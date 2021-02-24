@@ -1,7 +1,7 @@
 <template>
   <div id="content">
     <div class="title">
-      <h1>| 추천 장소 관리</h1>
+      <h1>추천 장소 관리</h1>
       <h3>HOME > 서비스관리 > 추천장소관리</h3>
     </div>
     <div class="search">
@@ -49,7 +49,7 @@
     </div>
     <div class="cont_inner">
       <div class="title">
-        <span>| 검색결과</span>
+        <p class="admintitle">| 검색결과</p>
         <button>신규등록</button>
       </div>
       <table class="list">
@@ -247,9 +247,7 @@ export default {
 div#content {
   overflow: auto;
 }
-div.search {
-  margin: 10px 0;
-}
+
 div.search ul {
   display: flex;
   flex-direction: row;
@@ -266,10 +264,12 @@ div.cont_inner div.title {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin: 10px 0;
+  height: 60px;
 }
-div.cont_inner div.title span{
-  font-size: 15px
+div.cont_inner div.title p{
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 2em;
 }
 div.cont_inner div.title button{
   height: 30px;
