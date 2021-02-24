@@ -14,7 +14,7 @@
               <td>{{id}}</td>
             </tr>
             <tr>
-              <th>PW</th>
+              <th>비밀번호</th>
               <td><button @click="editPwModal">비밀번호 변경</button></td>
             </tr>
           </tbody>
@@ -30,7 +30,10 @@
             </tr>
             <tr>
               <th>연락처</th>
-              <td><input type="text" v-model="phone" id="input_phone"/></td>
+              <td>
+                <input type="text" v-model="phone" id="input_phone"/>
+                <span>※  ‘-’ 없이 입력해 주세요.</span>
+              </td>
             </tr>
             <tr>
               <th>이메일</th>
@@ -168,8 +171,8 @@ export default {
       },
       {
         name: 'dynamic-modal',
-        width: '330px',
-        height: '130px',
+        width: '400px',
+        height: '300px',
         draggable: true
       })
     }
@@ -198,11 +201,13 @@ export default {
   padding: 0;
 }
 #content table th{
-  width: 160px;
+  width: 20%;
+  text-align: right;
+  padding-right: 10px;
+  font-weight: bold;
 }
 #content input[type="text"]{
-
-    width: 540px;
+    width: 30%;
     border: 1px solid #ddd;
 }
 #content input[type="button"]{
@@ -212,5 +217,12 @@ export default {
     border-radius: 5px;
     color: #fff;
     margin-top: 20px;
+}
+div.button_wrap {
+  margin-top: 50px;
+}
+div.button_wrap > button {
+  width: 100px;
+  height: 30px;
 }
 </style>

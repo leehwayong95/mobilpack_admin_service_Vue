@@ -72,7 +72,8 @@
               :width="800"
               :mapOptions="mapOptions"
               :initLayers="initLayers"
-              @load="onLoad">
+              @load="onLoad"
+              style="margin: 0 auto">
               <naver-marker :lat="mapOptions.lat" :lng="mapOptions.lng" @load="onMarkerLoaded"/>  <!-- 네이버 지도에서 마커를 찍는다 -->
             </naver-maps>
           </td>
@@ -196,10 +197,12 @@ export default {
       })
         .then((res) => {
           this.post = res.data.postModel
+          /* 휴대폰 번호 정규식 */
           this.post.phone = this.post.phone.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/, '$1-$2-$3')
           this.location = res.data.postModel.location.split(',')
           this.mapOptions.lat = parseFloat(this.location[0])
           this.mapOptions.lng = parseFloat(this.location[1])
+          /* 휴무일, 운영일 요일 구하기 */
           let runningDateBit = parseInt(res.data.postModel.openday, 10).toString(2).split('')
           this.pausedate = []
           for (let bit of runningDateBit) {
@@ -207,6 +210,7 @@ export default {
           }
           this.pausedate = this.getRunningDate(this.pausedate).join('')
           this.runningdate = this.getRunningDate(runningDateBit).join('')
+          /* 댓글, file List 부여 */
           this.comments = res.data.comment
           this.img = []
           for (var i of res.data.fileList) {
