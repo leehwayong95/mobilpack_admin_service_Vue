@@ -237,25 +237,44 @@ export default {
       }
     },
     update () {
-      this.$axios.post('http://localhost:9000/api/su/post/translate/update', {
-        language: this.choicelanguage,
-        postindex: this.copypostindex,
-        title: this.placename,
-        content: this.info,
-        tag: this.tag,
-        voice_info: this.voice,
-        address: this.address
-      })
-        .then((res) => {
-          if (res.data === 'TRUE') {
-            console.log(res)
-            alert('갱신 성공')
-            this.$router.push('/recommands/' + this.copypostindex)
-          } else {
-            console.log(res)
-            console.log('갱신 실패')
-          }
+      if (this.placename === '' &&
+        this.placename === '' && this.info === '' && this.tag === '' &&
+        this.voice === '' && this.address === '') {
+        this.$axios.post('http://localhost:9000/api/su/post/translate/delete', {
+          language: this.choicelanguage,
+          postindex: this.copypostindex
         })
+          .then((res) => {
+            if (res.data === 'TRUE') {
+              console.log(res)
+              alert('삭제 성공')
+              this.$router.push('/recommands/' + this.copypostindex)
+            } else {
+              console.log(res)
+              console.log('삭제 실패')
+            }
+          })
+      } else {
+        this.$axios.post('http://localhost:9000/api/su/post/translate/update', {
+          language: this.choicelanguage,
+          postindex: this.copypostindex,
+          title: this.placename,
+          content: this.info,
+          tag: this.tag,
+          voice_info: this.voice,
+          address: this.address
+        })
+          .then((res) => {
+            if (res.data === 'TRUE') {
+              console.log(res)
+              alert('갱신 성공')
+              this.$router.push('/recommands/' + this.copypostindex)
+            } else {
+              console.log(res)
+              console.log('갱신 실패')
+            }
+          })
+      }
     }
   }
 }
