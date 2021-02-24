@@ -291,18 +291,9 @@ select {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 100%;
 }
 #modal > .modal_message > input {
   box-shadow: none;
-}
-#modal > .modal_button_wrap {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 
 /* admin my info edit */

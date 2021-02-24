@@ -28,16 +28,15 @@
         </tr>
         <tr>
           <th>연락처</th>
-          <td>{{userdata.phone}}</td>
+          <td>{{userdata.phone.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/, '$1-$2-$3')}}</td>
         </tr>
         <tr>
           <th>가입일시</th>
-          <td>{{userdata.createat}}</td>
+          <td>{{userdata.createat.split(' ')[0]}} {{userdata.createat.split(' ')[1].substr(0,5)}}</td>
         </tr>
       </table>
       <div class="btn_wrap">
         <button id="delete" @click="deleteUser">회원 탈퇴 처리</button>
-        <button @click="gotoList">목록</button>
       </div>
     </div>
   </div>
@@ -104,9 +103,6 @@ export default {
             alert('서버개발자가 열심히 일을 하고 있습니다.\n잠시 후 시도해주세요.')
           })
       }
-    },
-    gotoList () {
-      this.$router.push('/user')
     }
   }
 }

@@ -16,7 +16,7 @@
           </select>
         </li>
         <li>
-          <span>제목</span>
+          <span>문의제목</span>
           <input type="text" v-model="tmp.title">
         </li>
         <li class ="date">
@@ -31,8 +31,8 @@
           <span>답변유무</span>
           <select v-model="tmp.answer">
             <option value="">전체</option>
-            <option value="0">답변대기</option>
             <option value="1">답변완료</option>
+            <option value="0">미처리</option>
           </select>
         </li>
       </ul>
@@ -72,16 +72,16 @@
             <td v-else-if="post.category == 3">기타</td>
           <td id="title" v-if="post.title.length > 10">{{post.title.substr(0,10)}}...</td>
           <td id="title" v-else>{{post.title}}</td>
-          <td>{{post.createat}}</td>
+          <td>{{post.createat.split(' ')[0]}} {{post.createat.split(' ')[1].substr(0,5)}}</td>
             <td v-if="post['user_name'] == null">삭제된 회원</td>
             <td v-else>{{post['user_name']}}</td>
-            <td v-if="post.replydate == null">답변대기</td>
-            <td v-else>답변완료</td>
+            <td v-if="post.replydate == null">미처리</td>
+            <td v-else style="color: blue;">답변완료</td>
             <td v-if="(post['admin_name'] == null ) && (post.replydate == null)"> - </td>
             <td v-else-if="(post['admin_name'] == null) && (post.replydate != null)"> 삭제된 관리자 </td>
             <td v-else>{{post['admin_name']}}</td>
             <td v-if="post.replydate == null"> -</td>
-            <td v-else>{{post.replydate}}</td>
+            <td v-else>{{post.replydate.split(' ')[0]}} {{post.replydate.split(' ')[1].substr(0,5)}}</td>
         </tr>
       </table>
       <div class="paging">
@@ -130,11 +130,16 @@ export default {
   mounted () {
     this.getList()
   },
-  watch: {
+  watch: { // 변수이름이랑 매칭
     max () {
       if (this.min > this.max) {
         alert('최소일 보다 커야합니다.')
         this.max = this.min + 1
+      }
+    },
+    'tmp.title': function () {
+      if (this.tmp.title.length > 10) {
+        this.tmp.title = this.tmp.title.substr(0, 10)
       }
     }
   },
@@ -191,5 +196,9 @@ td.long {
 }
 #content table td#title {
   text-align: left;
+}
+.here {
+  background-color: #3e61dc;
+  color: #fff;
 }
 </style>

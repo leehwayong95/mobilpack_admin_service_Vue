@@ -7,7 +7,7 @@
               <span v-else v-on:click="jump('userList')">회원 관리</span>
             </li>
             <li>
-              <span v-if="route == 'recommnads'" style="background: #3e61dc;" v-on:click="jump('recommands')">추천 장소 관리</span>
+              <span v-if="route == 'recommands'" style="background: #3e61dc;" v-on:click="jump('recommands')">추천 장소 관리</span>
               <span v-else v-on:click="jump('recommands')">추천 장소 관리</span>
             </li>
             <li>
@@ -44,9 +44,14 @@ export default {
       route: this.$route.name
     }
   },
+  watch: {
+    route () {
+      this.route = this.$route.name
+    }
+  },
   methods: {
     jump (s) {
-      if (this.route !== s) {
+      if (this.route !== s || this.$route.name !== this.route) {
         this.$router.push({name: s})
         this.route = this.$route.name
       }

@@ -1,21 +1,21 @@
 <template>
-    <div class='login' id='container'>
-      <div class='loginBox'>
-        <div class="login_logo">
-          관광지 추천<br>관리자 시스템
-        </div>
-        <div class="login_form">
-          <span>아이디</span>
-          <input v-model="id" type="text" class="login_txt" placeholder="ID"/>
-          <span>비밀번호</span>
-          <input v-model="pw" type="password" class="login_txt" placeholder="PW" v-on:keyup.enter="login"/>
-          <div class = 'btn_wrap'>
-            <button type="button" class="login_btn"  v-on:click="login">로그인</button>
-          </div>
-        </div>
-        <span>신규 계정 발급 또는 기존 계정의 비밀번호를 잊은 경우, <br>담당 관리자에게 문의바랍니다.</span>
+  <div class='login' id='container'>
+    <div class='loginBox'>
+      <div class="login_logo">
+        관광지 추천<br>관리자 시스템
       </div>
+      <div class="login_form">
+        <span>아이디</span>
+        <input v-model="id" type="text" class="login_txt" placeholder="ID"/>
+        <span>비밀번호</span>
+        <input v-model="pw" type="password" class="login_txt" placeholder="PW" v-on:keyup.enter="login"/>
+        <div class = 'btn_wrap'>
+          <button type="button" class="login_btn"  v-on:click="login">로그인</button>
+        </div>
+      </div>
+      <span>신규 계정 발급 또는 기존 계정의 비밀번호를 잊은 경우, <br>담당 관리자에게 문의바랍니다.</span>
     </div>
+  </div>
 </template>
 
 <script>
@@ -38,7 +38,7 @@ export default {
               this.$axios.defaults.headers.common['authorization'] = res.data['jwt-token']
               this.$cookie.set('authorization', res.data['jwt-token'])
               this.$cookie.set('name', res.data.name)
-              this.$router.push('/main')
+              this.$router.push({name: 'userList'})
             } else {
               this.alert()
             }
@@ -57,7 +57,7 @@ export default {
       {
         name: 'dynamic-modal',
         width: '330px',
-        height: '130px',
+        height: '180px',
         draggable: false
       })
     }

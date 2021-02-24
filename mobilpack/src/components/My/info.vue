@@ -173,7 +173,7 @@ export default {
         name: 'dynamic-modal',
         width: '400px',
         height: '300px',
-        draggable: true
+        draggable: false
       })
     }
   }
