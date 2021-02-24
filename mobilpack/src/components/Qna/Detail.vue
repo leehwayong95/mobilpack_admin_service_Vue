@@ -11,7 +11,7 @@
             <td v-if="post['user_name'] === null">삭제된 회원</td>
             <td v-else>{{post['user_name']}}</td>
           <th>연락처</th>
-            <td v-if="post.phone !== null">{{post.phone}}</td>
+            <td v-if="post.phone !== null">{{post.phone.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/, '$1-$2-$3')}}</td>
             <td v-else> - </td>
         </tr>
         <tr>
@@ -21,7 +21,7 @@
           <td v-else-if="post.category==3">기타</td>
           <td v-else>히히</td>
           <th>문의일시</th>
-          <td>{{post.createat}}</td>
+          <td>{{post.createat.split(' ')[0]}} {{post.createat.split(' ')[1].substr(0,5)}}</td>
         </tr>
         <tr>
           <th>문의 제목</th>
@@ -43,8 +43,8 @@
             <div class="A">
               <h3 v-html="post.reply"></h3>
               <div class="btn_wrap">
-                <button @click="EditMode">답변 수정</button>
-                <button @click="deleteAnswer">답변 삭제</button>
+                <button @click="deleteAnswer" style="background: red;">답변 삭제</button>
+                <button @click="EditMode" style="background: #6d85b1;">답변 수정</button>
               </div>
             </div>
           </div>
@@ -69,10 +69,10 @@
               <th>답변자</th>
                 <td v-if="post.replydate"> {{post['admin_name']}} </td>
                 <td v-else-if="post.admin === null">삭제된 관리자</td>
-                <td v-else>{{admin_name}}</td>
+                <td v-else>-</td>
               <th>답변일시</th>
                 <td v-if="post.replydate" >{{post.replydate}}</td>
-                <td v-else>지금</td>
+                <td v-else>-</td>
             </tr>
             <tr class = "input">
               <th>답변작성</th>
@@ -99,7 +99,6 @@ export default {
       index: this.$route.params.index,
       post: '',
       inputReply: '',
-      admin_name: this.$cookie.get('name'),
       editmode: false
     }
   },
@@ -113,6 +112,13 @@ export default {
       }
     }
     this.getQnaPost()
+  },
+  watch: {
+    inputReply () {
+      if (this.inputReply.length > 1000) {
+        this.inputReply = this.inputReply.substr(0, 1000)
+      }
+    }
   },
   methods: {
     getQnaPost () {
@@ -176,7 +182,7 @@ export default {
       }
     },
     deleteAnswer () {
-      if (confirm('답변을 삭제하시겠습니까?')) {
+      if (confirm('선택한 답변을 삭제하시습니까?')) {
         this.$axios.delete('http://localhost:9000/api/su/qna/chat/' + this.index)
           .then((res) => {
             this.inputReply = ''
@@ -260,13 +266,12 @@ div.btm_button {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin: 5px 0;
+  margin-top: 10px;
 }
 
 div.btm_button > button {
   width: 100px;
   height: 40px;
-  margin: 0 5px;
 }
 .cont_inner {
   height: auto;

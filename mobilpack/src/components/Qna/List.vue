@@ -130,11 +130,16 @@ export default {
   mounted () {
     this.getList()
   },
-  watch: {
+  watch: { // 변수이름이랑 매칭
     max () {
       if (this.min > this.max) {
         alert('최소일 보다 커야합니다.')
         this.max = this.min + 1
+      }
+    },
+    'tmp.title': function () {
+      if (this.tmp.title.length > 10) {
+        this.tmp.title = this.tmp.title.substr(0, 10)
       }
     }
   },
@@ -191,5 +196,9 @@ td.long {
 }
 #content table td#title {
   text-align: left;
+}
+.here {
+  background-color: #3e61dc;
+  color: #fff;
 }
 </style>
