@@ -49,9 +49,9 @@
             <td v-else-if="'CN' === p.language" >중국어</td>
             <td v-else>영어</td>
             <td class="row" v-if="'1'===p.topsetting">
-              <div class="imp">
+              <p class="point">
                 중요
-              </div>
+              </p>
               {{ p.title }}
             </td>
             <td v-else>{{ p.title }}</td>
@@ -161,5 +161,14 @@ button.insertbutton{
     width: auto;
     height: 30px;
     padding: 0 15px;
+}
+.point {
+    background: rgb(245 44 44);
+    font-size: 15px;
+    height: 20px;
+    width: 40px;
+    display: inline;
+    border-radius: 5px;
+    margin-right: 10px;
 }
 </style>

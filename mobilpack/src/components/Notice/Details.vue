@@ -49,12 +49,6 @@
              style="width:1340px; height:500px;  vertical-align: top;"
              colspan="7"
              >
-              <!-- v-html="hypercontent" -->
-              <!-- v-bind:href="result" -->
-                <!-- <화용님 방식>> -->
-                <!-- <span id="notice_cont"></span>> -->
-                <!-- <a href="https://www.naver.com/" target="_blank">이동하기</a> -->
-                <!-- <a  v-for="(p,idx) in result" :key="idx" :href="p" target="_blank">{{p}}</a> -->
              </td>
              </tr>
          </tbody>
@@ -110,6 +104,16 @@ export default
     // var regURL = new RegExp("(http|https|ftp|telnet|news|irc)://([-/.a-zA-Z0-9_~#%$?&=:200-377()가-힣]+)","gi");
     // var regEmail = new RegExp("([xA1-xFEa-z0-9_-]+@[xA1-xFEa-z0-9-]+\.[a-z0-9-]+)","gi");
     // container.innerHTML = doc.replace(regURL,"$1://$2").replace(regEmail,"$1");
+  },
+  EditMode () {
+    this.inputReply = this.inputReply.replace(/(<br \/>)/g, '\n').replace(/(<([^>]+)>)/ig, '')
+    this.editmode = !this.editmode
+  },
+  convertHTML (content) {
+    var regURL = new RegExp(`(http|https|ftp|telnet|news|irc)://([-/.a-zA-Z0-9_~#%$?&=:200-377()]+)`, 'gi')
+    return content
+      .replace(regURL, `<a href='$1://$2' target='_blank'>$1://$2</a>`)
+      .replace(/(?:\r\n|\r|\n)/g, '<br />')
   },
   data () {
     return {
