@@ -77,35 +77,7 @@
                <input ref="imageInput" type="file" hidden @change="onChangeImages">
                <button v-for="(file,index) in fileList" v-bind:key = "index" class="pickbox" type="button" @click="onClickImageUpload"><img class="pick"
                v-if="file !== '0'" :src="urlSource(file)"
-               ><div><button v-if= "imagecheck >= 1 & file != '0'" class="Deletepick" @click.stop="deleteimage(index)" >X</button></div></button>
-               <!-- <button v-else class="pickbox" type="button" @click="onClickImageUpload"><img class="pick"
-               v-if="imageUrl1" :src="imageUrl1"
-               ></button>
-               <button v-if= "imagecheck >= 2" class="pickbox" type="button" @click="onClickImageUpload"><img class="pick"
-               v-if="imageUrl2" :src="imageUrl2"
-               ><div><button class="Deletepick"  @click.stop="deleteimage(2)" >X</button></div></button>
-               <button v-else class="pickbox" type="button" @click="onClickImageUpload"><img class="pick"
-               v-if="imageUrl2" :src="imageUrl2"
-               ></button>
-               <button v-if= "imagecheck >= 3" class="pickbox" type="button" @click="onClickImageUpload"><img class="pick"
-               v-if="imageUrl3" :src="imageUrl3"
-               ><div><button class="Deletepick" @click.stop="deleteimage(3)" >X</button></div></button>
-               <button v-else class="pickbox" type="button" @click="onClickImageUpload"><img class="pick"
-               v-if="imageUrl3" :src="imageUrl3"
-               ></button>
-               <button v-if= "imagecheck >= 4" class="pickbox" type="button" @click="onClickImageUpload"><img class="pick"
-               v-if="imageUrl4" :src="imageUrl4"
-               ><div><button class="Deletepick" @click.stop="deleteimage(4)">X</button></div></button>
-               <button v-else class="pickbox" type="button" @click="onClickImageUpload"><img class="pick"
-               v-if="imageUrl4" :src="imageUrl4"
-               ></button>
-              <input ref="imageInput" id="5" type="file" hidden @change="onChangeImages($event, 5)">-->
-               <!-- <button v-if= "imagecheck >= 5" class="pickbox" type="button" @click="onClickImageUpload"><img class="pick"
-               v-if="imageUrl5" :src="imageUrl5"
-               ><div><button class="Deletepick" @click.stop="deleteimage(5)">X</button></div></button>
-                <button v-else class="pickbox" type="button" @click="onClickImageUpload"><img class="pick"
-               v-if="imageUrl5" :src="imageUrl5"
-               ></button> -->
+               ><div><button v-if= "fileList.length >= 1 & file != '0'" class="Deletepick" @click.stop="deleteimage(index)" >X</button></div></button>
              </td>
              </tr>
          </tbody>
@@ -248,7 +220,6 @@
 export default {
   data () {
     return {
-      indexLast: this.$route.params.index,
       language: 'KR',
       select: '선택',
       position: '',
@@ -272,6 +243,7 @@ export default {
       fileList: [],
       hour: ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'],
       min: ['00', '10', '20', '30', '40', '50'],
+      openday: 0,
       openhour: '',
       openmin: '',
       endhour: '',
@@ -286,13 +258,8 @@ export default {
       friday: 16,
       saturday: 32,
       sunday: 64,
-      imageUrl1: null,
-      imageUrl2: null,
-      imageUrl3: null,
-      imageUrl4: null,
-      imageUrl5: null,
-      imagelist: [],
-      imagecheck: 0,
+      fileModelList: [],
+      fileMultipartList: [],
       map: null, /* 지도를 사용하기 위해 map 객체를 생성 */
       marker: null, /* 마커를 조작하기 위해 marker 객체를 생성 */
       mapHeight: 600, /* 지도의 기본 위도 */
@@ -359,12 +326,10 @@ export default {
       this.address_lat = y
       this.address_lng = x
       this.address = address
-      console.log(this.address_lat)
-      console.log(this.address_lng)
-      console.log(this.address)
     },
     submmitButton () {
       const formData = new FormData()
+      formData.append('postindex', this.index)
       formData.append('default_lang', this.language)
       formData.append('category', this.select)
       formData.append('title', this.position)
@@ -384,8 +349,15 @@ export default {
       formData.append('closetime', this.endhour + ':' + this.endmin)
       formData.append('endtime', this.entrancehour + ':' + this.entrancemin)
       for (repeat = 0; repeat < this.fileList.length; repeat++) {
-        formData.append('files', this.fileList[repeat])
+        if (this.fileList[repeat].fileindex === undefined) {
+          this.fileMultipartList.push(this.fileList[repeat])
+          formData.append('files', this.fileList[repeat])
+        } else {
+          this.fileModelList.push(this.fileList[repeat])
+        }
       }
+      console.log(this.fileModelList)
+      formData.append('filemodellist', this.fileModelList)
       this.$axios.post('http://localhost:9000/api/su/post/update', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
@@ -428,24 +400,31 @@ export default {
         var week = model.postModel.openday /* 요일 체크박스를 위해 십진수인 값을 2진수로 변환(비트 연산을 위해서) */
         if ((week & this.monday) === this.monday) {
           this.checkedMonday = this.monday
+          this.openday = this.openday + 1
         }
         if ((week & this.tuesday) === this.tuesday) {
           this.checkedTuesday = this.tuesday
+          this.openday = this.openday + 2
         }
         if ((week & this.wednesday) === this.wednesday) {
           this.checkedWednesday = this.wednesday
+          this.openday = this.openday + 4
         }
         if ((week & this.thursday) === this.thursday) {
           this.checkedThursday = this.thursday
+          this.openday = this.openday + 8
         }
         if ((week & this.friday) === this.friday) {
           this.checkedFriday = this.friday
+          this.openday = this.openday + 16
         }
         if ((week & this.saturday) === this.saturday) {
           this.checkedSaturday = this.saturday
+          this.openday = this.openday + 32
         }
         if ((week & this.sunday) === this.sunday) {
           this.checkedSunday = this.sunday
+          this.openday = this.openday + 64
         }
         var opentime = model.postModel.opentime.split(':') /* 오픈 시간 할당 */
         this.openhour = opentime[0].toString()
@@ -457,10 +436,8 @@ export default {
         this.entrancehour = endtime[0]
         this.entrancemin = endtime[1]
         this.fileList = model.fileList
-        this.imagecheck = this.fileList.length
         var result = 5 - this.fileList.length
         for (var i = 0; i < result; i++) {
-          console.log(i)
           this.fileList.push('0')
         }
       })
