@@ -1,8 +1,8 @@
 <template>
   <div id="modal">
     <div class="closebtn" @click="$emit('close')">
-        <img src="..\..\assets\images\btn_modalclose.png" width="20px">
-      </div>
+      <img src="..\..\assets\images\btn_modalclose.png" width="20px">
+    </div>
     <div class="modal_message">
       <span>
         미등록 아이디입니다.<br><br>확인 후 다시 입력해주세요.
