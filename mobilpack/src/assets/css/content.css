@@ -534,12 +534,6 @@ td.inp_address {
   transform: translate(-50%, -65%);
 }
 
-.login_logo {
-  text-align: center;
-  font-size: 30px;
-  padding-bottom: 30px;
-}
-
 .loginBox table {
   width: 100%;
   border: 0 !important;

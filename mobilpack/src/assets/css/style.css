@@ -15,7 +15,8 @@ select {
   box-sizing: border-box;
   font-size: 14px;
 }
-.search input, .search select{
+.search input,
+.search select {
   border: 0;
 }
 /* 검색결과 오른쪽 상단 버튼 통합 설정 */
@@ -190,7 +191,7 @@ select {
   margin-left: 10px;
 }
 #content > .search > ul > li input,
-#content > .search > ul > li select{
+#content > .search > ul > li select {
   width: 200px;
 }
 #content > .search li:first-child {
@@ -290,8 +291,7 @@ select {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 50px;
-  margin: 20px 0px;
+  height: 100%;
 }
 #modal > .modal_message > input {
   box-shadow: none;
@@ -303,10 +303,6 @@ select {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-#modal > .modal_button_wrap > input {
-  height: 30px;
-  width: 150px;
 }
 
 /* admin my info edit */
