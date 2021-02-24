@@ -70,7 +70,8 @@
             <td v-if="post.category == 1">이용</td>
             <td v-else-if="post.category == 2">오류</td>
             <td v-else-if="post.category == 3">기타</td>
-          <td id="title">{{post.title}}</td>
+          <td id="title" v-if="post.title.length > 10">{{post.title.substr(0,10)}}...</td>
+          <td id="title" v-else>{{post.title}}</td>
           <td>{{post.createat}}</td>
             <td v-if="post['user_name'] == null">삭제된 회원</td>
             <td v-else>{{post['user_name']}}</td>
@@ -184,5 +185,11 @@ td.long {
 .here {
   background-color: #3e61dc;
   color: #fff;
+}
+#content table td {
+  text-align: center;
+}
+#content table td#title {
+  text-align: left;
 }
 </style>
