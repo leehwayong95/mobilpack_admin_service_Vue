@@ -349,22 +349,25 @@ export default {
       formData.append('closetime', this.endhour + ':' + this.endmin)
       formData.append('endtime', this.entrancehour + ':' + this.entrancemin)
       for (repeat = 0; repeat < this.fileList.length; repeat++) {
-        if (this.fileList[repeat].fileindex === undefined) {
-          this.fileMultipartList.push(this.fileList[repeat])
-          formData.append('files', this.fileList[repeat])
-        } else {
-          this.fileModelList.push(this.fileList[repeat])
+        if (
+          this.fileList[repeat].fileindex === undefined &&
+          this.fileList[repeat] !== "0"
+        ) {
+          this.fileMultipartList.push(this.fileList[repeat]);
+          formData.append("files", this.fileList[repeat]);
+        } else if (this.fileList[repeat] !== "0") {
+          this.fileModelList.push(this.fileList[repeat]);
+          formData.append("filemodellist", this.fileList[repeat]);
         }
       }
-      console.log(this.fileModelList)
-      formData.append('filemodellist', this.fileModelList)
-      this.$axios.post('http://localhost:9000/api/su/post/update', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }})
-        .then((response) => {
-          this.result = response.data
-          alert(this.result)
+      console.log(this.fileModelList);
+      console.log(this.fileMultipartList);
+      // formData.append("filemodellist", this.fileModelList);
+      this.$axios
+        .post("http://localhost:9000/api/su/post/update", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
         })
         .catch((ex) => {
           console.log(ex)
