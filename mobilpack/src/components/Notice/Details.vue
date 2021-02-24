@@ -56,10 +56,10 @@
         <div>
           <th class="btn">
           </th>
-          <button class="leftbutton" @click="back">목록</button>
-          <button class="rightbutton" @click="Noticedelete">삭제</button>
-          <button class="rightbutton" @click="edit">수정</button>
-          <button class="rightbutton" @click="viewstop">게시중단</button>
+          <button class="rightbutton" @click="back">목록</button>
+          <button class="leftbutton" @click="Noticedelete">삭제</button>
+          <button class="leftbutton" @click="viewstop">게시중단</button>
+          <button class="Editleftbutton" @click="edit">수정</button>
         </div>
     </section>
     </div>
@@ -104,16 +104,6 @@ export default
     // var regURL = new RegExp("(http|https|ftp|telnet|news|irc)://([-/.a-zA-Z0-9_~#%$?&=:200-377()가-힣]+)","gi");
     // var regEmail = new RegExp("([xA1-xFEa-z0-9_-]+@[xA1-xFEa-z0-9-]+\.[a-z0-9-]+)","gi");
     // container.innerHTML = doc.replace(regURL,"$1://$2").replace(regEmail,"$1");
-  },
-  EditMode () {
-    this.inputReply = this.inputReply.replace(/(<br \/>)/g, '\n').replace(/(<([^>]+)>)/ig, '')
-    this.editmode = !this.editmode
-  },
-  convertHTML (content) {
-    var regURL = new RegExp(`(http|https|ftp|telnet|news|irc)://([-/.a-zA-Z0-9_~#%$?&=:200-377()]+)`, 'gi')
-    return content
-      .replace(regURL, `<a href='$1://$2' target='_blank'>$1://$2</a>`)
-      .replace(/(?:\r\n|\r|\n)/g, '<br />')
   },
   data () {
     return {
@@ -185,9 +175,15 @@ export default
 .btn {
   height: 50px; /* 테이블과 버튼 간격 */
 }
+.Editleftbutton {
+  width: 100px;
+  height: 30px;
+  background: #3d4b64;
+}
 .leftbutton {
   width: 100px;
   height: 30px;
+  background: #db1e1e;
 }
 .rightbutton {
   float: right; /* float  이 친구를 사용해서 수정 ,삭제 버튼을 오른쪽으로 보낼수 있습니다  */

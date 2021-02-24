@@ -1,8 +1,8 @@
 <template>
     <div class = "scroll" id='content'>
        <span class="title">
-       <h1>HOME</h1>
-       <h3>HOME > 공지사항 </h3>
+       <h1>공지사항 관리</h1>
+       <h3>HOME > 서비스관리 > 공지사항 관리 </h3>
     </span>
     <div class="search">
       <ul>
@@ -170,5 +170,8 @@ button.insertbutton{
     display: inline;
     border-radius: 5px;
     margin-right: 10px;
+}
+.click {
+  background: rgb(6, 59, 119);
 }
 </style>
