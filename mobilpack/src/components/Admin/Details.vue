@@ -20,7 +20,7 @@
           </tr>
           <tr>
             <th>비밀번호</th>
-           <td colspan="5"><button class ="test6" id="pwReset" @click="resetclick()">비밀번호 초기화</button><span class="test6"> ※ 비밀번호 초기화 시 “ admin1234!! “로 설정됩니다.</span>
+           <td colspan="5"><button class ="reset" id="pwReset" @click="resetclick()">비밀번호 초기화</button><span class="test6"> ※ 비밀번호 초기화 시 “ admin1234!! “로 설정됩니다.</span>
             </td>
           </tr>
           <tr>
@@ -56,9 +56,9 @@
         <div>
           <th class="btn">
           </th>
-          <button class="leftbutton" @click="back">목록</button>
-          <button class="rightbutton" @click="edit">수정</button>
-          <button class="rightbutton" @click="admindelete">삭제</button>
+          <button class="rightbutton" @click="back">목록</button>
+          <button class="Editleftbutton" @click="edit">수정</button>
+          <button class="leftbutton" @click="admindelete">삭제</button>
         </div>
     </section>
   </div>
@@ -146,6 +146,12 @@ export default {
 .leftbutton {
   width: 100px;
   height: 30px;
+  background: rgb(187, 54, 54);
+}
+.Editleftbutton {
+  width: 100px;
+  height: 30px;
+  background: #3d4b64;
 }
 .rightbutton {
   float: right; /* float  이 친구를 사용해서 수정 ,삭제 버튼을 오른쪽으로 보낼수 있습니다  */
@@ -153,7 +159,8 @@ export default {
   width: 100px;
   height: 30px;
 }
-.test6 {
+.reset {
   float: left;
+  background: rgb(71, 72, 80)
 }
 </style>
