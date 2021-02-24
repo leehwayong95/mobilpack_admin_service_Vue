@@ -84,7 +84,7 @@ export default {
       if (select === true) {
         this.$axios.post('http://localhost:9000//api/su/admin/edit', { admin_id: this.id, name: this.name, phone: this.phone, email: this.email })
           .then(res => {
-            if (res.data === 'ok') {
+            if (res.data === 'TRUE') {
               console.log(res)
               alert('저장 되었습니다. ')
               this.$router.push({

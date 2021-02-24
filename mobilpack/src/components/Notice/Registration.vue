@@ -29,7 +29,7 @@
              <td colspan="5">
             <select style="width:200px" v-model="topsetting">
             <option value="0">일반공지</option>
-            <option class ="point" value="1">중요공지</option>
+            <option value="1">중요공지</option>
             </select>
            </td>
           </tr>
@@ -104,7 +104,7 @@ export default {
         content: this.changecontent
       })
         .then((res) => {
-          if (res.data === 'ok') {
+          if (res.data === 'TRUE') {
             console.log(res)
             alert('등록 성공')
             this.$router.push('/notice')
@@ -143,9 +143,5 @@ export default {
     padding: 20px 30px 30px;/* 위아래 여백을 만들기 위해 앞에 20px 추가함 */
     background: #fff;
     border-radius: 5px;
-}
-.point {
-  background :rgb(163, 55, 55);
-  font-size: 20px;
 }
 </style>

@@ -97,7 +97,7 @@ export default {
       if (select === true) {
         this.$axios.post('http://localhost:9000//api/su/admin/pwreset', {admin_id: this.id})
           .then(res => {
-            if (res.data === 'ok') {
+            if (res.data === 'TRUE') {
               console.log(res)
               alert('수정 되었습니다. ')
             } else {
@@ -123,7 +123,7 @@ export default {
       if (select === true) {
         this.$axios.post('http://localhost:9000//api/su/admin/delete', {admin_id: this.id})
           .then(res => {
-            if (res.data === 'ok') {
+            if (res.data === 'TRUE') {
               console.log(res)
               alert('삭제되었습니다. ')
               this.$router.push('/details')

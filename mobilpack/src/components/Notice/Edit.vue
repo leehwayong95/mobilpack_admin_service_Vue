@@ -114,7 +114,7 @@ export default {
         topsetting: this.topsetting
       })
         .then((res) => {
-          if (res.data === 'ok') {
+          if (res.data === 'TRUE') {
             console.log(res)
             alert('등록 성공')
             this.$router.push('/notice')
