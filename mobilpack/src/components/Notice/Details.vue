@@ -86,7 +86,6 @@ export default
         this.hypercontent = this.test(this.hypercontent)
         this.testcontent = res.data.content
         this.result = this.testcontent.match(this.hyperlink)
-        console.log(this.items)
       })
       .catch((err) => {
         console.log(err)
@@ -130,7 +129,6 @@ export default
         this.$axios.post('http://localhost:9000/api/su/notice/stopposting', {postindex: this.postindex})
           .then(res => {
             if (res.data === 'ok') {
-              console.log(res)
               alert('게시중단으로 설정합니다.. ')
               this.$router.push('/notice')
             } else {
@@ -153,7 +151,6 @@ export default
         this.$axios.post('http://localhost:9000//api/su/notice/delete', {postindex: this.postindex})
           .then(res => {
             if (res.data === 'TRUE') {
-              console.log(res)
               alert('삭제되었습니다. ')
               this.$router.push('/notice')
             } else {

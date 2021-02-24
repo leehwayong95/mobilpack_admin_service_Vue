@@ -80,8 +80,6 @@ export default {
   mounted () {
     this.$axios.get('http://localhost:9000//api/su/notice/search', {params: { Currentpage: 1, Number: this.Number, language: this.language, title: this.titleandcontent }})
       .then((res) => {
-        console.log(res)
-        console.log(res.data.count)
         this.items = res.data.result
         this.end_page = res.data.count / this.Number // count:list 수 를 20으로 나누어서 몇 페이지 필요한지 계산
         if (res.data.count % this.Number >= 1) {

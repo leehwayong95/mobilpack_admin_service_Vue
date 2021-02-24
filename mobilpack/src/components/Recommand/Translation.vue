@@ -188,7 +188,6 @@ export default {
           this.voice = this.items.voice_info
           this.address = this.items.address
           this.checkNolist = 'true'
-          console.log(this.checkNolist)
         })
         .catch((err) => {
           this.checkNolist = 'false'
@@ -226,7 +225,6 @@ export default {
         })
           .then((res) => {
             if (res.data === 'TRUE') {
-              console.log(res)
               alert('등록 성공')
               this.$router.push('/recommands/' + this.copypostindex)
             } else {
@@ -246,7 +244,6 @@ export default {
         })
           .then((res) => {
             if (res.data === 'TRUE') {
-              console.log(res)
               alert('삭제 성공')
               this.$router.push('/recommands/' + this.copypostindex)
             } else {
@@ -266,7 +263,6 @@ export default {
         })
           .then((res) => {
             if (res.data === 'TRUE') {
-              console.log(res)
               alert('갱신 성공')
               this.$router.push('/recommands/' + this.copypostindex)
             } else {

@@ -95,7 +95,6 @@ export default {
     },
     join () {
       this.changecontent = this.convertHTML(this.content)
-      console.log(this.changecontent)
       this.$axios.post('http://localhost:9000/api/su/notice/insert', {
         id: this.id,
         language: this.language,
@@ -105,7 +104,6 @@ export default {
       })
         .then((res) => {
           if (res.data === 'TRUE') {
-            console.log(res)
             alert('등록 성공')
             this.$router.push('/notice')
           } else {

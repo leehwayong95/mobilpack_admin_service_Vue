@@ -73,7 +73,6 @@ export default {
       .then((res) => {
         this.items = res.data
         this.id = this.items.admin_id
-        console.log(res)
       })
       .catch((err) => {
         console.log(err)
@@ -98,7 +97,6 @@ export default {
         this.$axios.post('http://localhost:9000//api/su/admin/pwreset', {admin_id: this.id})
           .then(res => {
             if (res.data === 'TRUE') {
-              console.log(res)
               alert('수정 되었습니다. ')
             } else {
               console.log(res)
@@ -124,7 +122,6 @@ export default {
         this.$axios.post('http://localhost:9000//api/su/admin/delete', {admin_id: this.id})
           .then(res => {
             if (res.data === 'TRUE') {
-              console.log(res)
               alert('삭제되었습니다. ')
               this.$router.push('/details')
             } else {

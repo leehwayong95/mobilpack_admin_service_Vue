@@ -72,7 +72,6 @@ export default {
       .then((res) => {
         this.items = res.data
         this.id = this.items.admin_id
-        console.log(res)
       })
       .catch((err) => {
         console.log(err)
@@ -85,7 +84,6 @@ export default {
         this.$axios.post('http://localhost:9000//api/su/admin/edit', { admin_id: this.id, name: this.name, phone: this.phone, email: this.email })
           .then(res => {
             if (res.data === 'TRUE') {
-              console.log(res)
               alert('저장 되었습니다. ')
               this.$router.push({
                 path: '/admindetails',

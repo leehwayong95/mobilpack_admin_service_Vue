@@ -82,8 +82,6 @@ export default {
     this.$axios.get('http://localhost:9000/api/su/notice/detail', {params: {postindex: this.$route.query.items.postindex}})
       .then((res) => {
         this.items = res.data
-        console.log(res)
-        console.log(this.items)
       })
       .catch((err) => {
         console.log(err)
@@ -115,7 +113,6 @@ export default {
       })
         .then((res) => {
           if (res.data === 'TRUE') {
-            console.log(res)
             alert('등록 성공')
             this.$router.push('/notice')
           } else {
