@@ -1,8 +1,8 @@
 <template>
   <div class = "scroll" id=content>
     <span class="title">
-    <h1>HOME</h1>
-    <h3>서비스관리 > 관리자 관리</h3>
+    <h1>관리자 관리</h1>
+    <h3>HOME > 서비스관리 > 관리자 관리</h3>
     </span>
     <div class="search">
         <ul>
@@ -82,8 +82,6 @@ export default {
         updateat: this.updateat
       }})
       .then((res) => {
-        console.log(res)
-        console.log(res.data.count)
         this.items = res.data.result
         this.end_page = res.data.count / this.Number // count:list 수 를 20으로 나누어서 몇 페이지 필요한지 계산
         if (res.data.count % this.Number >= 1) {
@@ -146,7 +144,6 @@ export default {
           updateat: this.updateat
         }})
         .then((res) => {
-          console.log(res)
           this.items = res.data.result
           this.listtotal = res.data.count
           this.end_page = res.data.count / this.Number

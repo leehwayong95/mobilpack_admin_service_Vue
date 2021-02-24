@@ -58,7 +58,7 @@
         </tbody>
         </table>
         <div class="center">
-        <button class="btn" type="button" @click="change">저장</button>
+        <button class="btn" type="button" @click="join">저장</button>
         <button class="btn" type="button" @click="cancel">취소</button>
         </div>
     </section>
@@ -83,35 +83,18 @@ export default {
     }
   },
   methods: {
-    change () {
-      if (this.content.match(this.hyperlink)) {
-        this.changecontent = this.content
-        this.result = this.content.match(this.hyperlink)
-        console.log(this.result)
-        console.log(this.result.length)
-        for (this.iagain = 0; this.iagain <= this.result.length; this.iagain++) {
-          for (this.jagain = this.iagain + 1; this.jagain <= this.result.length; this.jagain++) {
-            if (this.result[this.iagain] === this.result[this.jagain]) {
-              delete this.result[this.jagain]
-            }
-          }
-        }
-        console.log('과정을 거친 놈' + this.result)
-        for (var i = 0; i <= this.result.length; i++) {
-          if (this.result[i] === '') {
-          } else {
-            this.changecontent = this.changecontent.replaceAll(this.result[i], '<a href=' + this.result[i] + ' target="_blank"' + '>' + this.result[i] + '</a>')
-            console.log('for문입니다' + this.changecontent)
-          }
-        }
-        console.log('결과물입니다' + this.changecontent)
-        this.join()
-      } else {
-        this.changecontent = this.content
-        this.join()
-      }
+    EditMode () { // 이 친구는 V-HTML있는데 왜 사용하나요 화용님
+      this.inputReply = this.inputReply.replace(/(<br \/>)/g, '\n').replace(/(<([^>]+)>)/ig, '')
+      this.editmode = !this.editmode
+    },
+    convertHTML (content) {
+      var regURL = new RegExp(`(http|https|ftp|telnet|news|irc)://([-/.a-zA-Z0-9_~#%$?&=:200-377()]+)`, 'gi')
+      return content
+        .replace(regURL, `<a href='$1://$2' target='_blank'>$1://$2</a>`)
+        .replace(/(?:\r\n|\r|\n)/g, '<br />')
     },
     join () {
+      this.changecontent = this.convertHTML(this.content)
       this.$axios.post('http://localhost:9000/api/su/notice/insert', {
         id: this.id,
         language: this.language,
@@ -120,8 +103,7 @@ export default {
         content: this.changecontent
       })
         .then((res) => {
-          if (res.data === 'ok') {
-            console.log(res)
+          if (res.data === 'TRUE') {
             alert('등록 성공')
             this.$router.push('/notice')
           } else {

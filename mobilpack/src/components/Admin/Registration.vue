@@ -83,12 +83,10 @@ export default {
     join () {
       this.$axios.post('http://localhost:9000//api/su/admin/join', { admin_id: this.id, name: this.name, phone: this.phone, email: this.email })
         .then((res) => {
-          if (res.data === 'ok') {
-            console.log(res)
+          if (res.data === 'TRUE') {
             alert('가입 성공')
             this.$router.push('/details')
           } else {
-            console.log(res)
             console.log('가입 실패 다시 작성해주세요')
           }
         })
@@ -97,8 +95,7 @@ export default {
       console.log(id)
       this.$axios.get('http://localhost:9000//api/su/admin/idcheck', {params: { id: id }})
         .then((res) => {
-          if (res.data === 'ok') {
-            console.log(res)
+          if (res.data === 'TRUE') {
             alert('사용가능한 ID 입니다.')
           } else {
             console.log(res)

@@ -1,8 +1,8 @@
 <template>
     <div class = "scroll" id='content'>
        <span class="title">
-       <h1>HOME</h1>
-       <h3>HOME > 공지사항 </h3>
+       <h1>공지사항 관리</h1>
+       <h3>HOME > 서비스관리 > 공지사항 관리 </h3>
     </span>
     <div class="search">
       <ul>
@@ -49,9 +49,9 @@
             <td v-else-if="'CN' === p.language" >중국어</td>
             <td v-else>영어</td>
             <td class="row" v-if="'1'===p.topsetting">
-              <div class="imp">
+              <p class="point">
                 중요
-              </div>
+              </p>
               {{ p.title }}
             </td>
             <td v-else>{{ p.title }}</td>
@@ -80,8 +80,6 @@ export default {
   mounted () {
     this.$axios.get('http://localhost:9000//api/su/notice/search', {params: { Currentpage: 1, Number: this.Number, language: this.language, title: this.titleandcontent }})
       .then((res) => {
-        console.log(res)
-        console.log(res.data.count)
         this.items = res.data.result
         this.end_page = res.data.count / this.Number // count:list 수 를 20으로 나누어서 몇 페이지 필요한지 계산
         if (res.data.count % this.Number >= 1) {
@@ -161,5 +159,17 @@ button.insertbutton{
     width: auto;
     height: 30px;
     padding: 0 15px;
+}
+.point {
+    background: rgb(245 44 44);
+    font-size: 15px;
+    height: 20px;
+    width: 40px;
+    display: inline;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+.click {
+  background: rgb(6, 59, 119);
 }
 </style>

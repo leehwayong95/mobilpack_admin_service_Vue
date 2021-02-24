@@ -49,12 +49,6 @@
              style="width:1340px; height:500px;  vertical-align: top;"
              colspan="7"
              >
-              <!-- v-html="hypercontent" -->
-              <!-- v-bind:href="result" -->
-                <!-- <화용님 방식>> -->
-                <!-- <span id="notice_cont"></span>> -->
-                <!-- <a href="https://www.naver.com/" target="_blank">이동하기</a> -->
-                <!-- <a  v-for="(p,idx) in result" :key="idx" :href="p" target="_blank">{{p}}</a> -->
              </td>
              </tr>
          </tbody>
@@ -62,10 +56,10 @@
         <div>
           <th class="btn">
           </th>
-          <button class="leftbutton" @click="back">목록</button>
-          <button class="rightbutton" @click="Noticedelete">삭제</button>
-          <button class="rightbutton" @click="edit">수정</button>
-          <button class="rightbutton" @click="viewstop">게시중단</button>
+          <button class="rightbutton" @click="back">목록</button>
+          <button class="leftbutton" @click="Noticedelete">삭제</button>
+          <button class="leftbutton" @click="viewstop">게시중단</button>
+          <button class="Editleftbutton" @click="edit">수정</button>
         </div>
     </section>
     </div>
@@ -92,7 +86,6 @@ export default
         this.hypercontent = this.test(this.hypercontent)
         this.testcontent = res.data.content
         this.result = this.testcontent.match(this.hyperlink)
-        console.log(this.items)
       })
       .catch((err) => {
         console.log(err)
@@ -136,7 +129,6 @@ export default
         this.$axios.post('http://localhost:9000/api/su/notice/stopposting', {postindex: this.postindex})
           .then(res => {
             if (res.data === 'ok') {
-              console.log(res)
               alert('게시중단으로 설정합니다.. ')
               this.$router.push('/notice')
             } else {
@@ -158,8 +150,7 @@ export default
       if (select === true) {
         this.$axios.post('http://localhost:9000//api/su/notice/delete', {postindex: this.postindex})
           .then(res => {
-            if (res.data === 'ok') {
-              console.log(res)
+            if (res.data === 'TRUE') {
               alert('삭제되었습니다. ')
               this.$router.push('/notice')
             } else {
@@ -181,9 +172,15 @@ export default
 .btn {
   height: 50px; /* 테이블과 버튼 간격 */
 }
+.Editleftbutton {
+  width: 100px;
+  height: 30px;
+  background: #3d4b64;
+}
 .leftbutton {
   width: 100px;
   height: 30px;
+  background: #db1e1e;
 }
 .rightbutton {
   float: right; /* float  이 친구를 사용해서 수정 ,삭제 버튼을 오른쪽으로 보낼수 있습니다  */
