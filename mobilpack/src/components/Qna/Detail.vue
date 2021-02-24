@@ -161,11 +161,11 @@ export default {
             alert('서버 작업중입니다. 나중에 시도해주세요.')
           }
         })
-        .catch((err) => {
-          console.log(err)
-          alert('로그인이 만료되었습니다. 다시 로그인해주세요')
-          this.$router.push('/')
-        })
+        // .catch((err) => {
+        //   console.log(err)
+        //   alert('로그인이 만료되었습니다. 다시 로그인해주세요')
+        //   this.$router.push('/')
+        // })
     },
     deleteQnaPost () {
       if (confirm('문의사항 게시글을 삭제하시겠습니까?')) {
