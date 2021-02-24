@@ -49,9 +49,9 @@
             <td v-else-if="'CN' === p.language" >중국어</td>
             <td v-else>영어</td>
             <td class="row" v-if="'1'===p.topsetting">
-              <p class="point">
+              <span class="point">
                 중요
-              </p>
+              </span>
               {{ p.title }}
             </td>
             <td v-else>{{ p.title }}</td>
@@ -163,11 +163,15 @@ button.insertbutton{
 .point {
     background: rgb(245 44 44);
     font-size: 15px;
-    height: 20px;
+    height: 25px;
     width: 40px;
-    display: inline;
+    padding: 2px;
+    text-align: center;
+    justify-content: center; /* dispaly로flex 를 지정하였고 이친구는 flex 내용물 들을 조정하는 문구입니다 */
+    display: inline-flex;  /* inline 은 세로로 공간파일이 생긴다고 생각하면 됨 */
     border-radius: 5px;
     margin-right: 10px;
+    color:aliceblue;
 }
 .click {
   background: rgb(6, 59, 119);
