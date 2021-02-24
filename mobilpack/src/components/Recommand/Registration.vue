@@ -21,7 +21,7 @@
              <tr>
              <th>입력 언어(원본)</th>
              <td colspan="3">
-                <select style="width:200px" v-model="language">
+                <select style="width:200px" v-model="language" v-on:change="languageSelect">
                 <option value="KR">한국어</option>
                 <option value="US">영어</option>
                 <option value="JP">일본어</option>
@@ -250,6 +250,7 @@ export default {
   data () {
     return {
       language: 'KR',
+      languageList: 0,
       select: '선택',
       position: '',
       content: '',
@@ -263,6 +264,7 @@ export default {
       file3: [],
       file4: [],
       file5: [],
+      fileList: [],
       hour: ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'],
       min: ['00', '10', '20', '30', '40', '50'],
       openhour: '',
@@ -305,14 +307,25 @@ export default {
     }
   },
   methods: {
+    languageSelect (event) {
+      if (event.target.value === 'KR') {
+        this.languageList = 1
+      } else if (event.target.value === 'US') {
+        this.languageList = 2
+      } else if (event.target.value === 'JP') {
+        this.languageList = 4
+      } else if (event.target.value === 'CN') {
+        this.languageList = 8
+      }
+      console.log(this.languageList)
+    },
     onClickImageUpload () {
       this.$refs.imageInput.click()
     },
     onChangeImages (e) {
       if (e.target.files[0].name.match('png') || e.target.files[0].name.match('jpg')) {
         const file = e.target.files[0]
-        this.file1 = file
-        console.log(this.file1)
+        this.fileList.push(file)
         // console.log(e)
         if (this.imagelist.length === 0) {
           this.imageUrl1 = URL.createObjectURL(file)
@@ -398,6 +411,10 @@ export default {
     submmitButton () {
       const formData = new FormData()
       formData.append('default_lang', this.language)
+      if (this.language === 'KR') {
+        this.languageList = 1
+      }
+      formData.append('language', this.languageList)
       formData.append('category', this.select)
       formData.append('title', this.position)
       formData.append('content', this.content)
@@ -414,12 +431,13 @@ export default {
       formData.append('opentime', this.openhour + ':' + this.openmin)
       formData.append('closetime', this.endhour + ':' + this.endmin)
       formData.append('endtime', this.entrancehour + ':' + this.entrancemin)
-      formData.append('files', this.file1)
-      formData.append('files', this.file2)
-      formData.append('files', this.file3)
-      formData.append('files', this.file4)
-      formData.append('files', this.file5)
-      this.$axios.post('http://localhost:9000/api/su/post/create', formData)
+      for (repeat = 0; repeat < this.fileList.length; repeat++) {
+        formData.append('files', this.fileList[repeat])
+      }
+      this.$axios.post('http://localhost:9000/api/su/post/create', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }})
         .then((response) => {
           this.result = response.data
           alert(this.result)

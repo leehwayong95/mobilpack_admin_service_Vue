@@ -193,33 +193,33 @@
              <tr>
              <th>운영시간</th>
              <td colspan="7" style="height:100px">
-                <input type="checkbox" id="one" v-model="checkedValues" value="1">
+                <input type="checkbox" id="one" v-model="checkedMonday" value="1">
                 <label for="one">월요일</label>
-                <input type="checkbox" id="two" v-model="checkedValues" value="2">
+                <input type="checkbox" id="two" v-model="checkedTuesday" value="2">
                 <label for="two">화요일</label>
-                <input type="checkbox" id="three" v-model="checkedValues" value="3">
+                <input type="checkbox" id="three" v-model="checkedWednesday" value="3">
                 <label for="three">수요일</label>
-                <input type="checkbox" id="four" v-model="checkedValues" value="4">
+                <input type="checkbox" id="four" v-model="checkedThursday" value="4">
                 <label for="four">목요일</label>
-                <input type="checkbox" id="five" v-model="checkedValues" value="5">
+                <input type="checkbox" id="five" v-model="checkedFriday" value="5">
                 <label for="five">금요일</label>
-                <input type="checkbox" id="six" v-model="checkedValues" value="6">
+                <input type="checkbox" id="six" v-model="checkedSaturday" value="6">
                 <label for="six">토요일</label>
-                <input type="checkbox" id="seven" v-model="checkedValues" value="7">
+                <input type="checkbox" id="seven" v-model="checkedSunday" value="7">
                 <label for="seven">일요일</label>
                 <div>
                 <select style="width:80px" v-model="openhour">
-                <option v-for="(n,oh) in openhour" :key="oh" v-bind:value="n">{{n}}</option>
+                <option v-for="(n,oh) in hour" :key="oh" v-bind:value="n">{{n}}</option>
                 </select>
                 <select style="width:80px" v-model="openmin">
-                <option v-for="(n,om) in openmin" :key="om" v-bind:value="n">{{n}}</option>
+                <option v-for="(n,om) in min" :key="om" v-bind:value="n">{{n}}</option>
                 </select>
                 <span>~</span>
                 <select style="width:80px" v-model="endhour">
-                <option v-for="(n,eh) in endhour" :key="eh" v-bind:value="n">{{n}}</option>
+                <option v-for="(n,eh) in hour" :key="eh" v-bind:value="n">{{n}}</option>
                 </select>
                 <select style="width:80px" v-model="endmin">
-                <option v-for="(n,em) in endmin" :key="em" v-bind:value="n">{{n}}</option>
+                <option v-for="(n,em) in min" :key="em" v-bind:value="n">{{n}}</option>
                 </select>
                 </div>
              </td>
@@ -227,10 +227,10 @@
              <th>입장마감 시간</th>
              <td colspan="7">
                <select style="width:80px" v-model="entrancehour">
-                <option v-for="(n,eh) in endhour" :key="eh" v-bind:value="n">{{n}}</option>
+                <option v-for="(n,eh) in hour" :key="eh" v-bind:value="n">{{n}}</option>
                 </select>
                 <select style="width:80px" v-model="entrancemin">
-                <option v-for="(n,em) in endmin" :key="em" v-bind:value="n">{{n}}</option>
+                <option v-for="(n,em) in min" :key="em" v-bind:value="n">{{n}}</option>
                 </select>
              </td>
              </tr>
@@ -258,8 +258,15 @@ export default {
       address_lng: '',
       address: '',
       phone: '',
-      index: '76',
+      index: '79',
       checkedValues: [],
+      checkedMonday: [],
+      checkedTuesday: [],
+      checkedWednesday: [],
+      checkedThursday: [],
+      checkedFriday: [],
+      checkedSaturday: [],
+      checkedSunday: [],
       file1: [],
       file2: [],
       file3: [],
@@ -274,6 +281,13 @@ export default {
       result: '',
       entrancehour: '',
       entrancemin: '',
+      monday: 1,
+      tuesday: 2,
+      wednesday: 4,
+      thursday: 8,
+      friday: 16,
+      saturday: 32,
+      sunday: 64,
       imageUrl1: null,
       imageUrl2: null,
       imageUrl3: null,
@@ -308,25 +322,22 @@ export default {
       this.$refs.imageInput.click()
     },
     onChangeImages (e) {
+      console.log((this.imagelist.length))
       if (e.target.files[0].name.match('png') || e.target.files[0].name.match('jpg')) {
         const file = e.target.files[0]
         console.log(e.target.files[0])
         if (this.imagelist.length === 0) {
           this.imageUrl1 = URL.createObjectURL(file)
-          this.imagelist.push(this.imageUrl1)
         } else if (this.imagelist.length === 1) {
           this.imageUrl2 = URL.createObjectURL(file)
-          this.imagelist.push(this.imageUrl2)
         } else if (this.imagelist.length === 2) {
           this.imageUrl3 = URL.createObjectURL(file)
-          this.imagelist.push(this.imageUrl3)
         } else if (this.imagelist.length === 3) {
           this.imageUrl4 = URL.createObjectURL(file)
-          this.imagelist.push(this.imageUrl4)
         } else if (this.imagelist.length === 4) {
           this.imageUrl5 = URL.createObjectURL(file)
-          this.imagelist.push(this.imageUrl5)
         }
+        this.imagelist.push(file)
         this.imagecheck = this.imagelist.length
       } else {
         alert('png,jpg 형식만 가능합니다.')
@@ -426,18 +437,49 @@ export default {
       .then(response => {
         console.log(response.data)
         const model = response.data
-        this.language = model.postModel.default_lang
-        this.select = model.postModel.category
-        this.position = model.postModel.title
-        this.content = model.postModel.content
-        this.tag = model.postModel.tag
-        this.imagelist = model.fileList
-        this.voice = model.postModel.voice_info
-        const loca = model.postModel.location.split(',')
-        this.address_lat = loca[0]
-        this.address_lng = loca[1]
-        this.address = model.postModel.address
-        this.phone = model.postModel.phone
+        this.language = model.postModel.default_lang /* 기본 언어 입력 */
+        this.select = model.postModel.category /* 카테고리 입력 */
+        this.position = model.postModel.title /* 장소명 입력 */
+        this.content = model.postModel.content /* 관광 내용 입력 */
+        this.tag = model.postModel.tag /* 태그 입력 */
+        // this.imagelist = model.fileList /* 파일 리스트 입력 */
+        this.voice = model.postModel.voice_info /* 음성 내용 입력 */
+        const loca = model.postModel.location.split(',') /* 위경도값 입력을 위해 split 사용 */
+        this.address_lat = loca[0] /* 위도 할당 */
+        this.address_lng = loca[1] /* 경도 할당 */
+        this.address = model.postModel.address /* 주소 할당 */
+        this.phone = model.postModel.phone /* 연락처 할당 */
+        var week = model.postModel.openday /* 요일 체크박스를 위해 십진수인 값을 2진수로 변환(비트 연산을 위해서) */
+        if ((week & this.monday) === this.monday) {
+          this.checkedMonday = this.monday
+        }
+        if ((week & this.tuesday) === this.tuesday) {
+          this.checkedTuesday = this.tuesday
+        }
+        if ((week & this.wednesday) === this.wednesday) {
+          this.checkedWednesday = this.wednesday
+        }
+        if ((week & this.thursday) === this.thursday) {
+          this.checkedThursday = this.thursday
+        }
+        if ((week & this.friday) === this.friday) {
+          this.checkedFriday = this.friday
+        }
+        if ((week & this.saturday) === this.saturday) {
+          this.checkedSaturday = this.saturday
+        }
+        if ((week & this.sunday) === this.sunday) {
+          this.checkedSunday = this.sunday
+        }
+        var opentime = model.postModel.opentime.split(':') /* 오픈 시간 할당 */
+        this.openhour = opentime[0].toString()
+        this.openmin = opentime[1]
+        var closetime = model.postModel.closetime.split(':') /* 닫는 시간 할당 */
+        this.endhour = closetime[0]
+        this.endmin = closetime[1]
+        var endtime = model.postModel.endtime.split(':') /* 마감 시간 할당 */
+        this.entrancehour = endtime[0]
+        this.entrancemin = endtime[1]
       })
       .catch((error) => {
         console.log(error)
