@@ -40,18 +40,19 @@ export default {
               this.$cookie.set('name', res.data.name)
               this.$router.push({name: 'userList'})
             } else {
-              this.alert()
+              this.alert('로그인에 실패하였습니다.<br><br>로그인 정보를 다시 확인해주세요.')
             }
           })
           .catch((err) => {
-            console.log(err)
-            this.alert()
+            if (err.response.status === 410) {
+              this.alert('미등록 아이디입니다.<br><br>확인 후 다시 입력해주세요.')
+            }
           })
       }
     },
-    alert () {
+    alert (s) {
       this.$modal.show(modal, {
-        hot_table: 'data',
+        hot_table: s,
         modal: this.$modal
       },
       {

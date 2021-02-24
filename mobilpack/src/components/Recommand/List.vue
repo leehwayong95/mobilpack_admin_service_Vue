@@ -49,8 +49,8 @@
     </div>
     <div class="cont_inner">
       <div class="title">
-        <p class="admintitle">| 검색결과</p>
-        <button>신규등록</button>
+        <p class="admintitle">| 검색 결과</p>
+        <button @click="writeNewPost">신규등록</button>
       </div>
       <table class="list">
         <colgroup>
@@ -235,6 +235,9 @@ export default {
         this.page++
       }
       this.getList()
+    },
+    writeNewPost () {
+      this.$router.push({name: 'recommandregistrtion'})
     }
   }
 }
