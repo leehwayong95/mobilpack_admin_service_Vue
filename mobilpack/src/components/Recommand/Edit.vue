@@ -75,10 +75,10 @@
              <th>사진</th>
              <td class="Allbox" colspan="7" style="height:150px; padding-top: 10px;" >
                <input ref="imageInput" type="file" hidden @change="onChangeImages">
-               <button v-if= "imagecheck >= 1" class="pickbox" type="button" @click="onClickImageUpload"><img class="pick"
-               v-if="imageUrl1" :src="imageUrl1"
-               ><div><button class="Deletepick" @click.stop="deleteimage(1)" >X</button></div></button>
-               <button v-else class="pickbox" type="button" @click="onClickImageUpload"><img class="pick"
+               <button v-for="(file,index) in fileList" v-bind:key = "index" class="pickbox" type="button" @click="onClickImageUpload"><img class="pick"
+               v-if="file !== '0'" :src="urlSource(file)"
+               ><div><button v-if= "imagecheck >= 1 & file != '0'" class="Deletepick" @click.stop="deleteimage(index)" >X</button></div></button>
+               <!-- <button v-else class="pickbox" type="button" @click="onClickImageUpload"><img class="pick"
                v-if="imageUrl1" :src="imageUrl1"
                ></button>
                <button v-if= "imagecheck >= 2" class="pickbox" type="button" @click="onClickImageUpload"><img class="pick"
@@ -99,13 +99,13 @@
                <button v-else class="pickbox" type="button" @click="onClickImageUpload"><img class="pick"
                v-if="imageUrl4" :src="imageUrl4"
                ></button>
-               <!--<input ref="imageInput" id="5" type="file" hidden @change="onChangeImages($event, 5)">-->
-               <button v-if= "imagecheck >= 5" class="pickbox" type="button" @click="onClickImageUpload"><img class="pick"
+              <input ref="imageInput" id="5" type="file" hidden @change="onChangeImages($event, 5)">-->
+               <!-- <button v-if= "imagecheck >= 5" class="pickbox" type="button" @click="onClickImageUpload"><img class="pick"
                v-if="imageUrl5" :src="imageUrl5"
                ><div><button class="Deletepick" @click.stop="deleteimage(5)">X</button></div></button>
                 <button v-else class="pickbox" type="button" @click="onClickImageUpload"><img class="pick"
                v-if="imageUrl5" :src="imageUrl5"
-               ></button>
+               ></button> -->
              </td>
              </tr>
          </tbody>
@@ -248,6 +248,7 @@
 export default {
   data () {
     return {
+      indexLast: this.$route.params.index,
       language: 'KR',
       select: '선택',
       position: '',
@@ -258,7 +259,7 @@ export default {
       address_lng: '',
       address: '',
       phone: '',
-      index: '79',
+      index: this.$route.params.index,
       checkedValues: [],
       checkedMonday: [],
       checkedTuesday: [],
@@ -267,11 +268,8 @@ export default {
       checkedFriday: [],
       checkedSaturday: [],
       checkedSunday: [],
-      file1: [],
-      file2: [],
-      file3: [],
-      file4: [],
-      file5: [],
+      fileImage: null,
+      fileList: [],
       hour: ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'],
       min: ['00', '10', '20', '30', '40', '50'],
       openhour: '',
@@ -322,63 +320,23 @@ export default {
       this.$refs.imageInput.click()
     },
     onChangeImages (e) {
-      console.log((this.imagelist.length))
       if (e.target.files[0].name.match('png') || e.target.files[0].name.match('jpg')) {
         const file = e.target.files[0]
-        console.log(e.target.files[0])
-        if (this.imagelist.length === 0) {
-          this.imageUrl1 = URL.createObjectURL(file)
-        } else if (this.imagelist.length === 1) {
-          this.imageUrl2 = URL.createObjectURL(file)
-        } else if (this.imagelist.length === 2) {
-          this.imageUrl3 = URL.createObjectURL(file)
-        } else if (this.imagelist.length === 3) {
-          this.imageUrl4 = URL.createObjectURL(file)
-        } else if (this.imagelist.length === 4) {
-          this.imageUrl5 = URL.createObjectURL(file)
+        for (var repeat = 0; repeat < this.fileList.length; repeat++) {
+          if (this.fileList[repeat] === '0') {
+            this.fileList.splice(repeat, 1, file)
+            break
+          }
         }
-        this.imagelist.push(file)
-        this.imagecheck = this.imagelist.length
+        console.log(this.fileList)
       } else {
         alert('png,jpg 형식만 가능합니다.')
       }
     },
     deleteimage (n) { // splice(n:위치,i:n위치로부터 i개 삭제)
-      if (n === 1) {
-        this.imagelist.splice(0, 1)
-        this.imageUrl1 = null
-        if (this.imagelist.length >= 1) {
-          this.imageUrl1 = this.imageUrl2
-          this.imageUrl2 = this.imageUrl3
-          this.imageUrl3 = this.imageUrl4
-          this.imageUrl4 = this.imageUrl5
-        }
-      } else if (n === 2) {
-        this.imagelist.splice(1, 1)
-        this.imageUrl2 = null
-        if (this.imagelist.length >= 2) {
-          this.imageUrl2 = this.imageUrl3
-          this.imageUrl3 = this.imageUrl4
-          this.imageUrl4 = this.imageUrl5
-        }
-      } else if (n === 3) {
-        this.imagelist.splice(2, 1)
-        this.imageUrl3 = null
-        if (this.imagelist.length >= 3) {
-          this.imageUrl3 = this.imageUrl4
-          this.imageUrl4 = this.imageUrl5
-        }
-      } else if (n === 4) {
-        this.imagelist.splice(3, 1)
-        this.imageUrl4 = null
-        if (this.imagelist.length >= 4) {
-          this.imageUrl4 = this.imageUrl5
-        }
-      } else if (n === 5) {
-        this.imagelist.splice(4, 1)
-        this.imageUrl5 = null
-      }
-      this.imagecheck = this.imagelist.length // 이미지 배열길이 갱신
+      this.fileList.splice(n, 1)
+      this.fileList.push('0')
+      console.log(this.fileList)
     },
     onLoad (vue) { /* 네이버 지도 api 사용을 위해 객체 생성 */
       this.map = vue
@@ -425,11 +383,29 @@ export default {
       formData.append('opentime', this.openhour + ':' + this.openmin)
       formData.append('closetime', this.endhour + ':' + this.endmin)
       formData.append('endtime', this.entrancehour + ':' + this.entrancemin)
-      formData.append('files', this.file1)
-      formData.append('files', this.file2)
-      formData.append('files', this.file3)
-      formData.append('files', this.file4)
-      formData.append('files', this.file5)
+      for (repeat = 0; repeat < this.fileList.length; repeat++) {
+        formData.append('files', this.fileList[repeat])
+      }
+      this.$axios.post('http://localhost:9000/api/su/post/update', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }})
+        .then((response) => {
+          this.result = response.data
+          alert(this.result)
+        })
+        .catch((ex) => {
+          console.log(ex)
+        })
+    },
+    urlSource (file) {
+      if (file.fileindex !== undefined) {
+        var path = 'http://localhost/img' + file.filepath.split('.\\upload')[1]
+        return path
+      } else {
+        var url = URL.createObjectURL(file)
+        return url
+      }
     }
   },
   mounted () {
@@ -480,6 +456,13 @@ export default {
         var endtime = model.postModel.endtime.split(':') /* 마감 시간 할당 */
         this.entrancehour = endtime[0]
         this.entrancemin = endtime[1]
+        this.fileList = model.fileList
+        this.imagecheck = this.fileList.length
+        var result = 5 - this.fileList.length
+        for (var i = 0; i < result; i++) {
+          console.log(i)
+          this.fileList.push('0')
+        }
       })
       .catch((error) => {
         console.log(error)

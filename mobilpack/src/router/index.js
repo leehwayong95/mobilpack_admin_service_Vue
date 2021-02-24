@@ -275,7 +275,7 @@ const router = new Router({
       component: test
     },
     {
-      path: '/recommandEdit',
+      path: '/recommand/edit/:index',
       name: 'recommandEdit',
       components: {
         default: RecommandEdit,
