@@ -37,16 +37,16 @@
           <td v-if="'CN'===copylanguage">中國語</td>
           <td class="center">
             <select v-if="$route.name ==='translation'" style="width:200px" v-model="choicelanguage" @click="changelanguage">
-              <option v-if="copylanguage != 'KR'" value="KR" >한국어</option>
-              <option v-if="copylanguage != 'EN'" value="EN" >English</option>
-              <option v-if="copylanguage != 'JP'" value="JP" >日本語</option>
-              <option v-if="copylanguage != 'CN'" value="CN" >中國語</option>
+              <option v-if="copylanguage != 'KR'" value= '1'>한국어</option>
+              <option v-if="copylanguage != 'EN'" value= '2'>English</option>
+              <option v-if="copylanguage != 'JP'" value= '4'>日本語</option>
+              <option v-if="copylanguage != 'CN'" value= '8'>中國語</option>
             </select><!-- v-bind:disabled 이친구가 "" 안에 있는 조건이 됬을경우 언어를 선택 못하게 비활성화 해줍니다.  -->
              <select v-if="$route.name ==='translationedit'" style="width:200px" v-model="choicelanguage" v-bind:disabled="$route.name ==='translationedit'">
-              <option v-if="copylanguage != 'KR'" value="KR" >한국어</option>
-              <option v-if="copylanguage != 'EN'" value="EN" >English</option>
-              <option v-if="copylanguage != 'JP'" value="JP" >日本語</option>
-              <option v-if="copylanguage != 'CN'" value="CN" >中國語</option>
+              <option v-if="copylanguage != 'KR'" value= '1' >한국어</option>
+              <option v-if="copylanguage != 'EN'" value= '2' >English</option>
+              <option v-if="copylanguage != 'JP'" value= '4' >日本語</option>
+              <option v-if="copylanguage != 'CN'" value= '8'>中國語</option>
             </select>
           </td>
           </tr>
