@@ -204,6 +204,10 @@ export default {
           this.mapOptions.lng = parseFloat(this.location[1])
           /* 휴무일, 운영일 요일 구하기 */
           let runningDateBit = parseInt(res.data.postModel.openday, 10).toString(2).split('')
+          /* 2진수 7자리 비트 맞추기 */
+          for (let index = runningDateBit.length; index < 7; index++) {
+            runningDateBit.unshift('0')
+          }
           this.pausedate = []
           for (let bit of runningDateBit) {
             this.pausedate.push((bit === '1' ? '0' : '1'))
@@ -245,11 +249,6 @@ export default {
     getRunningDate (runningDateBit) {
       let result = []
       let countinueDay = false
-      if (runningDateBit.length !== 7) {
-        for (let i = runningDateBit.length; i < 7; i++) {
-          runningDateBit.unshift('0')
-        }
-      }
       for (let index in runningDateBit) {
         if (countinueDay && runningDateBit[index] === '1') {
           if (result[result.length - 1] !== '~') {
