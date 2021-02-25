@@ -72,41 +72,12 @@
              </td>
              </tr>
              <tr>
-             <th>사진</th><!--x 버튼에 적은 click.stop 은 다른 버튼 이벤트가 실행되지 않도록 자기것만하고 중지하는 명령문입니다. -->
-             <!--$event 를 적으면 해당하는 이벤트 내용 전부를 받을수 있습니다. 본 게시판에는 적용하지는 않습니다 참고만.. -->
+             <th>사진</th>
              <td class="Allbox" colspan="7" style="height:150px; padding-top: 10px;" >
-               <input ref="imageInput" id= "selectfiles" type="file" hidden @change="onChangeImages">
-               <button v-if= "imagecheck >= 1" class="pickbox" type="button" @click="onClickImageUpload"><img class="pick"
-               v-if="imageUrl1" :src="imageUrl1"
-               ><div><button class="Deletepick" @click.stop="deleteimage(1)" >X</button></div></button>
-               <button v-else class="pickbox" type="button" @click="onClickImageUpload"><img class="pick"
-               v-if="imageUrl1" :src="imageUrl1"
-               ></button>
-               <button v-if= "imagecheck >= 2" class="pickbox" type="button" @click="onClickImageUpload"><img class="pick"
-               v-if="imageUrl2" :src="imageUrl2"
-               ><div><button class="Deletepick"  @click.stop="deleteimage(2)" >X</button></div></button>
-               <button v-else class="pickbox" type="button" @click="onClickImageUpload"><img class="pick"
-               v-if="imageUrl2" :src="imageUrl2"
-               ></button>
-               <button v-if= "imagecheck >= 3" class="pickbox" type="button" @click="onClickImageUpload"><img class="pick"
-               v-if="imageUrl3" :src="imageUrl3"
-               ><div><button class="Deletepick" @click.stop="deleteimage(3)" >X</button></div></button>
-               <button v-else class="pickbox" type="button" @click="onClickImageUpload"><img class="pick"
-               v-if="imageUrl3" :src="imageUrl3"
-               ></button>
-               <button v-if= "imagecheck >= 4" class="pickbox" type="button" @click="onClickImageUpload"><img class="pick"
-               v-if="imageUrl4" :src="imageUrl4"
-               ><div><button class="Deletepick" @click.stop="deleteimage(4)">X</button></div></button>
-               <button v-else class="pickbox" type="button" @click="onClickImageUpload"><img class="pick"
-               v-if="imageUrl4" :src="imageUrl4"
-               ></button>
-               <!--<input ref="imageInput" id="5" type="file" hidden @change="onChangeImages($event, 5)">-->
-               <button v-if= "imagecheck >= 5" class="pickbox" type="button" @click="onClickImageUpload"><img class="pick"
-               v-if="imageUrl5" :src="imageUrl5"
-               ><div><button class="Deletepick" @click.stop="deleteimage(5)">X</button></div></button>
-                <button v-else class="pickbox" type="button" @click="onClickImageUpload"><img class="pick"
-               v-if="imageUrl5" :src="imageUrl5"
-               ></button>
+               <input ref="imageInput" type="file" hidden @change="onChangeImages">
+               <button v-for="(file,index) in fileList" v-bind:key = "index" class="pickbox" type="button" @click="onClickImageUpload"><img class="pick"
+               v-if="file !== '0'" :src="urlSource(file)"
+               ><div><button v-if= "fileList.length >= 1 && file != '0'" class="Deletepick" @click.stop="deleteimage(index)" >X</button></div></button>
              </td>
              </tr>
          </tbody>
@@ -194,19 +165,19 @@
              <tr>
              <th>운영시간</th>
              <td colspan="7" style="height:100px">
-                <input type="checkbox" id="one" v-model="checkedValues" value="1">
+                <input type="checkbox" id="one" v-model="checkedValues" value=1>
                 <label for="one">월요일</label>
-                <input type="checkbox" id="two" v-model="checkedValues"  value="2">
+                <input type="checkbox" id="two" v-model="checkedValues"  value=2>
                 <label for="two">화요일</label>
-                <input type="checkbox" id="three" v-model="checkedValues" value="4">
+                <input type="checkbox" id="three" v-model="checkedValues" value=4>
                 <label for="three">수요일</label>
-                <input type="checkbox" id="four" v-model="checkedValues" value="8">
+                <input type="checkbox" id="four" v-model="checkedValues" value=8>
                 <label for="four">목요일</label>
-                <input type="checkbox" id="five" v-model="checkedValues" value="16">
+                <input type="checkbox" id="five" v-model="checkedValues" value=16>
                 <label for="five">금요일</label>
-                <input type="checkbox" id="six" v-model="checkedValues" value="32">
+                <input type="checkbox" id="six" v-model="checkedValues" value=32>
                 <label for="six">토요일</label>
-                <input type="checkbox" id="seven" v-model="checkedValues" value="64">
+                <input type="checkbox" id="seven" v-model="checkedValues" value=64>
                 <label for="seven">일요일</label>
                 <div>
                 <select style="width:80px" v-model="openhour">
@@ -238,7 +209,7 @@
         </tbody>
         </table>
         <div class="center">
-          <button class="centerbutton" style="background:  rgb(230, 120, 120)" >취소</button>
+          <button class="centerbutton" style="background:  rgb(230, 120, 120)" @click="cancelButton">취소</button>
           <button class="centerbutton" @click="submmitButton">저장</button>
         </div>
     </section>
@@ -259,12 +230,6 @@ export default {
       phone: '',
       openday: 0,
       checkedValues: [],
-      file1: [],
-      file2: [],
-      file3: [],
-      file4: [],
-      file5: [],
-      fileList: [],
       hour: ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'],
       min: ['00', '10', '20', '30', '40', '50'],
       openhour: '',
@@ -274,12 +239,7 @@ export default {
       result: '',
       entrancehour: '',
       entrancemin: '',
-      imageUrl1: null,
-      imageUrl2: null,
-      imageUrl3: null,
-      imageUrl4: null,
-      imageUrl5: null,
-      imagelist: [],
+      fileList: [],
       imagecheck: 0,
       map: null, /* 지도를 사용하기 위해 map 객체를 생성 */
       marker: null, /* 마커를 조작하기 위해 marker 객체를 생성 */
@@ -306,6 +266,11 @@ export default {
       address: ''
     }
   },
+  mounted () {
+    for (var i = 0; i < 5; i++) {
+      this.fileList.push('0')
+    }
+  },
   methods: {
     languageSelect (event) {
       if (event.target.value === 'KR') {
@@ -325,66 +290,28 @@ export default {
     onChangeImages (e) {
       if (e.target.files[0].name.match('png') || e.target.files[0].name.match('jpg')) {
         const file = e.target.files[0]
-        this.fileList.push(file)
-        // console.log(e)
-        if (this.imagelist.length === 0) {
-          this.imageUrl1 = URL.createObjectURL(file)
-        } else if (this.imagelist.length === 1) {
-          this.imageUrl2 = URL.createObjectURL(file)
-        } else if (this.imagelist.length === 2) {
-          this.imageUrl3 = URL.createObjectURL(file)
-        } else if (this.imagelist.length === 3) {
-          this.imageUrl4 = URL.createObjectURL(file)
-        } else if (this.imagelist.length === 4) {
-          this.imageUrl5 = URL.createObjectURL(file)
+        for (var repeat = 0; repeat < this.fileList.length; repeat++) {
+          if (this.fileList[repeat] === '0') {
+            this.fileList.splice(repeat, 1, file)
+            break
+          }
         }
-        // console.log(this.imagelist)
-        this.imagelist.push(file)
-        this.imagecheck = this.imagelist.length
+        console.log(this.fileList)
       } else {
         alert('png,jpg 형식만 가능합니다.')
       }
     },
     deleteimage (n) { // splice(n:위치,i:n위치로부터 i개 삭제)
-      if (n === 1) {
-        this.imagelist.splice(0, 1)
-        this.imageUrl1 = null
-        if (this.imagelist.length >= 1) {
-          this.imageUrl1 = this.imageUrl2
-          this.imageUrl2 = this.imageUrl3
-          this.imageUrl3 = this.imageUrl4
-          this.imageUrl4 = this.imageUrl5
-          this.imageUrl5 = null
-        }
-      } else if (n === 2) {
-        this.imagelist.splice(1, 1)
-        this.imageUrl2 = null
-        if (this.imagelist.length >= 2) {
-          this.imageUrl2 = this.imageUrl3
-          this.imageUrl3 = this.imageUrl4
-          this.imageUrl4 = this.imageUrl5
-          this.imageUrl5 = null
-        }
-      } else if (n === 3) {
-        this.imagelist.splice(2, 1)
-        this.imageUrl3 = null
-        if (this.imagelist.length >= 3) {
-          this.imageUrl3 = this.imageUrl4
-          this.imageUrl4 = this.imageUrl5
-          this.imageUrl5 = null
-        }
-      } else if (n === 4) {
-        this.imagelist.splice(3, 1)
-        this.imageUrl4 = null
-        if (this.imagelist.length >= 4) {
-          this.imageUrl4 = this.imageUrl5
-          this.imageUrl5 = null
-        }
-      } else if (n === 5) {
-        this.imagelist.splice(4, 1)
-        this.imageUrl5 = null
+      if (this.fileList[n].fileindex !== undefined) {
+        this.deleteList.push(this.fileList[n].fileindex)
       }
-      this.imagecheck = this.imagelist.length // 이미지 배열길이 갱신
+      this.fileList.splice(n, 1)
+      this.fileList.push('0')
+      console.log(this.fileList)
+    },
+    urlSource (file) { // 미리보기용 Method
+      var url = URL.createObjectURL(file)
+      return url
     },
     onLoad (vue) { /* 네이버 지도 api 사용을 위해 객체 생성 */
       this.map = vue
@@ -408,6 +335,9 @@ export default {
       this.address_lng = x
       this.address = address
     },
+    cancelButton () {
+      this.$router.push({name: 'recommands'})
+    },
     submmitButton () {
       const formData = new FormData()
       formData.append('default_lang', this.language)
@@ -425,7 +355,7 @@ export default {
       formData.append('phone', this.phone)
       var repeat
       for (repeat = 0; repeat < this.checkedValues.length; repeat++) {
-        this.openday = this.openday + this.checkedValues[repeat]
+        this.openday = this.openday + parseInt(this.checkedValues[repeat])
       }
       formData.append('openday', this.openday)
       formData.append('opentime', this.openhour + ':' + this.openmin)
@@ -440,7 +370,7 @@ export default {
         }})
         .then((response) => {
           this.result = response.data
-          alert(this.result)
+          this.$router.push({name: 'recommands'})
         })
         .catch((ex) => {
           console.log(ex)
