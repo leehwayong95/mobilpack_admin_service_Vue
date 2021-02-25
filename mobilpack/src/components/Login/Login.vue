@@ -60,7 +60,7 @@ export default {
       {
         name: 'dynamic-modal',
         width: '330px',
-        height: '180px',
+        height: '200px',
         draggable: false
       })
     }

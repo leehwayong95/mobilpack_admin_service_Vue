@@ -39,6 +39,9 @@
   position: absolute;
   top: 0;
 }
+div.title img {
+  cursor: pointer;
+}
 #modal > div.modal_message {
   width: 100%;
   height: calc(100%-50px);

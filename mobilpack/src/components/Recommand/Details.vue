@@ -17,7 +17,7 @@
           <tr>
             <th>입력 언어(원본)</th>
             <td colspan="3" v-if="post.default_lang == 'KR'">한국어</td>
-            <td colspan="3" v-else-if="post.default_lang == 'EN'">영어</td>
+            <td colspan="3" v-else-if="post.default_lang == 'US'">영어</td>
             <td colspan="3" v-else-if="post.default_lang == 'JP'">일본어</td>
             <td colspan="3" v-else>중국어</td>
             <th>카테고리</th>
@@ -38,7 +38,7 @@
           <tr>
             <th>사진</th>
             <td colspan="7">
-              <img v-for="i of img" :key="i" :src="i" alt="recommandFile" style="width: 60%;">
+              <img v-for="i of img" :key="i" :src="i" alt="recommandFile" style="width: 55%;">
             </td>
           </tr>
         </tbody>
@@ -87,7 +87,7 @@
         <tr>
           <th>운영시간</th>
           <td>
-            {{runningdate}} {{post.opentime}}
+            {{runningdate}} {{post.opentime}}~{{post.closetime}}
             <br/>
             {{pausedate}} 휴무
           </td>

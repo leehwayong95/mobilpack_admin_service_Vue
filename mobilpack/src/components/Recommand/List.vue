@@ -90,7 +90,7 @@
           <td class="title" v-if="i.title.length > 20">{{i.title.substr(0,20)}}...</td>
           <td class="title" v-else>{{i.title}}</td>
           <td v-if = "i['default_lang'] === 'KR'">한국어</td>
-          <td v-else-if = "i['default_lang'] === 'EN'">영어</td>
+          <td v-else-if = "i['default_lang'] === 'US'">영어</td>
           <td v-else-if = "i['default_lang'] === 'JP'">일본어</td>
           <td v-else>중국어</td>
           <td v-if="i.language & 1"> ○ </td>
