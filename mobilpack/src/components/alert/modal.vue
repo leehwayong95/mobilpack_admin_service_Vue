@@ -4,9 +4,7 @@
       <img src="..\..\assets\images\btn_modalclose.png" width="20px">
     </div>
     <div class="modal_message">
-      <span>
-        미등록 아이디입니다.<br><br>확인 후 다시 입력해주세요.
-      </span>
+      <span v-html="this.$props.hot_table"></span>
     </div>
     <div class="modal_button_wrap">
       <input class="btn btn-default col-md-3" @click="$emit('close')" type="button" value="확인">
@@ -23,7 +21,7 @@
 .modal_message {
   width: 100%;
   position: absolute;
-  top: 40px;
+  top: auto;
   margin: 0;
   margin-bottom: 10px;
   margin-top: 10px;

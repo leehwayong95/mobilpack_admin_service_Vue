@@ -17,7 +17,7 @@
         </li>
         <li>
           <span>문의제목</span>
-          <input type="text" v-model="tmp.title">
+          <input type="text" v-model="tmp.title" maxlength="10">
         </li>
         <li class ="date">
           <span>문의 일시</span>
@@ -51,12 +51,12 @@
           <col width="10%">
           <col width="20%">
         </colgroup>
-        <tr>
+        <tr style="cursor: initial;">
           <th rowspan="2">No.</th>
           <th colspan="4">문의 정보</th>
           <th colspan="3">답변 정보</th>
         </tr>
-        <tr>
+        <tr style="cursor: initial;">
           <th scope="col">문의 유형</th>
           <th scope="col">문의 제목</th>
           <th scope="col">문의 일시</th>
@@ -131,15 +131,10 @@ export default {
     this.getList()
   },
   watch: { // 변수이름이랑 매칭
-    max () {
+    max () { // 고쳐야함 (검색 시)
       if (this.min > this.max) {
         alert('최소일 보다 커야합니다.')
         this.max = this.min + 1
-      }
-    },
-    'tmp.title': function () {
-      if (this.tmp.title.length > 10) {
-        this.tmp.title = this.tmp.title.substr(0, 10)
       }
     }
   },
