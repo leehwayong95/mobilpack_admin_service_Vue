@@ -43,7 +43,7 @@
         </thead>
         <tbody>
           <tr v-for="(p,idx) in items" :key="idx" v-show="Currentpage" @click="rowClick(p.postindex)">
-            <td>{{(20*(Currentpage-1)+(idx+1))}}</td>
+            <td>{{ (listtotal+1)-(20*(Currentpage-1)+(idx+1))}}</td>
             <td v-if="'KR' === p.language" >한국어</td>
             <td v-else-if="'JP' === p.language" >일본어</td>
             <td v-else-if="'CN' === p.language" >중국어</td>
@@ -80,6 +80,7 @@ export default {
   mounted () {
     this.$axios.get('http://localhost:9000//api/su/notice/search', {params: { Currentpage: 1, Number: this.Number, language: this.language, title: this.titleandcontent }})
       .then((res) => {
+        this.listtotal = res.data.count
         this.items = res.data.result
         this.end_page = res.data.count / this.Number // count:list 수 를 20으로 나누어서 몇 페이지 필요한지 계산
         if (res.data.count % this.Number >= 1) {

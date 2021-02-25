@@ -100,6 +100,7 @@
                 style="width:600px; height:200px"
                 type="text"
                 v-model="voice"
+                maxlength='1000'
             />
             </td>
           </tr>
@@ -110,9 +111,9 @@
             <td v-if="$route.name ==='translation' && checkNolist ==='false'"></td>
             <td v-else-if="$route.name ==='translationedit'" >
                <input
+                maxlength='50'
                 type="text"
                 v-model="address"
-                maxlength="50"
              />
             </td>
           </tr>

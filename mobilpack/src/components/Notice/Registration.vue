@@ -40,6 +40,7 @@
             style="width:1000px height: 20px"
             class="box"
             type="text"
+            maxlength='50'
             v-model="title"
            />
            </td>
@@ -51,6 +52,7 @@
             style="width:1340px; height:500px"
             class="box"
             type="text"
+            maxlength='5000'
             v-model="content"
            />
            </td>

@@ -44,6 +44,7 @@
             class="box"
             type="text"
             v-model="name"
+            maxlength="50"
             />
             </td>
             </tr>
@@ -54,6 +55,7 @@
             class="box"
             type="text"
             v-model="phone"
+            maxlength="15"
             />
             </td>
             </tr>
@@ -64,6 +66,7 @@
             class="box"
             type="text"
             v-model="email"
+            maxlength="50"
             />
             </td>
             </tr>
