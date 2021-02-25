@@ -17,7 +17,7 @@
         </li>
         <li>
           <span>문의제목</span>
-          <input type="text" v-model="tmp.title">
+          <input type="text" v-model="tmp.title" maxlength="10">
         </li>
         <li class ="date">
           <span>문의 일시</span>
@@ -131,15 +131,10 @@ export default {
     this.getList()
   },
   watch: { // 변수이름이랑 매칭
-    max () {
+    max () { // 고쳐야함 (검색 시)
       if (this.min > this.max) {
         alert('최소일 보다 커야합니다.')
         this.max = this.min + 1
-      }
-    },
-    'tmp.title': function () {
-      if (this.tmp.title.length > 10) {
-        this.tmp.title = this.tmp.title.substr(0, 10)
       }
     }
   },
