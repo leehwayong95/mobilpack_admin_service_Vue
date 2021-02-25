@@ -221,6 +221,7 @@ export default {
   data () {
     return {
       language: 'KR',
+      languageValue: 0,
       select: '선택',
       position: '',
       content: '',
@@ -321,6 +322,12 @@ export default {
       const formData = new FormData()
       formData.append('postindex', this.index)
       formData.append('default_lang', this.language)
+      console.log(this.languageValue & this.getLanguage(this.language))
+      if (this.languageValue & this.getLanguage(this.language)) {
+        formData.append('language', this.languageValue)
+      } else {
+        formData.append('language', this.languageValue + this.getLanguage(this.language))
+      }
       formData.append('category', this.select)
       formData.append('title', this.position)
       formData.append('content', this.content)
@@ -331,7 +338,6 @@ export default {
       formData.append('address', this.address)
       formData.append('phone', this.phone)
       var repeat
-      console.log(this.openday)
       for (repeat = 0; repeat < this.checkedValues.length; repeat++) {
         this.openday = this.openday + parseInt(this.checkedValues[repeat])
       }
@@ -355,7 +361,6 @@ export default {
         this.deleteList.push('0')
         formData.append('deletelist', this.deleteList[0])
       }
-      console.log(this.deleteList)
       this.$axios.post('http://localhost:9000/api/su/post/update', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
@@ -389,6 +394,15 @@ export default {
       }
       return result[parseInt(index)]
     },
+    getLanguage (value) {
+      let result = {
+        'KR': 1,
+        'US': 2,
+        'JP': 4,
+        'CN': 8
+      }
+      return result[value]
+    },
     cancelButton () {
       this.$router.push('/recommands/' + this.index)
     }
@@ -399,6 +413,7 @@ export default {
         console.log(response.data)
         const model = response.data
         this.language = model.postModel.default_lang /* 기본 언어 입력 */
+        this.languageValue = model.postModel.language - this.getLanguage(this.language) // 언어value값 기본 언어값 빼서 저장
         this.select = model.postModel.category /* 카테고리 입력 */
         this.position = model.postModel.title /* 장소명 입력 */
         this.content = model.postModel.content /* 관광 내용 입력 */
@@ -419,7 +434,6 @@ export default {
             this.checkedValues.push(this.getDay(i))
           }
         }
-        console.log(this.checkedValues)
         var opentime = model.postModel.opentime.split(':') /* 오픈 시간 할당 */
         this.openhour = opentime[0].toString()
         this.openmin = opentime[1]
