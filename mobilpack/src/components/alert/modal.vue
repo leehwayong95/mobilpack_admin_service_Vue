@@ -21,7 +21,7 @@
 .modal_message {
   width: 100%;
   position: absolute;
-  top: 40px;
+  top: auto;
   margin: 0;
   margin-bottom: 10px;
   margin-top: 10px;

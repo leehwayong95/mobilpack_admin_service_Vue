@@ -29,8 +29,10 @@ export default {
   },
   methods: {
     login () {
-      if (this.id === '' || this.pw === '') {
-        this.alert()
+      if (this.id === '') {
+        this.alert('아이디를 입력해주세요.')
+      } else if (this.pw === '') {
+        this.alert('비밀번호를 입력해주세요')
       } else {
         this.$axios.post('http://localhost:9000/api/su/my/login', {id: this.id, pw: this.pw})
           .then((res) => {

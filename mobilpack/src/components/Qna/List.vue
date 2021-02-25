@@ -51,12 +51,12 @@
           <col width="10%">
           <col width="20%">
         </colgroup>
-        <tr>
+        <tr style="cursor: initial;">
           <th rowspan="2">No.</th>
           <th colspan="4">문의 정보</th>
           <th colspan="3">답변 정보</th>
         </tr>
-        <tr>
+        <tr style="cursor: initial;">
           <th scope="col">문의 유형</th>
           <th scope="col">문의 제목</th>
           <th scope="col">문의 일시</th>

@@ -70,11 +70,11 @@ export default {
         })
     },
     setPwReset () {
-      if (confirm('선택한 계정의 비밀번호를\n초기화 하시겠습니까?')) {
+      if (confirm('선택한 계정의 비밀번호를 초기화 하시겠습니까?')) {
         this.$axios.get('http://localhost:9000/api/su/user/pwreset?userid=' + this.$route.params.id)
           .then((res) => {
             if (res.data.result) {
-              alert('초기화 하였습니다.')
+              alert('선택한 계정의 비밀번호를 초기화 했습니다.')
             } else {
               alert('정보를 찾을 수 없습니다.')
               this.$router.push('/user')

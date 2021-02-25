@@ -46,7 +46,7 @@
           <col width="20%">
           <col width="20%">
         </colgroup>
-        <tr>
+        <tr style="cursor: initial;">
           <th>No.</th>
           <th>국가</th>
           <th>ID</th>

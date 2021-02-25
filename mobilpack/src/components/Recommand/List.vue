@@ -67,7 +67,7 @@
           <col width="20%">
           <col width="10%">
         </colgroup>
-        <tr>
+        <tr style="cursor: initial;">
           <th rowspan="2">No.</th>
           <th rowspan="2">카테고리</th>
           <th rowspan="2">추천장소명</th>
