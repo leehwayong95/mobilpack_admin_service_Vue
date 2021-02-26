@@ -168,7 +168,7 @@ export default {
         // })
     },
     deleteQnaPost () {
-      if (confirm('문의사항 게시글을 삭제하시겠습니까?')) {
+      if (confirm('삭제하시겠습니까?')) {
         this.$axios.delete('http://localhost:9000/api/su/qna/' + this.index)
           .then((res) => {
             if (res.data.status) {
