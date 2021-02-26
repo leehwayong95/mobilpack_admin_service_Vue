@@ -45,6 +45,7 @@
                   style="width:1000px height: 20px"
                   class="box"
                   type="text"
+                  maxlength="50"
                   v-model="position"
                 />
              </td>
@@ -56,6 +57,7 @@
                 style="width:1350px; height:100px"
                 placeholder="관광객 APP에 제공할 추천 장소의 관광 정보를 입력해주세요"
                 type="text"
+                maxlength="500"
                 v-model="content"
                 />
              </td>
