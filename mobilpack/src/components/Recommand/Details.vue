@@ -293,14 +293,16 @@ export default {
       this.$router.push('/recommand/edit/' + this.$route.params.index)
     },
     setDelete () {
-      this.$axios.post('http://localhost:9000/api/su/post/delete?postindex=' + this.$route.params.index)
-        .then((res) => {
-          if (res.data === 'TRUE') {
-            this.$router.push({name: 'recommands'})
-          } else {
-            alert('잠시후 시도해주세요')
-          }
-        })
+      if (confirm('선택한 추천 장소를 삭제하시겠습니까?')) {
+        this.$axios.post('http://localhost:9000/api/su/post/delete?postindex=' + this.$route.params.index)
+          .then((res) => {
+            if (res.data === 'TRUE') {
+              this.$router.push({name: 'recommands'})
+            } else {
+              alert('잠시후 시도해주세요')
+            }
+          })
+      }
     },
     setStateToggle () {
       this.$axios.get('http://localhost:9000/api/su/post/place/enable?postindex=' + this.$route.params.index)
