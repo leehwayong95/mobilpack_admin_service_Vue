@@ -69,6 +69,8 @@
                   style="width:1000px"
                   placeholder="#을 이용해 태그를 입력해주세요"
                   type="text"
+                  @keyup.space = "clickSpace"
+                  @click = "clickFirst"
                   v-model="tag"
                 />
              </td>
@@ -411,6 +413,14 @@ export default {
         .catch((ex) => {
           console.log(ex)
         })
+    },
+    clickSpace () {
+      this.tag = this.tag + ', #'
+    },
+    clickFirst () {
+      if (this.tag === '') {
+        this.tag = this.tag + '#'
+      }
     }
   }
 }
