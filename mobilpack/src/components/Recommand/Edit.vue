@@ -31,7 +31,7 @@
              <th>카테고리</th>
              <td colspan="3">
                 <select style="width:200px" v-model="select">
-                <option>선택</option>
+                <option hidden>선택</option>
                 <option >관광지</option>
                 <option >숙소</option>
                 <option >맛집</option>
@@ -285,7 +285,7 @@ export default {
         }
         console.log(this.fileList)
       } else {
-        alert('png,jpg 형식만 가능합니다.')
+        alert('사진 파일은 JPG,PNG만 등록 가능합니다. 확인 후 다시 파일을 선택해주세요')
       }
     },
     deleteimage (n) { // splice(n:위치,i:n위치로부터 i개 삭제)

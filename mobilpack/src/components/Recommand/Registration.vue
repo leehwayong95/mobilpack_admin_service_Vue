@@ -22,19 +22,19 @@
              <th>입력 언어(원본)</th>
              <td colspan="3">
                 <select style="width:200px" v-model="language" v-on:change="languageSelect">
-                <option value="KR">한국어</option>
-                <option value="US">영어</option>
-                <option value="JP">일본어</option>
-                <option value="CN">중국어</option>
+                  <option value="KR">한국어</option>
+                  <option value="US">영어</option>
+                  <option value="JP">일본어</option>
+                  <option value="CN">중국어</option>
                 </select>
              </td>
              <th>카테고리</th>
              <td colspan="3">
                 <select style="width:200px" v-model="select">
-                <option>선택</option>
-                <option >관광지</option>
-                <option >숙소</option>
-                <option >맛집</option>
+                  <option hidden>선택</option>
+                  <option >관광지</option>
+                  <option >숙소</option>
+                  <option >맛집</option>
                 </select>
              </td>
              </tr>
@@ -282,7 +282,6 @@ export default {
       } else if (event.target.value === 'CN') {
         this.languageList = 8
       }
-      console.log(this.languageList)
     },
     onClickImageUpload () {
       this.$refs.imageInput.click()
@@ -298,7 +297,7 @@ export default {
         }
         console.log(this.fileList)
       } else {
-        alert('png,jpg 형식만 가능합니다.')
+        alert('사진 파일은 JPG,PNG만 등록 가능합니다. 확인 후 다시 파일을 선택해주세요')
       }
     },
     deleteimage (n) { // splice(n:위치,i:n위치로부터 i개 삭제)
@@ -340,6 +339,40 @@ export default {
     },
     submmitButton () {
       const formData = new FormData()
+      if (this.select === '선택') {
+        alert('카테고리를 선택해주세요')
+        return
+      } else if (this.position === '') {
+        alert('추천장소명을 입력해주세요')
+        return
+      } else if (this.content === '') {
+        alert('관광정보를 입력해주세요')
+        return
+      } else if (this.tag === '') {
+        alert('태그를 입력해주세요')
+        return
+      } else if (this.phone === '') {
+        alert('연락처를 입력해주세요')
+        return
+      } else if (this.checkedValues === []) {
+        alert('요일을 선택해주세요')
+        return
+      } else if (this.openhour === '' || this.openmin === '') {
+        alert('오픈 시간을 선택해주세요')
+        return
+      } else if (this.endhour === '' || this.endmin === '') {
+        alert('종료 시간을 선택해주세요')
+        return
+      } else if (this.entrancehour === '' || this.entrancemin === '') {
+        alert('마감 시간을 선택해주세요')
+        return
+      } else if (this.address_lat === '' || this.address_lng === '') {
+        alert('위도, 경도를 입력해주세요')
+        return
+      } else if (this.address === '') {
+        alert('주소를 입력해주세요')
+        return
+      }
       formData.append('default_lang', this.language)
       if (this.language === 'KR') {
         this.languageList = 1
@@ -364,6 +397,7 @@ export default {
       for (repeat = 0; repeat < this.fileList.length; repeat++) {
         formData.append('files', this.fileList[repeat])
       }
+      console.log(formData)
       this.$axios.post('http://localhost:9000/api/su/post/create', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
