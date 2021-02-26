@@ -15,10 +15,6 @@
             <option value="3">기타</option>
           </select>
         </li>
-        <li>
-          <span>문의제목</span>
-          <input type="text" v-model="tmp.title" maxlength="10">
-        </li>
         <li class ="date">
           <span>문의 일시</span>
           <p class="date">
@@ -26,6 +22,10 @@
             <i>~</i>
             <input type="date" v-model="tmp.max">
           </p>
+        </li>
+        <li>
+          <span>문의제목</span>
+          <input type="text" v-model="tmp.title" maxlength="10">
         </li>
         <li>
           <span>답변유무</span>
