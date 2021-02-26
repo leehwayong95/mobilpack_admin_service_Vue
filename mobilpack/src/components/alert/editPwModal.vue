@@ -14,7 +14,7 @@
     </div>
     <p v-if="resCurrentPw" class="CurrentPwAlert">현재 비밀번호와 일치하지 않습니다.</p>
     <p v-if="regEditPw" class="regEditPwAlert">영문, 숫자를 포함 8자 이상으로 입력해주세요.</p>
-    <p v-if="confirmpw !== editpw" class="ConfirmPwAlert">새 비밀번호와 일치하지 않습니다.</p>
+    <p v-if="checkconfirmpw" class="ConfirmPwAlert">새 비밀번호와 일치하지 않습니다.</p>
     <div class="modal_button_wrap">
       <input class="btn btn-default col-md-3" @click="editPw" type="button" value="변경하기">
     </div>
@@ -86,7 +86,8 @@ export default {
       editpw: '',
       confirmpw: '',
       resCurrentPw: false,
-      regEditPw: false
+      regEditPw: false,
+      checkconfirmpw: false
     }
   },
   props: [
@@ -106,33 +107,44 @@ export default {
   },
   methods: {
     editPw () {
+      let flag = true
       var reg = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,}$/
       if (this.currentpw === '' || this.editpw === '' || this.confirmpw === '') {
         alert('비밀번호를 입력해주세요.')
-      } else if (this.editpw !== this.confirmpw) {
-        alert('비멀번호가 일치하지않습니다.')
-      } else if (!reg.test(this.editpw)) {
+        flag = false
+      }
+      if (this.editpw !== this.confirmpw) {
+        this.checkconfirmpw = true
+        flag = false
+      }
+      if (!reg.test(this.editpw)) {
         this.regEditPw = true
-      } else {
-        if (this.editpw === this.confirmpw) {
-          this.$axios.post('http://localhost:9000/api/su/my/pwupdate', {
-            currentpw: this.currentpw,
-            editpw: this.editpw
+        flag = false
+      }
+      this.$axios.post('http://localhost:9000/api/su/my/pwupdate', {
+        currentpw: this.currentpw,
+        editpw: this.editpw
+      })
+        .then((res) => {
+          if (res.status === 202) {
+            this.resCurrentPw = true
+            flag = false
+          }
+        })
+      if (flag) {
+        this.$axios.post('http://localhost:9000/api/su/my/pwupdate', {
+          currentpw: this.currentpw,
+          editpw: this.editpw
+        })
+          .then((res) => {
+            if (res.status === 202) {
+              this.resCurrentPw = true
+            } else {
+              alert('변경되었습니다.')
+              this.$router.push('/')
+              this.$emit('close')
+            }
           })
-            .then((res) => {
-              if (res.status === 202) {
-                this.resCurrentPw = true
-              } else {
-                alert('변경되었습니다.')
-                this.$router.push('/')
-                this.$emit('close')
-              }
-            })
-        } else {
-          alert('새비밀번호와 일치하지않습니다.\n다시 입력해주세요. ')
-          this.editpw = ''
-          this.confirmpw = ''
-        }
       }
     }
   }

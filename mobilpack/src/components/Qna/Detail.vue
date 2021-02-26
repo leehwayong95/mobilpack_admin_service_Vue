@@ -99,7 +99,8 @@ export default {
       index: this.$route.params.index,
       post: '',
       inputReply: '',
-      editmode: false
+      editmode: false,
+      admin_name: this.$cookie.get('name')
     }
   },
   mounted () {
