@@ -69,6 +69,8 @@
                   style="width:850px"
                   placeholder="#을 이용해 태그를 입력해주세요"
                   type="text"
+                  @keyup.space="clickSpace"
+                  @click = "clickFirst"
                   v-model="tag"
                 />
              </td>
@@ -407,6 +409,14 @@ export default {
     },
     cancelButton () {
       this.$router.push('/recommands/' + this.index)
+    },
+    clickSpace () { // 태그에서 스페이스바를 눌렀을때 자동 #추가입니다.
+      this.tag = this.tag + ', #'
+    },
+    clickFirst () {
+      if (this.tag === '') {
+        this.tag = this.tag + '#'
+      }
     }
   },
   mounted () {
