@@ -15,20 +15,20 @@
           <input type="text" v-model="titleandcontent" v-on:keyup.enter="search">
         </li>
       </ul>
-      <button v-on:click="search">검색</button>
+      <button class="searchbutton" v-on:click="search">검색</button>
     </div>
       <div class="cont_inner">
           <p class="admintitle">| 공지사항 목록</p>
           <button class="insertbutton" @click="NoticeRegister"> 글쓰기</button>
         <table class="list">
             <colgroup>
-            <col width="10%"><!-- No 너비를 조절가능 -->
-            <col width="10%"><!-- 언어 너비를 조절가능 -->
-            <col width="40%"><!-- 제목 너비를 조절가능 -->
-            <col width="20%"><!-- 작성일시 너비를 조절가능 -->
-            <col width="15%"><!-- 작성자 너비를 조절가능 -->
-            <col width="10%"><!-- 조회수 너비를 조절가능 -->
-            <col width="15%"><!-- 게시상태 너비를 조절가능 -->
+            <col width="2%"><!-- No 너비를 조절가능 -->
+            <col width="3%"><!-- 언어 너비를 조절가능 -->
+            <col width="20%"><!-- 제목 너비를 조절가능 -->
+            <col width="6%"><!-- 작성일시 너비를 조절가능 -->
+            <col width="4%"><!-- 작성자 너비를 조절가능 -->
+            <col width="3%"><!-- 조회수 너비를 조절가능 -->
+            <col width="4%"><!-- 게시상태 너비를 조절가능 -->
             </colgroup>
         <thead>
          <tr>
@@ -48,14 +48,14 @@
             <td v-else-if="'JP' === p.language" >일본어</td>
             <td v-else-if="'CN' === p.language" >중국어</td>
             <td v-else>영어</td>
-            <td class="row" v-if="'1'===p.topsetting">
+            <td id="title" v-if="'1'===p.topsetting">
               <span class="point">
                 중요
               </span>
               {{ p.title }}
             </td>
-            <td v-else>{{ p.title }}</td>
-            <td>{{ p.createat }}</td>
+            <td v-else id="title">{{ p.title }}</td>
+            <td>{{ p.createat.substring(0,16) }}</td>
             <td colspan="1" v-if= "null === p.name">삭제된 관리자</td>
             <td colspan="1" v-else >{{p.name}}</td>
             <td>{{ p.viewcount }}</td>
@@ -157,7 +157,7 @@ button.insertbutton{
     position: absolute;
     right: 30px;
     top: 20px;
-    width: auto;
+    width: 90px;
     height: 30px;
     padding: 0 15px;
 }
@@ -176,5 +176,15 @@ button.insertbutton{
 }
 .click {
   background: rgb(6, 59, 119);
+}
+#content table td {
+  text-align: center;
+}
+#content table td#title {
+  text-align: left;
+}
+#content > .search > button {
+  width: 90px;
+  right: 32px;
 }
 </style>
