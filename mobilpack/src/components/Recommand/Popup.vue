@@ -107,6 +107,7 @@ export default {
     saveButton (y, x, address) {
       console.log(window.opener)
       window.opener.v.Mom.save(y, x, address)
+      window.opener.v.Mom.onMapMove(y, x)
       window.close()
     }
   },

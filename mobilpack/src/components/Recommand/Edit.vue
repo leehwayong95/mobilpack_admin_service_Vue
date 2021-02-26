@@ -31,7 +31,7 @@
              <th>카테고리</th>
              <td colspan="3">
                 <select style="width:200px" v-model="select">
-                <option>선택</option>
+                <option hidden>선택</option>
                 <option >관광지</option>
                 <option >숙소</option>
                 <option >맛집</option>
@@ -45,6 +45,7 @@
                   style="width:1000px height: 20px"
                   class="box"
                   type="text"
+                  maxlength="50"
                   v-model="position"
                 />
              </td>
@@ -56,6 +57,7 @@
                 style="width:850px; height:100px"
                 placeholder="관광객 APP에 제공할 추천 장소의 관광 정보를 입력해주세요"
                 type="text"
+                maxlength="5000"
                 v-model="content"
                 />
              </td>
@@ -221,6 +223,7 @@ export default {
   data () {
     return {
       language: 'KR',
+      languageValue: 0,
       select: '선택',
       position: '',
       content: '',
@@ -284,7 +287,7 @@ export default {
         }
         console.log(this.fileList)
       } else {
-        alert('png,jpg 형식만 가능합니다.')
+        alert('사진 파일은 JPG,PNG만 등록 가능합니다. 확인 후 다시 파일을 선택해주세요')
       }
     },
     deleteimage (n) { // splice(n:위치,i:n위치로부터 i개 삭제)
@@ -321,6 +324,12 @@ export default {
       const formData = new FormData()
       formData.append('postindex', this.index)
       formData.append('default_lang', this.language)
+      console.log(this.languageValue & this.getLanguage(this.language))
+      if (this.languageValue & this.getLanguage(this.language)) {
+        formData.append('language', this.languageValue)
+      } else {
+        formData.append('language', this.languageValue + this.getLanguage(this.language))
+      }
       formData.append('category', this.select)
       formData.append('title', this.position)
       formData.append('content', this.content)
@@ -331,7 +340,6 @@ export default {
       formData.append('address', this.address)
       formData.append('phone', this.phone)
       var repeat
-      console.log(this.openday)
       for (repeat = 0; repeat < this.checkedValues.length; repeat++) {
         this.openday = this.openday + parseInt(this.checkedValues[repeat])
       }
@@ -355,7 +363,6 @@ export default {
         this.deleteList.push('0')
         formData.append('deletelist', this.deleteList[0])
       }
-      console.log(this.deleteList)
       this.$axios.post('http://localhost:9000/api/su/post/update', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
@@ -389,6 +396,15 @@ export default {
       }
       return result[parseInt(index)]
     },
+    getLanguage (value) {
+      let result = {
+        'KR': 1,
+        'US': 2,
+        'JP': 4,
+        'CN': 8
+      }
+      return result[value]
+    },
     cancelButton () {
       this.$router.push('/recommands/' + this.index)
     }
@@ -399,6 +415,7 @@ export default {
         console.log(response.data)
         const model = response.data
         this.language = model.postModel.default_lang /* 기본 언어 입력 */
+        this.languageValue = model.postModel.language - this.getLanguage(this.language) // 언어value값 기본 언어값 빼서 저장
         this.select = model.postModel.category /* 카테고리 입력 */
         this.position = model.postModel.title /* 장소명 입력 */
         this.content = model.postModel.content /* 관광 내용 입력 */
@@ -419,7 +436,6 @@ export default {
             this.checkedValues.push(this.getDay(i))
           }
         }
-        console.log(this.checkedValues)
         var opentime = model.postModel.opentime.split(':') /* 오픈 시간 할당 */
         this.openhour = opentime[0].toString()
         this.openmin = opentime[1]
