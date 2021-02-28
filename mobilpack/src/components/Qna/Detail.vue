@@ -215,7 +215,11 @@ export default {
 table {
   margin: 20px 0;
 }
-
+#content table th {
+  padding: 5px;
+  width: 10%;
+  text-align: right;
+}
 #content table tr {
   cursor: initial;
 }
