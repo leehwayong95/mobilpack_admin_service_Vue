@@ -103,6 +103,11 @@ export default {
       if (this.resCurrentPw) {
         this.resCurrentPw = false
       }
+    },
+    checkconfirmpw () {
+      if (this.checkconfirmpw) {
+        this.checkconfirmpw = false
+      }
     }
   },
   methods: {
@@ -123,7 +128,7 @@ export default {
       }
       this.$axios.post('http://localhost:9000/api/su/my/pwupdate', {
         currentpw: this.currentpw,
-        editpw: this.editpw
+        editpw: this.currentpw
       })
         .then((res) => {
           if (res.status === 202) {
@@ -140,6 +145,7 @@ export default {
             if (res.status === 202) {
               this.resCurrentPw = true
             } else {
+              this.resCurrentPw = false
               alert('변경되었습니다.')
               this.$router.push('/')
               this.$emit('close')

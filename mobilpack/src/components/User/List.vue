@@ -67,13 +67,13 @@
         </tr>
       </table>
       <div class="paging">
-      <a class ="pagingFirst"  @click="getNextBeforePage('0')"/>
-        <ul v-for="(n,index) in paging()" v-bind:key="index" @click="getPage(n)">
-          <li  v-if="currentpage !== n" class = "Nothere">{{n}}</li>
-          <li v-else class="here">{{n}}</li>
-        </ul>
-      <a class="pagingLast" @click="getNextBeforePage('1')"/>
-    </div>
+        <a class ="pagingFirst"  @click="getNextBeforePage('0')"/>
+          <ul v-for="(n,index) in paging()" v-bind:key="index" @click="getPage(n)">
+            <li  v-if="currentpage !== n" class = "Nothere">{{n}}</li>
+            <li v-else class="here">{{n}}</li>
+          </ul>
+        <a class="pagingLast" @click="getNextBeforePage('1')"/>
+      </div>
     </div>
   </div>
 </template>
