@@ -134,7 +134,7 @@ export default {
       }
       // Flag에 따라 동작
       if (doFlag) {
-        this.page = 1
+        this.currentpage = 1
         this.Search = this.tmp
         this.getUserList()
       } else {
