@@ -1,6 +1,7 @@
 <template>
     <div id="map" style="display:block;">
       <div id="mapbox" style="display:block;width:100%;height:100%;position:static;">
+        <!--네이버맵 api 표출 부분-->
         <naver-maps
           :height="mapSize.height"
           :width="mapSize.width"
@@ -10,6 +11,7 @@
           <naver-marker :lat="33.49959" :lng="126.53126" @load="onMarkerLoaded"/>  <!-- 네이버 지도에서 마커를 찍는다 -->
         </naver-maps>
       </div>
+      <!--검색창 부분-->
       <div id="searchbox" style="display:block;position:fixed;top:10px;left:20px;">
           <input
           v-model="searchdata"
@@ -27,7 +29,7 @@
             </ul>
           </div>
           <button style="height:30px;width:100px;position:fixed;top:20px;right:30px;" v-on:click="saveButton(save_address_lat,save_address_lng,save_address)">
-            <Edit :send="sendData" />포인트 저장</button>
+            포인트 저장</button>
       </div>
     </div>
 </template>
@@ -61,16 +63,16 @@ export default {
       initLayers: ['BACKGROUND', 'BACKGROUND_DETAIL', 'POI_KOREAN', 'TRANSIT', 'ENGLISH', 'CHINESE', 'JAPANESE']
     }
   },
-  mounted () {
+  mounted () { // 검색기능은 카카오 지도 api를 이용했기 때문에 인증키를 받아와야 한다
     this.$axios.defaults.headers.common['Authorization'] = 'KakaoAK 6bb3f20cedd0dea495fe5eeda9af7d9c'
     window.addEventListener('resize', this.handleResize)
   },
   methods: {
-    onLoad (vue) {
+    onLoad (vue) { // 처음에 지도 객체를 생성함
       this.map = vue
       this.handleResize()
     },
-    handleResize () {
+    handleResize () { // 지도 사이즈 재설정
       this.mapSize.width = document.getElementById('map').offsetWidth
       this.mapSize.height = document.getElementById('map').offsetHeight
       this.map.setSize(this.mapSize)
@@ -81,7 +83,6 @@ export default {
       this.$axios.get('https://dapi.kakao.com/v2/local/search/keyword.json?query=' + this.searchdata)
         .then(response => {
           this.regionList = response.data.documents
-          console.log(this.regionList)
           this.isActive = true
         })
         .catch((ex) => {
@@ -94,7 +95,7 @@ export default {
     onMarkerLoaded (vue) { /** 마커를 이용하기 위해 마커 객체 생성 */
       this.marker = vue.marker
     },
-    listButton (y, x, address) {
+    listButton (y, x, address) { // 리스트에서 해당 지역을 클릭했을 때 마커 이동하고 위경도 및 주소값 변수에 저장
       this.marker.setPosition({lat: y, lng: x})
       this.onMapMove(y, x)
       this.save_address_lat = y
@@ -104,10 +105,10 @@ export default {
       console.log(this.save_address_lng)
       console.log(this.save_address)
     },
-    saveButton (y, x, address) {
+    saveButton (y, x, address) { // 저장된 위경도 및 주소값을 Edit, Registrtion component로 보냄
       console.log(window.opener)
-      window.opener.v.Mom.save(y, x, address)
-      window.opener.v.Mom.onMapMove(y, x)
+      window.opener.v.Mom.save(y, x, address) // window.opener에 V라는 객체가 이전 페이지인데 거기서 save method를 불러옴
+      window.opener.v.Mom.onMapMove(y, x) // 마찬가지로 이전 페이지에서 위경도 값에 따라 지도 및 마커 이동
       window.close()
     }
   },
