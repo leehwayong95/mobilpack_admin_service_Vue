@@ -169,6 +169,7 @@
                   placeholder="연락처('-'제외입력)"
                   class="box"
                   type="text"
+                  maxlength="15"
                   v-model="phone"
                 />
              </td>
@@ -456,6 +457,11 @@ export default {
       if (this.tag === '') {
         this.tag = this.tag + '#'
       }
+    }
+  },
+  watch: {
+    phone () { // watch 절에서는 값이 변할때 처다보니까 변수명과 메소드 명이 같아야함
+      this.phone = this.phone.replace(/[^0-9]/g, '')
     }
   },
   mounted () {
