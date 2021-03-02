@@ -190,6 +190,7 @@
                 <label for="six">토요일</label>
                 <input type="checkbox" id="seven" v-model="checkedValues" value="64">
                 <label for="seven">일요일</label>
+                <h1 style="text-align:right;">※ 체크하지 않은 요일은 휴무일로 지정됩니다</h1>
                 <div>
                 <select style="width:80px" v-model="openhour">
                 <option v-for="(n,oh) in hour" :key="oh" v-bind:value="n">{{n}}</option>
