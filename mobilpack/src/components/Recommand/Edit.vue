@@ -336,7 +336,7 @@ export default {
     submmitButton () { // 값들을 spring단으로 보내는 버튼
       const formData = new FormData() // 파일도 보내기 위해서 formData 생성
       if (this.select === '선택') { // 필수 입력값 미입력 방지
-        alert('카테고리를 선택해주세요')
+        alert('카테고리를 입력해주세요')
         return
       } else if (this.position === '') {
         alert('추천장소명을 입력해주세요')
@@ -351,13 +351,13 @@ export default {
         alert('연락처를 입력해주세요')
         return
       } else if (this.checkedValues === []) {
-        alert('요일을 선택해주세요')
+        alert('요일을 입력해주세요')
         return
       } else if (this.openhour === '' || this.openmin === '') {
-        alert('오픈 시간을 선택해주세요')
+        alert('오픈 시간을 입력해주세요')
         return
       } else if (this.endhour === '' || this.endmin === '') {
-        alert('종료 시간을 선택해주세요')
+        alert('종료 시간을 입력해주세요')
         return
       } else if (this.address_lat === '' || this.address_lng === '') {
         alert('위도, 경도를 입력해주세요')
