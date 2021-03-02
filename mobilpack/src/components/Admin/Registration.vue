@@ -58,7 +58,7 @@
             v-model="phone"
             maxlength="15"
             oninput="javascript: this.value = this.value.replace(/[^0-9]/g, '');"
-            />
+            />{{" ※  ‘-’ 없이 입력해 주세요."}}
             </td>
             </tr>
             <tr>

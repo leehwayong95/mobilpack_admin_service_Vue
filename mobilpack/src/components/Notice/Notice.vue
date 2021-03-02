@@ -8,7 +8,12 @@
       <ul>
          <li>
          <span>언어</span>
-         <input type="text" v-model="language" v-on:keyup.enter="search">
+          <select style="width:200px" v-model="language" v-on:keyup.enter="search">
+            <option value="KR">한국어</option>
+            <option value="EN">영어</option>
+            <option value="JP">일본어</option>
+            <option value="CN">중국어</option>
+          </select>
          </li>
         <li>
           <span>제목or내용</span>
@@ -78,7 +83,13 @@
 <script>
 export default {
   mounted () {
-    this.$axios.get('http://localhost:9000//api/su/notice/search', {params: { Currentpage: 1, Number: this.Number, language: this.language, title: this.titleandcontent }})
+    this.$axios.get('http://localhost:9000//api/su/notice/search', {
+      params: {
+        Currentpage: 1,
+        Number: this.Number,
+        language: this.language,
+        title: this.titleandcontent
+      }})
       .then((res) => {
         this.listtotal = res.data.count
         this.items = res.data.result
@@ -100,6 +111,8 @@ export default {
       Number: 20,
       language: '',
       titleandcontent: '',
+      fixlanguage: '',
+      fixtitleandcontent: '',
       start_page: '',
       end_page: '',
       paging: function () {
@@ -112,12 +125,35 @@ export default {
   },
   methods: {
     search () {
+      this.fixlanguage = this.language
+      this.fixtitleandcontentc = this.titleandcontent
+      this.$axios.get('http://localhost:9000//api/su/notice/search', {
+        params: {
+          Currentpage: 1,
+          Number: this.Number,
+          language: this.language,
+          title: this.titleandcontent
+        }})
+        .then((res) => {
+          this.items = res.data.result
+          this.listtotal = res.data.count
+          this.end_page = res.data.count / this.Number
+          if (res.data.count % this.Number > 0) {
+            this.end_page = this.end_page + 1
+          } else {
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    pagingmove () {
       this.$axios.get('http://localhost:9000//api/su/notice/search', {
         params: {
           Currentpage: this.Currentpage,
           Number: this.Number,
-          language: this.language,
-          title: this.titleandcontent
+          language: this.fixlanguage,
+          title: this.fixtitleandcontent
         }})
         .then((res) => {
           this.items = res.data.result
@@ -144,7 +180,7 @@ export default {
     ckpage (n) {
       if (this.Currentpage !== n) {
         this.Currentpage = n
-        this.search()
+        this.pagingmove()
       }
     }
   }

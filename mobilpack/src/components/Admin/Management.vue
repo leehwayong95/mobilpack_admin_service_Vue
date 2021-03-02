@@ -101,6 +101,10 @@ export default {
       name: '',
       createat: '',
       updateat: '',
+      fixid: '',
+      fixname: '',
+      fixcreateat: '',
+      fixupdateat: '',
       Number: 20, // 게시글 수량 제한
       listtotal: '', // 리스트 컬럼수
       items: [], // DB리스트 담는곳
@@ -136,14 +140,42 @@ export default {
   },
   methods: {
     search () {
+      this.fixid = this.id
+      this.fixname = this.name
+      this.fixcreateat = this.createat
+      this.fixupdateat = this.updateat
       this.$axios.get('http://localhost:9000//api/su/admin/listsearch', {
         params: {
-          Currentpage: this.Currentpage,
+          Currentpage: 1,
           Number: this.Number,
           id: this.id,
           name: this.name,
           createat: this.createat,
           updateat: this.updateat
+        }})
+        .then((res) => {
+          console.log(res.data.count)
+          this.items = res.data.result
+          this.listtotal = res.data.count
+          this.end_page = res.data.count / this.Number
+          if (res.data.count % this.Number > 0) {
+            this.end_page = this.end_page + 1
+          } else {
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    pagingmove () {
+      this.$axios.get('http://localhost:9000//api/su/admin/listsearch', {
+        params: {
+          Currentpage: this.Currentpage,
+          Number: this.Number,
+          id: this.fixid,
+          name: this.fixname,
+          createat: this.fixcreateat,
+          updateat: this.fixupdateat
         }})
         .then((res) => {
           this.items = res.data.result
@@ -170,7 +202,7 @@ export default {
     ckpage (n) {
       if (this.Currentpage !== n) {
         this.Currentpage = n
-        this.search()
+        this.pagingmove()
       }
     }
   }
