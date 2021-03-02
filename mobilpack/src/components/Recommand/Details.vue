@@ -223,14 +223,16 @@ export default {
         })
     },
     deleteComment (n) {
-      this.$axios.post('http://localhost:9000/api/su/post/comment/delete?commentindex=' + n)
-        .then((res) => {
-          if (res.data === 'TRUE') {
-            this.getPost()
-          } else {
-            alert('실패')
-          }
-        })
+      if (confirm('선택한 리뷰를 삭제하시겠습니까?')) {
+        this.$axios.post('http://localhost:9000/api/su/post/comment/delete?commentindex=' + n)
+          .then((res) => {
+            if (res.data === 'TRUE') {
+              this.getPost()
+            } else {
+              alert('실패')
+            }
+          })
+      }
     },
     gotoTranslate () {
       this.$router.push({

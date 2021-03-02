@@ -104,7 +104,7 @@ export default {
         this.resCurrentPw = false
       }
     },
-    checkconfirmpw () {
+    confirmpw () {
       if (this.checkconfirmpw) {
         this.checkconfirmpw = false
       }
@@ -119,7 +119,9 @@ export default {
         flag = false
       }
       if (this.editpw !== this.confirmpw) {
+        console.log(this.checkconfirmpw)
         this.checkconfirmpw = true
+        console.log(this.checkconfirmpw)
         flag = false
       }
       if (!reg.test(this.editpw)) {
