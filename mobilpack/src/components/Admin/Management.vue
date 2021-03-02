@@ -54,7 +54,8 @@
             <td>{{ p.phone.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/,"$1-$2-$3")}}</td>
             <td>{{ p.email }}</td>
             <td>{{ p.createat.substring(0,16) }}</td>
-            <td>{{ p.updateat.substring(0,16) }}</td>
+            <td v-if="p.updateat=== null">{{ p.updateat }}</td>
+            <td v-else>{{ p.updateat.substring(0,16) }}</td>
           </tr>
         </tbody>
       </table>
@@ -128,7 +129,9 @@ export default {
       if (this.createat === '') {
         alert('시작 날짜를 선택하셔야 합니다.')
         this.updateat = ''
-      } else if (this.createat > newValue) {
+      } else if (this.createat > this.updateat) {
+        console.log(oldvalue)
+        console.log(newValue)
         alert('처음 날짜 보다 작아서는 안됩니다.')
         this.updateat = newValue
         this.updateat = null

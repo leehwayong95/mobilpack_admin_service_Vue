@@ -163,7 +163,7 @@ export default {
   padding-top: 3px;
   text-align: center;
 }
-.center {
-  line-height: 25px;
+#content table td {
+    line-height: 25px;
 }
 </style>

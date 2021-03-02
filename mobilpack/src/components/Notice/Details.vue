@@ -36,7 +36,8 @@
              <th>등록일시</th>
              <td colspan="1">{{items.createat}}</td>
              <th>수정일시</th>
-             <td colspan="1">{{items.updateat}}</td>
+             <td v-if="items.updateat === null" colspan="1"></td>
+             <td v-else colspan="1">{{items.updateat}}</td>
              <th>조회수</th>
              <td colspan="1">{{items.viewcount}}</td>
              </tr>
@@ -58,7 +59,8 @@
           </th>
           <button class="rightbutton" @click="back">목록</button>
           <button class="leftbutton" @click="Noticedelete">삭제</button>
-          <button class="leftbutton" @click="viewstop">게시중단</button>
+          <button v-if= "'1'=== items.enabled" class="leftstopbutton" @click="viewstop">게시중단</button>
+          <button v-else class="leftstopbutton" @click="resume">게시재개</button>
           <button class="Editleftbutton" @click="edit">수정</button>
         </div>
     </section>
@@ -73,23 +75,23 @@ export default
     this.$axios.get('http://localhost:9000/api/su/notice/plusviewcount', {params: {postindex: this.$route.query.index}})
       .then(res => {
         if (res.data === 'ok') {
+          this.$axios.get('http://localhost:9000/api/su/notice/detail', {params: {postindex: this.$route.query.index}})
+            .then((res) => {
+              this.items = res.data
+              this.postindex = this.$route.query.index
+              this.hypercontent = res.data.content
+              this.hypercontent = this.test(this.hypercontent)
+              this.testcontent = res.data.content
+              this.result = this.testcontent.match(this.hyperlink)
+            })
+            .catch((err) => {
+              console.log(err)
+            })
         } else {
           console.log('조회수 오류 다시 설정 해주세요')
         }
       })
     // 게시글 가져오기
-    this.$axios.get('http://localhost:9000/api/su/notice/detail', {params: {postindex: this.$route.query.index}})
-      .then((res) => {
-        this.items = res.data
-        this.postindex = this.$route.query.index
-        this.hypercontent = res.data.content
-        this.hypercontent = this.test(this.hypercontent)
-        this.testcontent = res.data.content
-        this.result = this.testcontent.match(this.hyperlink)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
     // 화용님 방식
     // var contSpan = document.getElementById('notice_cont')
     // contSpan.appendChild(document.createTextNode('hello'))
@@ -130,6 +132,22 @@ export default
           .then(res => {
             if (res.data === 'ok') {
               alert('게시중단으로 설정합니다.. ')
+              this.$router.push('/notice')
+            } else {
+              console.log(res)
+              console.log('오류 다시 설정 해주세요')
+            }
+          })
+      } else {
+      }
+    },
+    resume () {
+      var select = confirm('게시 하시겠습니까?')
+      if (select === true) {
+        this.$axios.post('http://localhost:9000/api/su/notice/Resumeposting', {postindex: this.postindex})
+          .then(res => {
+            if (res.data === 'ok') {
+              alert('게시중단에서 게시로 설정합니다.. ')
               this.$router.push('/notice')
             } else {
               console.log(res)
@@ -182,9 +200,13 @@ export default
   height: 30px;
   background: #db1e1e;
 }
+.leftstopbutton {
+  width: 100px;
+  height: 30px;
+  background: #e95b09;
+}
 .rightbutton {
   float: right; /* float  이 친구를 사용해서 수정 ,삭제 버튼을 오른쪽으로 보낼수 있습니다  */
-  margin-right: 30px; /* 버튼 간격 */
   width: 100px;
   height: 30px;
 }

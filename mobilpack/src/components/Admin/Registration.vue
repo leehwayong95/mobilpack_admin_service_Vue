@@ -76,7 +76,7 @@
         </table>
         <div class="center">
         <button class="btn" type="button" @click="join">등록</button>
-        <button class="btn" type="button" >취소</button>
+        <button class="btn" type="button" @click="cancel">취소</button>
         </div>
     </section>
   </div>
@@ -117,6 +117,9 @@ export default {
           })
       }
     },
+    cancel () {
+      this.$router.push('/details')
+    },
     Idcheck (id) {
       console.log(id)
       this.$axios.get('http://localhost:9000//api/su/admin/idcheck', {params: { id: id }})
@@ -126,7 +129,7 @@ export default {
             alert('사용가능한 ID 입니다.')
           } else {
             console.log(res)
-            console.log('중복된 ID 가 존재합니다')
+            alert('중복된 ID 가 존재합니다')
           }
         })
     }

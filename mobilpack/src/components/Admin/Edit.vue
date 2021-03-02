@@ -58,8 +58,8 @@
         </tbody>
       </table>
        <div class="center">
-        <button class="btn" type="button" @click="cancel">취소</button>
-        <button class="btn" type="button" @click="save">저장</button>
+        <button class="canclebtn" @click="cancel">취소</button>
+        <button class="savebtn" @click="save">저장</button>
         </div>
     </section>
   </div>
@@ -126,9 +126,15 @@ export default {
 .box {
   width: 30%;
 }
-.btn {
+.savebtn {
   margin-right: 30px; /* 버튼 간격 */
   width: 100px;
   height: 30px;
+}
+.canclebtn {
+  margin-right: 30px; /* 버튼 간격 */
+  width: 100px;
+  height: 30px;
+  background: rgb(240, 11, 11);
 }
 </style>
