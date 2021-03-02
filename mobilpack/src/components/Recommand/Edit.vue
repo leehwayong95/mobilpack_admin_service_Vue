@@ -207,7 +207,7 @@
                 </div>
              </td>
              <tr>
-             <th>입장마감 시간</th>
+             <th>입장마감 시간<br>(선택)</th>
              <td colspan="7">
                <select style="width:80px" v-model="entrancehour">
                 <option v-for="(n,eh) in hour" :key="eh" v-bind:value="n">{{n}}</option>

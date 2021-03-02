@@ -175,7 +175,7 @@
              </tr>
              <tr>
              <th>운영시간</th>
-             <td colspan="7" style="height:100px">
+             <td colspan="7" style="height:100px;">
                 <input type="checkbox" id="one" v-model="checkedValues" value=1>
                 <label for="one">월요일</label>
                 <input type="checkbox" id="two" v-model="checkedValues"  value=2>
@@ -207,7 +207,7 @@
                 </div>
              </td>
              <tr>
-             <th>입장마감 시간</th>
+             <th>입장마감 시간<br>(선택)</th>
              <td colspan="7">
                <select style="width:80px" v-model="entrancehour">
                 <option v-for="(n,eh) in hour" :key="eh" v-bind:value="n">{{n}}</option>
