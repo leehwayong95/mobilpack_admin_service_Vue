@@ -42,11 +42,12 @@ export default {
               this.$cookie.set('name', res.data.name)
               this.$router.push({name: 'userList'})
             } else {
+              console.log(res)
               this.alert('로그인에 실패하였습니다.<br><br>로그인 정보를 다시 확인해주세요.')
             }
           })
           .catch((err) => {
-            if (err.response.status === 410) {
+            if (err.response.status === 401) {
               this.alert('미등록 아이디입니다.<br><br>확인 후 다시 입력해주세요.')
             }
           })

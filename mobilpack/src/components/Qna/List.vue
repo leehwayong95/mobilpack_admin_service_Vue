@@ -175,10 +175,6 @@ export default {
           this.endpage = res.data.count / 20
           this.endpage += (res.data.count % 20) ? 1 : 0
         })
-        .catch((err) => {
-          console.log(err)
-          alert('개발자가 열심히 일중입니다\n잠시 후 이용해주세요')
-        })
     },
     view (n) {
       this.$router.push('/qna/' + n)

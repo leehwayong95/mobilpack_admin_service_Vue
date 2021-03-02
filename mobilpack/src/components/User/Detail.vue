@@ -64,10 +64,6 @@ export default {
             this.$router.push('/user')
           }
         })
-        .catch((err) => {
-          console.log(err)
-          alert('서버개발자가 열심히 일하고 있습니다.\n잠시 후 시도해주세요.')
-        })
     },
     setPwReset () {
       if (confirm('선택한 계정의 비밀번호를 초기화 하시겠습니까?')) {
@@ -79,10 +75,6 @@ export default {
               alert('정보를 찾을 수 없습니다.')
               this.$router.push('/user')
             }
-          })
-          .catch((err) => {
-            console.log(err)
-            alert('서버개발자가 열심히 일하고 있습니다.\n잠시 후 시도해주세요.')
           })
       }
     },

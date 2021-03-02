@@ -104,14 +104,6 @@ export default {
     }
   },
   mounted () {
-    if (this.$axios.defaults.headers.common['authorization'] === undefined) {
-      let token = this.$cookie.get('authorization')
-      if (token === undefined) {
-        alert('로그인 후 이용해주세요.')
-      } else {
-        this.$axios.defaults.headers.common['authorization'] = token
-      }
-    }
     this.getQnaPost()
   },
   watch: {
@@ -140,11 +132,6 @@ export default {
             this.$router.push('/qna')
           }
         })
-        .catch((err) => {
-          alert('개발자가 열심히 작업중입니다.\n잠시 후 시도해주세요')
-          this.$router.push('/qna')
-          console.log(err)
-        })
     },
     backtoList () {
       this.$router.push('/qna')
@@ -161,11 +148,14 @@ export default {
             alert('서버 작업중입니다. 나중에 시도해주세요.')
           }
         })
-        // .catch((err) => {
-        //   console.log(err)
-        //   alert('로그인이 만료되었습니다. 다시 로그인해주세요')
-        //   this.$router.push('/')
-        // })
+        .catch((err) => {
+          if (err.response.status === 401) {
+            alert('로그인이 만료되었습니다. 다시 로그인해주세요')
+            this.$cookie.delete('authorization')
+            this.$cookie.delete('name')
+            this.$router.push('/')
+          }
+        })
     },
     deleteQnaPost () {
       if (confirm('삭제하시겠습니까?')) {
