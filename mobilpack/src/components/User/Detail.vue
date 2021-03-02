@@ -28,11 +28,11 @@
         </tr>
         <tr>
           <th>연락처</th>
-          <td>{{userdata.phone.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/, '$1-$2-$3')}}</td>
+          <td v-text="userdata.phone"></td>
         </tr>
         <tr>
           <th>가입일시</th>
-          <td>{{userdata.createat.split(' ')[0]}} {{userdata.createat.split(' ')[1].substr(0,5)}}</td>
+          <td v-text="userdata.createat"></td>
         </tr>
       </table>
       <div class="btn_wrap">
@@ -59,6 +59,8 @@ export default {
         .then((res) => {
           if (res.data.result) {
             this.userdata = res.data.info
+            this.userdata.phone = this.userdata.phone.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/, '$1-$2-$3')
+            this.userdata.createat = this.userdata.createat.split(' ')[0] + ' ' + this.userdata.createat.split(' ')[1].substr(0, 5)
           } else {
             alert('사용자를 조회할 수 없습니다.')
             this.$router.push('/user')

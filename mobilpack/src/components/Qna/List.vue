@@ -177,7 +177,7 @@ export default {
         })
     },
     view (n) {
-      this.$router.push('/qna/' + n)
+      this.$router.push({path: this.$route.path + '/' + n})
     },
     getPage (n) {
       if (this.page !== n) {

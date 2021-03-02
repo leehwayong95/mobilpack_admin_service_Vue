@@ -11,7 +11,7 @@
             <td v-if="post['user_name'] === null">삭제된 회원</td>
             <td v-else>{{post['user_name']}}</td>
           <th>연락처</th>
-            <td v-if="post.phone !== null">{{post.phone.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/, '$1-$2-$3')}}</td>
+            <td v-if="post.phone !== null" v-text="post.phone"></td>
             <td v-else> - </td>
         </tr>
         <tr>
@@ -21,7 +21,7 @@
           <td v-else-if="post.category==3">기타</td>
           <td v-else>히히</td>
           <th>문의일시</th>
-          <td>{{post.createat.split(' ')[0]}} {{post.createat.split(' ')[1].substr(0,5)}}</td>
+          <td v-text="post.createat"></td>
         </tr>
         <tr>
           <th>문의 제목</th>
@@ -103,7 +103,7 @@ export default {
       admin_name: this.$cookie.get('name')
     }
   },
-  mounted () {
+  created () {
     this.getQnaPost()
   },
   watch: {
@@ -119,6 +119,8 @@ export default {
         .then((res) => {
           if (res.data.status) {
             this.post = res.data.post
+            this.post.phone = this.post.phone.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/, '$1-$2-$3')
+            this.post.createat = this.post.createat.split(' ')[0] + ' ' + this.post.createat.split(' ')[1].substr(0, 5)
             if (res.data.post.replydate) {
               this.editmode = false
               if (this.post['admin_name'] === null) {
