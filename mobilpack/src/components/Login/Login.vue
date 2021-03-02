@@ -6,9 +6,9 @@
       </div>
       <div class="login_form">
         <span>아이디</span>
-        <input v-model="id" type="text" class="login_txt" placeholder="ID"/>
+        <input v-model="id" type="text" class="login_txt"/>
         <span>비밀번호</span>
-        <input v-model="pw" type="password" class="login_txt" placeholder="PW" v-on:keyup.enter="login"/>
+        <input v-model="pw" type="password" class="login_txt" v-on:keyup.enter="login"/>
         <div class = 'btn_wrap'>
           <button type="button" class="login_btn"  v-on:click="login">로그인</button>
         </div>

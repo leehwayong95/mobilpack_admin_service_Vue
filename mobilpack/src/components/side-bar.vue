@@ -1,7 +1,7 @@
 <template>
     <div class = 'v-sidebar-menu'>
         <ul id='menu'>
-            <li class='logo' v-on:click="jump('admin')">T-Maas<br>Admin Service</li>
+            <li class='logo' v-on:click="jump('admin')">관광지 추천<br>관리자 페이지</li>
             <li>
               <span v-if="route == 'userList'" style="background: #3e61dc;" v-on:click="jump('userList')">회원 관리</span>
               <span v-else v-on:click="jump('userList')">회원 관리</span>
