@@ -97,7 +97,7 @@
         </colgroup>
         <tbody>
              <tr>
-             <th>음성안내 문구<br><h1 style="text-align:right;">(선택)</h1></th>
+             <th>음성안내 문구<br>(선택)</th>
                 <td style="height:100px" colspan="7">
                 <textarea
                 style="width:800px; height:100px"
