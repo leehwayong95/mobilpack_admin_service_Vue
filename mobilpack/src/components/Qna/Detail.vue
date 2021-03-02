@@ -129,7 +129,6 @@ export default {
             this.post = res.data.post
             if (res.data.post.replydate) {
               this.editmode = false
-              this.inputReply = res.data.post.reply
               if (this.post['admin_name'] === null) {
                 this.post['admin_name'] = '삭제된 관리자'
               }
@@ -176,10 +175,10 @@ export default {
               this.$router.push('/qna')
             }
           })
-          .catch((err) => {
-            console.log(err)
-            alert('서버관리자가 열심히 일중입니다.\n잠시 후 시도해주세요')
-          })
+          // .catch((err) => {
+          //   console.log(err)
+          //   alert('서버관리자가 열심히 일중입니다.\n잠시 후 시도해주세요')
+          // })
       }
     },
     deleteAnswer () {
@@ -189,14 +188,14 @@ export default {
             this.inputReply = ''
             this.getQnaPost()
           })
-          .catch((err) => {
-            console.log(err)
-            alert('서버개발자가 열심히 일중입니다.\n잠시 후 시도해주세요')
-          })
+          // .catch((err) => {
+          //   console.log(err)
+          //   alert('서버개발자가 열심히 일중입니다.\n잠시 후 시도해주세요')
+          // })
       }
     },
     EditMode () {
-      this.inputReply = this.inputReply.replace(/(<br \/>)/g, '\n').replace(/(<([^>]+)>)/ig, '')
+      this.inputReply = this.post.reply.replace(/(<br \/>)/g, '\n').replace(/(<([^>]+)>)/ig, '')
       this.editmode = !this.editmode
     },
     convertHTML (content) {
