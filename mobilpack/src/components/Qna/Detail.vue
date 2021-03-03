@@ -136,7 +136,7 @@ export default {
         })
     },
     backtoList () {
-      this.$router.push('/qna')
+      this.$router.go(-1)
     },
     setReply () {
       let HTMLReply = this.convertHTML(this.inputReply)
@@ -164,7 +164,7 @@ export default {
         this.$axios.delete('http://localhost:9000/api/su/qna/' + this.index)
           .then((res) => {
             if (res.data.status) {
-              this.$router.push('/qna')
+              this.$router.go(-1)
             }
           })
           // .catch((err) => {
