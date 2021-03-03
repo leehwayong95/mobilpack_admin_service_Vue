@@ -172,8 +172,7 @@ export default {
         lat: 33.49959,
         lng: 126.53126,
         zoom: 16,
-        zoomControl: true,
-        zoomControlOptions: {position: 'TOP_RIGHT'},
+        zoomControl: false,
         mapTypeControl: true,
         draggable: false,
         pinchZoom: false,
@@ -339,7 +338,7 @@ div#vue-naver-maps {
   width: 100%;
 }
 #content table tr.map {
-  height: 800px;
+  height: 400px;
 }
 .btn {
   height: 50px; /* 테이블과 버튼 간격 */
