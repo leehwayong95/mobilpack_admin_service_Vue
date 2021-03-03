@@ -84,8 +84,8 @@
           <th>일본어</th>
           <th>중국어</th>
         </tr>
-        <tr v-for="i of List" :key="i.postindex" @click="getPost(i.postindex)">
-          <td>{{i.postindex}}</td>
+        <tr v-for="(i,index) in List" :key="index" @click="getPost(i.postindex)">
+          <td>{{ListCount - (index+((page-1)*20))}}</td>
           <td>{{i.category}}</td>
           <td class="title" v-if="i.title.length > 20">{{i.title.substr(0,20)}}...</td>
           <td class="title" v-else>{{i.title}}</td>
@@ -157,6 +157,7 @@ export default {
       },
       page: this.$route.query.page ? parseInt(this.$route.query.page) : 1,
       List: '',
+      ListCount: '',
       endpage: '',
       paging: function () {
         var pagenumber = []
@@ -207,6 +208,7 @@ export default {
         }
       })
         .then((res) => {
+          this.ListCount = res.data.pageCount
           this.endpage = res.data.pageCount / 20 + (res.data.pageCount % 20 > 0 ? 1 : 0)
           this.List = res.data.List
         })
