@@ -107,7 +107,7 @@ export default {
       }
     },
     back () {
-      this.$router.push('/details')
+      this.$router.push({path: '/details', query: {page: this.$route.query.page}}) // 전페이지 이동을 위해 path에 쿼리를 추가 전달 router 공부 필요
     },
     edit () {
       this.$router.push({

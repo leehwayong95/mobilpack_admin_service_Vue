@@ -123,7 +123,7 @@ export default
       return str.replaceAll('\n', '<br/>')
     },
     back () {
-      this.$router.push('/notice')
+      this.$router.go(-1)
     },
     viewstop () {
       var select = confirm('게시 중단 하시겠습니까?')
