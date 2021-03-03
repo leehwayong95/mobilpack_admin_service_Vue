@@ -20,7 +20,7 @@
           <input type="text" v-model="titleandcontent" v-on:keyup.enter="search">
         </li>
       </ul>
-      <button class="searchbutton" v-on:click="search">검색</button>
+      <button class="searchbutton"  @click="search">검색</button>
     </div>
       <div class="cont_inner">
           <p class="admintitle">| 공지사항 목록</p>
@@ -132,7 +132,7 @@ export default {
           Currentpage: 1,
           Number: this.Number,
           language: this.language,
-          title: this.titleandcontent
+          titlename: this.titleandcontent
         }})
         .then((res) => {
           this.items = res.data.result

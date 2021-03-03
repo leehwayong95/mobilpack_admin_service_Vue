@@ -70,8 +70,8 @@ export default {
   data () {
     return {
       id: this.$route.query.items.id,
-      language: 'KR',
-      topsetting: '0',
+      language: this.$route.query.items.language,
+      topsetting: this.$route.query.items.topsetting,
       title: this.$route.query.items.title,
       content: this.$route.query.items.content,
       changecontent: '',
