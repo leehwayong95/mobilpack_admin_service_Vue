@@ -27,6 +27,19 @@
   margin-top: 10px;
   padding: 0 20px;
 }
+.modal_button_wrap input {
+  width: 100px;
+  height: 30px;
+  font-size: 14px;
+  color: #fff;
+  background: #3d4b64;
+  border: solid 1px #ddd;
+  border-radius: 5px;
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
 div.closebtn {
   position: absolute;
   top: 10px;
