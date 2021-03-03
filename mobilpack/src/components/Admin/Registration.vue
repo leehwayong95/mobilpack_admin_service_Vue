@@ -8,8 +8,7 @@
       <h3 class="cont_title">계정 정보</h3>
       <table>
         <colgroup>
-        <col style="width: 10%;">
-        <col style="width: 30%;">
+        <col style="width: 11%;">
         </colgroup>
         <tbody>
           <tr>
@@ -34,7 +33,7 @@
         <table>
           <colgroup>
           <col style="width: 12%;">
-          <col style="width: 12%;">
+          <col style="width: 18%;">
           <col style="width: 80%;">
           </colgroup>
           <tbody>
@@ -90,6 +89,7 @@ export default {
       this.Num = this.id.replace(/[^0-9+]/g, '')
       console.log(this.Han)
       console.log(this.Num)
+      console.log(this.id.length)
       if (this.id === '') {
         alert('아이디를 입력해주세요')
       } else if (this.id.length < 6 || (this.Han.length === 0 || this.Num.length === 0)) {
@@ -121,17 +121,23 @@ export default {
       this.$router.push('/details')
     },
     Idcheck (id) {
-      console.log(id)
-      this.$axios.get('http://localhost:9000//api/su/admin/idcheck', {params: { id: id }})
-        .then((res) => {
-          if (res.data === 'TRUE') {
-            this.IDAgaincheck = true
-            alert('사용가능한 ID 입니다.')
-          } else {
-            console.log(res)
-            alert('중복된 ID 가 존재합니다')
-          }
-        })
+      this.Han = this.id.replace(/[^A-Za-z+]/g, '')
+      this.Num = this.id.replace(/[^0-9+]/g, '')
+      if (this.id.length < 6 || (this.Han.length === 0 || this.Num.length === 0)) {
+        alert('영문,숫자포함 5자이상이여야 합니다')
+        this.id = null
+      } else {
+        this.$axios.get('http://localhost:9000//api/su/admin/idcheck', {params: { id: id }})
+          .then((res) => {
+            if (res.data === 'TRUE') {
+              this.IDAgaincheck = true
+              alert('사용가능한 ID 입니다.')
+            } else {
+              console.log(res)
+              alert('중복된 ID 가 존재합니다')
+            }
+          })
+      }
     }
   },
   data () {

@@ -34,10 +34,10 @@
              <td colspan="1" v-if= "null === items.name">삭제된 관리자</td>
              <td colspan="1" v-else >{{items.name}}</td>
              <th>등록일시</th>
-             <td colspan="1">{{items.createat}}</td>
+             <td colspan="1">{{items.createat.substring(0,16)}}</td>
              <th>수정일시</th>
              <td v-if="items.updateat === null" colspan="1"></td>
-             <td v-else colspan="1">{{items.updateat}}</td>
+             <td v-else colspan="1">{{items.updateat.substring(0,16)}}</td>
              <th>조회수</th>
              <td colspan="1">{{items.viewcount}}</td>
              </tr>
@@ -123,7 +123,7 @@ export default
       return str.replaceAll('\n', '<br/>')
     },
     back () {
-      this.$router.go(-1)
+      this.$router.go(-1) // 바로 전 페이지로 이동 router 공부 필요
     },
     viewstop () {
       var select = confirm('게시 중단 하시겠습니까?')

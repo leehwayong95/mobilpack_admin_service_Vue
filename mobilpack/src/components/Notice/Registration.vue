@@ -106,6 +106,11 @@ export default {
           if (res.data === 'TRUE') {
             alert('등록 성공')
             this.$router.push('/notice')
+          } else if (res.data === 'JwtExpired') {
+            alert('로그인이 만료되었습니다. 다시 로그인해주세요')
+            this.$cookie.delete('authorization')
+            this.$cookie.delete('name')
+            this.$router.push('/')
           } else {
             console.log(res)
             console.log('가입 실패 다시 작성해주세요')

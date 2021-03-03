@@ -25,9 +25,10 @@
           </tr>
           <tr>
             <th>등록일시</th>
-            <td>{{items.createat}}</td>
+            <td>{{items.createat.substring(0,16)}}</td>
             <th>수정일시</th>
-            <td colspan="3">{{items.updateat}}</td>
+            <td v-if="items.updateat === null " colspan="3">{{items.updateat}}</td>
+            <td v-else colspan="3">{{items.updateat.substring(0,16)}}</td>
           </tr>
           </tbody>
         </table>
