@@ -75,8 +75,8 @@
           </tbody>
         </table>
         <div class="center">
-        <button class="btn" type="button" @click="join">등록</button>
-        <button class="btn" type="button" @click="cancel">취소</button>
+        <button class="canclebtn"  @click="cancel">취소</button>
+        <button class="savebtn"  @click="join">등록</button>
         </div>
     </section>
   </div>
@@ -103,7 +103,7 @@ export default {
         alert('전화번호를 입력해주세요 ')
       } else if (this.email === '') {
         alert('이메일을 입력해주세요 ')
-      } else if (!this.email.match(/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@$/i)) {
+      } else if (!this.email.match(/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i)) {
         alert('이메일 형식이 아닙니다 ')
       } else {
         this.$axios.post('http://localhost:9000//api/su/admin/join', { admin_id: this.id, name: this.name, phone: this.phone, email: this.email })
@@ -163,5 +163,16 @@ export default {
   margin-right: 30px; /* 버튼 간격 */
   width: 100px;
   height: 30px;
+}
+.savebtn {
+  margin-right: 30px; /* 버튼 간격 */
+  width: 100px;
+  height: 30px;
+}
+.canclebtn {
+  margin-right: 30px; /* 버튼 간격 */
+  width: 100px;
+  height: 30px;
+  background: rgb(240, 11, 11);
 }
 </style>

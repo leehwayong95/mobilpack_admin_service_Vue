@@ -39,6 +39,7 @@
             <input
             class="box"
             type="text"
+            maxlength='50'
             v-model="title"
            />
            </td>
@@ -50,6 +51,7 @@
             style="height:500px; margin-top: 10px; margin-bottom: 10px;"
             class="box"
             type="text"
+            maxlength='5000'
             v-model="content"
            />
            </td>
@@ -58,7 +60,7 @@
         </table>
         <div class="center">
         <button class="canclebtn" type="button" @click="cancel">취소</button>
-        <button class="savebtn" type="button" @click="change">저장</button>
+        <button class="savebtn" type="button" @click="join">저장</button>
         </div>
     </section>
   </div>
@@ -87,21 +89,14 @@ export default {
       })
   },
   methods: {
-    change () {
-      if (this.content.match(this.hyperlink)) {
-        this.changecontent = this.content
-        this.result = this.content.match(this.hyperlink)
-        for (var i = 0; i <= this.result.length; i++) {
-          this.changecontent = this.changecontent.replace(this.result[i], '<a href=' + this.result[i] + ' target="_blank"' + '>' + this.result[i] + '</a>')
-          console.log('여기가 for문 결과입니다' + this.changecontent)
-        }
-        this.join()
-      } else {
-        this.changecontent = this.content
-        this.join()
-      }
+    convertHTML (content) {
+      var regURL = new RegExp(`(http|https|ftp|telnet|news|irc)://([-/.a-zA-Z0-9_~#%$?&=:200-377()]+)`, 'gi')
+      return content
+        .replace(regURL, `<a href='$1://$2' target='_blank'>$1://$2</a>`)
+        .replace(/(?:\r\n|\r|\n)/g, '<br />')
     },
     join () {
+      this.changecontent = this.convertHTML(this.content)
       this.$axios.post('http://localhost:9000//api/su/notice/edit', {
         postindex: this.$route.query.items.postindex,
         id: this.id,
