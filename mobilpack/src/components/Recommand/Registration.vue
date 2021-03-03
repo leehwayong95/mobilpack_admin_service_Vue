@@ -261,7 +261,7 @@ export default {
       map: null, /* 지도를 사용하기 위해 map 객체를 생성 */
       marker: null, /* 마커를 조작하기 위해 marker 객체를 생성 */
       mapHeight: 600, /* 지도의 기본 높이 */
-      mapWidth: 800, /* 지도의 기본 길이 */
+      mapWidth: 1390, /* 지도의 기본 길이 */
       mapOptions: { /* 제주 시청을 기본 위도 경도로 설정 */
         lat: 33.49959,
         lng: 126.53126,
