@@ -1,7 +1,7 @@
 <template>
   <div id="modal">
     <div class="closebtn" @click="$emit('close')">
-      <img src="..\..\assets\images\btn_modalclose.png" width="20px">
+      <img src="@/assets/images/btn_modalclose.png" width="20px">
     </div>
     <div class="modal_message">
       <span v-html="this.$props.hot_table"></span>
