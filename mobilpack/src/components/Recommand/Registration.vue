@@ -86,7 +86,7 @@
                 <button v-for="(file,index) in fileList" v-bind:key = "index" class="pickbox" type="button" @click="onClickImageUpload"><img class="pick"
                 v-if="file !== '0'" :src="urlSource(file)"
                 ><div><button v-if= "fileList.length >= 1 && file != '0'" class="Deletepick" @click.stop="deleteimage(index)" >X</button></div></button>
-                <h1 class="ment" style="weight:98%;">※ 이미지 파일(JPG,PNG)을 등록해주세요.(최대 5장)첫번째 사진이 대표 사진으로 사용됩니다.</h1>
+                <h1 class="ment" style="weight:98%;color:#595959;">※ 이미지 파일(JPG,PNG)을 등록해주세요.(최대 5장)첫번째 사진이 대표 사진으로 사용됩니다.</h1>
                </div>
              </td>
              </tr>
@@ -149,8 +149,8 @@
                   v-model="address_lng"
                   placeholder="경도"
                 />
-                <button class="centerbutton" @click="onMapMove">지도확인</button> <!-- 위도 경도를 입력한뒤 버튼 누르면 해당 위치로 지도 화면 이동-->
-                <button class="rightbutton" @click="pop">지도에서 직접 선택하기</button> <!-- window.open을 이용해서 지도 팝업창 띄움-->
+                <button class="centerbutton" style="background-color:#7f7f7f;" @click="onMapMove">지도확인</button> <!-- 위도 경도를 입력한뒤 버튼 누르면 해당 위치로 지도 화면 이동-->
+                <button class="rightbutton" style="background-color:#5b9bd5;" @click="pop">지도에서 직접 선택하기</button> <!-- window.open을 이용해서 지도 팝업창 띄움-->
              </td>
              </tr>
              <tr>
@@ -179,35 +179,37 @@
              <tr>
              <th>운영시간</th>
              <td colspan="7" style="height:100px;">
-                <input type="checkbox" id="one" v-model="checkedValues" value=1>
-                <label for="one">월요일</label>
-                <input type="checkbox" id="two" v-model="checkedValues"  value=2>
-                <label for="two">화요일</label>
-                <input type="checkbox" id="three" v-model="checkedValues" value=4>
-                <label for="three">수요일</label>
-                <input type="checkbox" id="four" v-model="checkedValues" value=8>
-                <label for="four">목요일</label>
-                <input type="checkbox" id="five" v-model="checkedValues" value=16>
-                <label for="five">금요일</label>
-                <input type="checkbox" id="six" v-model="checkedValues" value=32>
-                <label for="six">토요일</label>
-                <input type="checkbox" id="seven" v-model="checkedValues" value=64>
-                <label for="seven">일요일</label>
-                <h1 style="text-align:right;width:98%;">※ 체크하지 않은 요일은 휴무일로 지정됩니다</h1>
+                 <div>
+                  <input type="checkbox" id="one" v-model="checkedValues" value=1>
+                  <label for="one">월요일</label>
+                  <input type="checkbox" id="two" v-model="checkedValues"  value=2>
+                  <label for="two">화요일</label>
+                  <input type="checkbox" id="three" v-model="checkedValues" value=4>
+                  <label for="three">수요일</label>
+                  <input type="checkbox" id="four" v-model="checkedValues" value=8>
+                  <label for="four">목요일</label>
+                  <input type="checkbox" id="five" v-model="checkedValues" value=16>
+                  <label for="five">금요일</label>
+                  <input type="checkbox" id="six" v-model="checkedValues" value=32>
+                  <label for="six">토요일</label>
+                  <input type="checkbox" id="seven" v-model="checkedValues" value=64>
+                  <label for="seven">일요일</label>
+                  <h1 style="text-align:right;display:block;float:right;">※ 체크하지 않은 요일은 휴무일로 지정됩니다</h1>
+                 </div>
                 <div>
-                <select style="width:80px" v-model="openhour">
-                <option v-for="(n,oh) in hour" :key="oh" v-bind:value="n">{{n}}</option>
-                </select>
-                <select style="width:80px" v-model="openmin">
-                <option v-for="(n,om) in min" :key="om" v-bind:value="n">{{n}}</option>
-                </select>
-                <span>~</span>
-                <select style="width:80px" v-model="endhour">
-                <option v-for="(n,eh) in hour" :key="eh" v-bind:value="n">{{n}}</option>
-                </select>
-                <select style="width:80px" v-model="endmin">
-                <option v-for="(n,em) in min" :key="em" v-bind:value="n">{{n}}</option>
-                </select>
+                  <select style="width:80px" v-model="openhour">
+                  <option v-for="(n,oh) in hour" :key="oh" v-bind:value="n">{{n}}</option>
+                  </select>
+                  <select style="width:80px" v-model="openmin">
+                  <option v-for="(n,om) in min" :key="om" v-bind:value="n">{{n}}</option>
+                  </select>
+                  <span>~</span>
+                  <select style="width:80px" v-model="endhour">
+                  <option v-for="(n,eh) in hour" :key="eh" v-bind:value="n">{{n}}</option>
+                  </select>
+                  <select style="width:80px" v-model="endmin">
+                  <option v-for="(n,em) in min" :key="em" v-bind:value="n">{{n}}</option>
+                  </select>
                 </div>
              </td>
              <tr>
@@ -224,8 +226,8 @@
         </tbody>
         </table>
         <div class="center">
-          <button class="centerbutton" style="background:  rgb(230, 120, 120)" @click="cancelButton">취소</button>
-          <button class="centerbutton" @click="submmitButton">저장</button>
+          <button class="centerbutton" style="background-color:#d9d9d9;color:#7f7f7f;" @click="cancelButton">취소</button>
+          <button class="centerbutton" style="background-color:#7f7f7f;" @click="submmitButton">저장</button>
         </div>
     </section>
     </div>
