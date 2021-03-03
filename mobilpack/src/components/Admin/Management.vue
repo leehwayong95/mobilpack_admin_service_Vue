@@ -62,7 +62,8 @@
       <div class="paging">
         <a class="pagingFirst"/>
           <ul v-for="(n,index) in paging()" :key="index" href="javascript:;" >
-            <li @click="ckpage(`${n}`)">{{n}}</li>
+            <li v-if="page !== n" @click="ckpage(n)">{{n}}</li>
+            <li v-else class="Currentpage">{{n}}</li>
           </ul>
         <a class="pagingLast"/>
       </div>
@@ -73,30 +74,11 @@
 <script>
 export default {
   mounted () {
-    this.$axios.get('http://localhost:9000//api/su/admin/listsearch', {
-      params: {
-        Currentpage: 1,
-        Number: this.Number,
-        id: this.id,
-        name: this.name,
-        createat: this.createat,
-        updateat: this.updateat
-      }})
-      .then((res) => {
-        this.listtotal = res.data.count
-        this.items = res.data.result
-        this.end_page = res.data.count / this.Number // count:list 수 를 20으로 나누어서 몇 페이지 필요한지 계산
-        if (res.data.count % this.Number >= 1) {
-          this.end_page = this.end_page + 1
-        } else {
-        }
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+    this.search()
   },
   data () {
     return {
+      page: this.$route.query.page ? parseInt(this.$route.query.page) : 1,
       Num: '',
       id: '',
       name: '',
@@ -149,7 +131,7 @@ export default {
       this.fixupdateat = this.updateat
       this.$axios.get('http://localhost:9000//api/su/admin/listsearch', {
         params: {
-          Currentpage: 1,
+          Currentpage: this.page,
           Number: this.Number,
           id: this.id,
           name: this.name,
@@ -157,7 +139,6 @@ export default {
           updateat: this.updateat
         }})
         .then((res) => {
-          console.log(res.data.count)
           this.items = res.data.result
           this.listtotal = res.data.count
           this.end_page = res.data.count / this.Number
@@ -173,7 +154,7 @@ export default {
     pagingmove () {
       this.$axios.get('http://localhost:9000//api/su/admin/listsearch', {
         params: {
-          Currentpage: this.Currentpage,
+          Currentpage: this.page,
           Number: this.Number,
           id: this.fixid,
           name: this.fixname,
@@ -199,13 +180,14 @@ export default {
     rowClick (id) {
       this.$router.push({
         path: '/admindetails',
-        query: {adminID: id}
+        query: {adminID: id, page: this.page}
       })
     },
     ckpage (n) {
-      if (this.Currentpage !== n) {
-        this.Currentpage = n
+      if (this.page !== n) {
+        this.page = n
         this.pagingmove()
+        this.$router.push({name: this.$route.name, query: {page: n}})
       }
     }
   }
@@ -226,6 +208,9 @@ button.joinbutton{
 }
 #content > .search > button {
     right: 30px;
-
+}
+.Currentpage {
+  background-color: #3e61dc;
+  color: #fff;
 }
 </style>
