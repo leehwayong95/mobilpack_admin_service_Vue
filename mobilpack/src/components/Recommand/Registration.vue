@@ -54,7 +54,7 @@
              <th>관광정보</th>
                 <td style="height:100px" colspan="7">
                 <textarea
-                style="width:1350px; height:100px"
+                style="width:98%; height:100px"
                 placeholder="관광객 APP에 제공할 추천 장소의 관광 정보를 입력해주세요"
                 type="text"
                 maxlength="5000"
@@ -68,7 +68,7 @@
                <!-- 스페이스바 눌렀을 때 , #이 자동으로 입력되는 메소드(clickSpace)-->
                <!-- input 입력창을 클릭했을 떄, 아무것도 입력 안됬을 때 #이 자동으로 입력되는 메소드(clickFirst)-->
                <input
-                  style="width:1000px"
+                  style="width:98%"
                   placeholder="#을 이용해 태그를 입력해주세요"
                   type="text"
                   @keyup.space = "clickSpace"
@@ -80,12 +80,14 @@
              <tr>
              <th>사진</th> <!-- fileList에 담긴 값에 따라 사진 버튼을 생성하게 함-->
              <!-- fileList에 0이 아닌 이미지 값이 담길 때 img 태그가 활성화 되어 미리보기가 나오고 삭제버튼이 활성화-->
-             <td class="Allbox" colspan="7" style="height:150px; padding-top: 10px;" >
-               <input ref="imageInput" type="file" hidden @change="onChangeImages">
-               <button v-for="(file,index) in fileList" v-bind:key = "index" class="pickbox" type="button" @click="onClickImageUpload"><img class="pick"
-               v-if="file !== '0'" :src="urlSource(file)"
-               ><div><button v-if= "fileList.length >= 1 && file != '0'" class="Deletepick" @click.stop="deleteimage(index)" >X</button></div></button>
-               <h1 class="ment">※ 이미지 파일(JPG,PNG)을 등록해주세요.(최대 5장)첫번째 사진이 대표 사진으로 사용됩니다.</h1>
+             <td colspan="7">
+               <div class="Allbox"  style="height:150px;width:98%;padding-top: 10px;">
+                <input ref="imageInput" type="file" hidden @change="onChangeImages">
+                <button v-for="(file,index) in fileList" v-bind:key = "index" class="pickbox" type="button" @click="onClickImageUpload"><img class="pick"
+                v-if="file !== '0'" :src="urlSource(file)"
+                ><div><button v-if= "fileList.length >= 1 && file != '0'" class="Deletepick" @click.stop="deleteimage(index)" >X</button></div></button>
+                <h1 class="ment" style="weight:98%;">※ 이미지 파일(JPG,PNG)을 등록해주세요.(최대 5장)첫번째 사진이 대표 사진으로 사용됩니다.</h1>
+               </div>
              </td>
              </tr>
          </tbody>
@@ -97,10 +99,10 @@
         </colgroup>
         <tbody>
              <tr>
-             <th>음성안내 문구<br><h1 style="margin">(선택)</h1></th>
+             <th>음성안내 문구<br>(선택)</th>
                 <td style="height:100px" colspan="7">
                 <textarea
-                style="width:1350px; height:100px"
+                style="width:98%; height:100px"
                 placeholder="관광객 APP에서 오디오 가이드로 제공할 음성 안내 문구를 입력해주세요 입력된 정보는 TTS로 제공됩니다."
                 type="text"
                 v-model="voice"
@@ -117,7 +119,7 @@
         <tbody>
              <tr>
              <th rowspan="2">위치 정보</th><!--칸 나누기 (세로)는 rowspan 사용 -->
-             <td colspan="7" style="width:1340px; height:600px">
+             <td colspan="7" style="width:98%; height:600px">
                <div>
                  <!-- 기본 높이, 길이를 정하고 mapOption은 지도 api의 여러 설정을 정한다.-->
                  <!--initLayers는 지도의 기본 레이어를 설정함-->
@@ -169,13 +171,14 @@
                   placeholder="연락처('-'제외입력)"
                   class="box"
                   type="text"
+                  maxlength="15"
                   v-model="phone"
                 />
              </td>
              </tr>
              <tr>
              <th>운영시간</th>
-             <td colspan="7" style="height:100px">
+             <td colspan="7" style="height:100px;">
                 <input type="checkbox" id="one" v-model="checkedValues" value=1>
                 <label for="one">월요일</label>
                 <input type="checkbox" id="two" v-model="checkedValues"  value=2>
@@ -190,6 +193,7 @@
                 <label for="six">토요일</label>
                 <input type="checkbox" id="seven" v-model="checkedValues" value=64>
                 <label for="seven">일요일</label>
+                <h1 style="text-align:right;width:98%;">※ 체크하지 않은 요일은 휴무일로 지정됩니다</h1>
                 <div>
                 <select style="width:80px" v-model="openhour">
                 <option v-for="(n,oh) in hour" :key="oh" v-bind:value="n">{{n}}</option>
@@ -207,7 +211,7 @@
                 </div>
              </td>
              <tr>
-             <th>입장마감 시간</th>
+             <th>입장마감 시간<br>(선택)</th>
              <td colspan="7">
                <select style="width:80px" v-model="entrancehour">
                 <option v-for="(n,eh) in hour" :key="eh" v-bind:value="n">{{n}}</option>
@@ -346,7 +350,7 @@ export default {
     submmitButton () { // 값들을 spring단으로 보내는 버튼
       const formData = new FormData() // 파일도 보내기 위해서 formData 생성
       if (this.select === '선택') { // 필수 입력값 미입력 방지
-        alert('카테고리를 선택해주세요')
+        alert('카테고리를 입력해주세요')
         return
       } else if (this.position === '') {
         alert('추천장소명을 입력해주세요')
@@ -361,13 +365,13 @@ export default {
         alert('연락처를 입력해주세요')
         return
       } else if (this.checkedValues === []) {
-        alert('요일을 선택해주세요')
+        alert('요일을 입력해주세요')
         return
       } else if (this.openhour === '' || this.openmin === '') {
-        alert('오픈 시간을 선택해주세요')
+        alert('오픈 시간을 입력해주세요')
         return
       } else if (this.endhour === '' || this.endmin === '') {
-        alert('종료 시간을 선택해주세요')
+        alert('종료 시간을 입력해주세요')
         return
       } else if (this.address_lat === '' || this.address_lng === '') {
         alert('위도, 경도를 입력해주세요')
@@ -420,6 +424,11 @@ export default {
         this.tag = this.tag + '#' // 처음에 input 입력을 눌렀을 때 아무것도 없으면 자동으로 # 입력하게 해주는 기능
       }
     }
+  },
+  watch: {
+    phone () { // watch 절에서는 값이 변할때 처다보니까 변수명과 메소드 명이 같아야함
+      this.phone = this.phone.replace(/[^0-9]/g, '')
+    }
   }
 }
 </script>
@@ -430,7 +439,7 @@ td > button, .btn_area button {
 }
 .Allbox {
   display: flex;
-  width: 1381px;
+  width: 98%;
 }
 .ment {
   padding:100px 0px;
