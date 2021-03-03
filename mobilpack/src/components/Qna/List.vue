@@ -160,7 +160,6 @@ export default {
       }
     },
     getList () {
-      console.log(this.page)
       this.$axios.patch('http://localhost:9000/api/su/qna/search', {
         category: this.search.category,
         title: this.search.title,
@@ -184,7 +183,7 @@ export default {
       if (this.page !== n) {
         this.page = n
         this.getList()
-        this.$router.push({name: this.$route.name, query: {page: n}})
+        this.$router.push({query: {page: n}})
       }
     },
     getNextBeforePage (n) {
