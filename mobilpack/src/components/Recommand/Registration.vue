@@ -414,8 +414,13 @@ export default {
           this.result = response.data
           this.$router.push({name: 'recommands'})
         })
-        .catch((ex) => {
-          console.log(ex)
+        .catch((err) => {
+          if (err.response.status === 401) {
+            alert('로그인이 만료되었습니다. 다시 로그인해주세요')
+            this.$cookie.delete('authorization')
+            this.$cookie.delete('name')
+            this.$router.push('/')
+          }
         })
     },
     clickSpace () {
