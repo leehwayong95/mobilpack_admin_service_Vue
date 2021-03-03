@@ -46,8 +46,8 @@
              <!-- <여기가 내용중에서 자동으로 링크를 만들어주는 구문입니다.> </td> -->
              <td
              v-html="hypercontent"
-             class="scroll"
-             style="width:1340px; height:500px;  vertical-align: top;"
+             class="contentscroll"
+             style="height:500px;  vertical-align: top;"
              colspan="7"
              >
              </td>
@@ -221,5 +221,10 @@ export default
 .scroll {
   overflow: scroll;
   background: #fff;
+}
+.contentscroll {
+  overflow: scroll;
+  background: #fff;
+  height: 500px;
 }
 </style>

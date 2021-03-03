@@ -37,7 +37,6 @@
             <th>제목</th>
              <td colspan="5">
             <input
-            style="width:1000px height: 20px"
             class="box"
             type="text"
             v-model="title"
@@ -48,7 +47,7 @@
             <th>내용</th>
              <td  style="height:500px" colspan="5">
             <textarea
-            style="width:1325px; height:500px; margin-top: 10px; margin-bottom: 10px;"
+            style="height:500px; margin-top: 10px; margin-bottom: 10px;"
             class="box"
             type="text"
             v-model="content"
@@ -130,7 +129,7 @@ export default {
 
 <style scoped>
 .box {
-  width: 30%;
+  width: 100%;
 }
 .center {
   height: 150px;
