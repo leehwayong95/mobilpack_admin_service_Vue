@@ -105,7 +105,7 @@
           <td>{{i.name}}</td>
           <td>{{i.date}}</td>
           <td v-if="i.state == 1" style="color: blue;">서비스중</td>
-          <td v-else>서비스 중지</td>
+          <td v-else style="color: red;">서비스 중지</td>
         </tr>
       </table>
       <div class="paging">
@@ -155,7 +155,7 @@ export default {
         state: '',
         selecttag: []
       },
-      page: 1,
+      page: this.$route.query.page ? parseInt(this.$route.query.page) : 1,
       List: '',
       endpage: '',
       paging: function () {
@@ -225,16 +225,16 @@ export default {
     getPage (n) {
       if (this.page !== n) {
         this.page = n
+        this.$router.push({name: this.$route.name, query: {page: n}})
         this.getList()
       }
     },
     getNextBeforePage (n) {
       if (n === '0' && this.page > 1) {
-        this.page--
+        this.getPage(this.page - 1)
       } else if (n === '1' && this.page < this.endpage) {
-        this.page++
+        this.getPage(this.page + 1)
       }
-      this.getList()
     },
     writeNewPost () {
       this.$router.push({name: 'recommandregistrtion'})

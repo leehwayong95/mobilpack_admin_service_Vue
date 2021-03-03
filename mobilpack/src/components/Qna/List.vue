@@ -115,7 +115,7 @@ export default {
         max: '',
         answer: ''
       },
-      page: 1,
+      page: this.$route.query.page ? parseInt(this.$route.query.page) : 1,
       endpage: null,
       postcount: '',
       paging: function () {
@@ -160,6 +160,7 @@ export default {
       }
     },
     getList () {
+      console.log(this.page)
       this.$axios.patch('http://localhost:9000/api/su/qna/search', {
         category: this.search.category,
         title: this.search.title,
@@ -183,6 +184,14 @@ export default {
       if (this.page !== n) {
         this.page = n
         this.getList()
+        this.$router.push({name: this.$route.name, query: {page: n}})
+      }
+    },
+    getNextBeforePage (n) {
+      if (n === '0' && this.page > 1) {
+        this.getPage(this.page - 1)
+      } else if (n === '1' && this.page < this.endpage) {
+        this.getPage(this.page + 1)
       }
     }
   }

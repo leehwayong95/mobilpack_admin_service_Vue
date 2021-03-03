@@ -5,7 +5,7 @@
       <h3>HOME > 서비스관리 > 추천장소관리 > 상세화면</h3>
     </div>
     <section class="cont_inner">
-      <h3 class="cont_title">|기본정보</h3>
+      <h3 class="cont_title">| 기본정보</h3>
       <table>
         <colgroup>
           <col style="width: 10%;">
@@ -43,7 +43,7 @@
           </tr>
         </tbody>
       </table>
-      <h3 class="cont_title">|음성 안내</h3>
+      <h3 class="cont_title">| 음성 안내</h3>
       <table>
         <colgroup>
           <col style="width: 10%;">
@@ -55,7 +55,7 @@
           </tr>
         </tbody>
       </table>
-      <h3 class="cont_title">|이용 정보</h3>
+      <h3 class="cont_title">| 이용 정보</h3>
       <table>
         <colgroup>
           <col style="width: 10%;">><!--1행(제목부분) 너비 조절 -->
@@ -64,12 +64,10 @@
           <col style="width: 40%;"><!--3행(제목부분) 너비 조절 -->
         </colgroup>
       <tbody>
-        <tr>
+        <tr class="map">
           <th>위치 정보</th>
           <td colspan="3">
             <naver-maps
-              :height="600"
-              :width="800"
               :mapOptions="mapOptions"
               :initLayers="initLayers"
               @load="onLoad"
@@ -116,7 +114,7 @@
         <button class="delete" @click="setDelete">삭제</button>
         <button @click="gotoEdit">수정</button>
       </div>
-        <h3 class="cont_title">|리뷰</h3>
+        <h3 class="cont_title">| 리뷰</h3>
       <table>
         <colgroup>
           <col width="5%">
@@ -335,6 +333,13 @@ export default {
 }
 #content {
   overflow: auto;
+}
+div#vue-naver-maps {
+  height: 100%;
+  width: 100%;
+}
+#content table tr.map {
+  height: 800px;
 }
 .btn {
   height: 50px; /* 테이블과 버튼 간격 */

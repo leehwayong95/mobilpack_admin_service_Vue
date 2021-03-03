@@ -97,7 +97,7 @@ export default {
         max: ''
       },
       userdata: null,
-      currentpage: 1,
+      currentpage: this.$route.query.page ? parseInt(this.$route.query.page) : 1,
       endpage: null,
       count: 20,
       posttotal: '',
@@ -169,16 +169,16 @@ export default {
     getPage (n) {
       if (this.currentpage !== n) {
         this.currentpage = n
+        this.$router.push({name: this.$route.name, query: {page: n}})
         this.getUserList()
       }
     },
     getNextBeforePage (n) {
       if (n === '0' && this.currentpage > 1) {
-        this.currentpage--
+        this.getPage(this.currentpage - 1)
       } else if (n === '1' && this.currentpage < this.endpage) {
-        this.currentpage++
+        this.getPage(this.currentpage + 1)
       }
-      this.getUserList()
     }
   }
 }
