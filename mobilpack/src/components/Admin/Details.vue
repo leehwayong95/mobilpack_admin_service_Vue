@@ -20,7 +20,7 @@
           </tr>
           <tr>
             <th>비밀번호</th>
-           <td colspan="5"><button class ="reset" id="pwReset" @click="resetclick()">비밀번호 초기화</button><span class="test6"> ※ 비밀번호 초기화 시 “ admin1234!! “로 설정됩니다.</span>
+           <td class="center" colspan="5"><button class ="reset" id="pwReset" @click="resetclick()">비밀번호 초기화</button>{{ "&nbsp;&nbsp;&nbsp;&nbsp; ※ 비밀번호 초기화 시 “ admin1234!! “로 설정됩니다. 비밀번호 변경 후 사용 안내바랍니다."}}
             </td>
           </tr>
           <tr>
@@ -158,6 +158,12 @@ export default {
 }
 .reset {
   float: left;
-  background: rgb(71, 72, 80)
+  background: rgb(71, 72, 80);
+  display: inline-flex;
+  padding-top: 3px;
+  text-align: center;
+}
+#content table td {
+    line-height: 25px;
 }
 </style>

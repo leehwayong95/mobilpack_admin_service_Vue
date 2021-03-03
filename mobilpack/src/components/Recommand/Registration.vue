@@ -23,7 +23,7 @@
              <td colspan="3">
                 <select style="width:200px" v-model="language" v-on:change="languageSelect">
                   <option value="KR">한국어</option>
-                  <option value="US">영어</option>
+                  <option value="EN">영어</option>
                   <option value="JP">일본어</option>
                   <option value="CN">중국어</option>
                 </select>

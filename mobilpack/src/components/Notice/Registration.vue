@@ -49,7 +49,7 @@
             <th>내용</th>
              <td  style="height:500px" colspan="5">
             <textarea
-            style="width:1340px; height:500px"
+            style="width:1325px; height:500px; margin-top: 10px; margin-bottom: 10px;"
             class="box"
             type="text"
             maxlength='5000'
@@ -60,8 +60,8 @@
         </tbody>
         </table>
         <div class="center">
-        <button class="btn" type="button" @click="join">저장</button>
-        <button class="btn" type="button" @click="cancel">취소</button>
+        <button class="canclebtn" @click="cancel">취소</button>
+        <button class="savebtn" @click="join">저장</button>
         </div>
     </section>
   </div>
@@ -71,7 +71,6 @@
 export default {
   data () {
     return {
-      id: 'test',
       language: 'KR',
       topsetting: '0',
       title: '',
@@ -98,7 +97,6 @@ export default {
     join () {
       this.changecontent = this.convertHTML(this.content)
       this.$axios.post('http://localhost:9000/api/su/notice/insert', {
-        id: this.id,
         language: this.language,
         topsetting: this.topsetting,
         title: this.title,
@@ -131,11 +129,6 @@ export default {
   justify-content:center;/*  페이징을 가운데로 정렬시켜줌 */
   align-items:center; /* 없어도 되는 놈 공부는 필요함(가로의 중앙을 맟춰줌!) */
 }
-.btn {
-  margin-right: 30px; /* 버튼 간격 */
-  width: 100px;
-  height: 30px;
-}
 #content > .cont_inner {
     position: relative;
     min-height: calc(100% - 164px);
@@ -143,5 +136,16 @@ export default {
     padding: 20px 30px 30px;/* 위아래 여백을 만들기 위해 앞에 20px 추가함 */
     background: #fff;
     border-radius: 5px;
+}
+.savebtn {
+  margin-right: 30px; /* 버튼 간격 */
+  width: 100px;
+  height: 30px;
+}
+.canclebtn {
+  margin-right: 30px; /* 버튼 간격 */
+  width: 100px;
+  height: 30px;
+  background: rgb(240, 11, 11);
 }
 </style>

@@ -54,7 +54,8 @@
             <td>{{ p.phone.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/,"$1-$2-$3")}}</td>
             <td>{{ p.email }}</td>
             <td>{{ p.createat.substring(0,16) }}</td>
-            <td>{{ p.updateat.substring(0,16) }}</td>
+            <td v-if="p.updateat=== null">{{ p.updateat }}</td>
+            <td v-else>{{ p.updateat.substring(0,16) }}</td>
           </tr>
         </tbody>
       </table>
@@ -101,6 +102,10 @@ export default {
       name: '',
       createat: '',
       updateat: '',
+      fixid: '',
+      fixname: '',
+      fixcreateat: '',
+      fixupdateat: '',
       Number: 20, // 게시글 수량 제한
       listtotal: '', // 리스트 컬럼수
       items: [], // DB리스트 담는곳
@@ -124,7 +129,9 @@ export default {
       if (this.createat === '') {
         alert('시작 날짜를 선택하셔야 합니다.')
         this.updateat = ''
-      } else if (this.createat > newValue) {
+      } else if (this.createat > this.updateat) {
+        console.log(oldvalue)
+        console.log(newValue)
         alert('처음 날짜 보다 작아서는 안됩니다.')
         this.updateat = newValue
         this.updateat = null
@@ -136,14 +143,42 @@ export default {
   },
   methods: {
     search () {
+      this.fixid = this.id
+      this.fixname = this.name
+      this.fixcreateat = this.createat
+      this.fixupdateat = this.updateat
       this.$axios.get('http://localhost:9000//api/su/admin/listsearch', {
         params: {
-          Currentpage: this.Currentpage,
+          Currentpage: 1,
           Number: this.Number,
           id: this.id,
           name: this.name,
           createat: this.createat,
           updateat: this.updateat
+        }})
+        .then((res) => {
+          console.log(res.data.count)
+          this.items = res.data.result
+          this.listtotal = res.data.count
+          this.end_page = res.data.count / this.Number
+          if (res.data.count % this.Number > 0) {
+            this.end_page = this.end_page + 1
+          } else {
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    pagingmove () {
+      this.$axios.get('http://localhost:9000//api/su/admin/listsearch', {
+        params: {
+          Currentpage: this.Currentpage,
+          Number: this.Number,
+          id: this.fixid,
+          name: this.fixname,
+          createat: this.fixcreateat,
+          updateat: this.fixupdateat
         }})
         .then((res) => {
           this.items = res.data.result
@@ -170,7 +205,7 @@ export default {
     ckpage (n) {
       if (this.Currentpage !== n) {
         this.Currentpage = n
-        this.search()
+        this.pagingmove()
       }
     }
   }

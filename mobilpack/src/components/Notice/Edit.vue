@@ -37,7 +37,6 @@
             <th>제목</th>
              <td colspan="5">
             <input
-            style="width:1000px height: 20px"
             class="box"
             type="text"
             v-model="title"
@@ -48,7 +47,7 @@
             <th>내용</th>
              <td  style="height:500px" colspan="5">
             <textarea
-            style="width:1340px; height:500px"
+            style="height:500px; margin-top: 10px; margin-bottom: 10px;"
             class="box"
             type="text"
             v-model="content"
@@ -58,8 +57,8 @@
         </tbody>
         </table>
         <div class="center">
-        <button class="btn" type="button" @click="change">저장</button>
-        <button class="btn" type="button" @click="cancel">취소</button>
+        <button class="canclebtn" type="button" @click="cancel">취소</button>
+        <button class="savebtn" type="button" @click="change">저장</button>
         </div>
     </section>
   </div>
@@ -70,8 +69,8 @@ export default {
   data () {
     return {
       id: this.$route.query.items.id,
-      language: 'KR',
-      topsetting: '0',
+      language: this.$route.query.items.language,
+      topsetting: this.$route.query.items.topsetting,
       title: this.$route.query.items.title,
       content: this.$route.query.items.content,
       changecontent: '',
@@ -130,7 +129,7 @@ export default {
 
 <style scoped>
 .box {
-  width: 30%;
+  width: 100%;
 }
 .center {
   height: 150px;
@@ -138,10 +137,16 @@ export default {
   justify-content:center;/*  페이징을 가운데로 정렬시켜줌 */
   align-items:center; /* 없어도 되는 놈 공부는 필요함(가로의 중앙을 맟춰줌!) */
 }
-.btn {
+.savebtn {
   margin-right: 30px; /* 버튼 간격 */
   width: 100px;
   height: 30px;
+}
+.canclebtn {
+  margin-right: 30px; /* 버튼 간격 */
+  width: 100px;
+  height: 30px;
+  background: rgb(240, 11, 11);
 }
 #content > .cont_inner {
     position: relative;
