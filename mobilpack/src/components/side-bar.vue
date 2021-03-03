@@ -12,8 +12,8 @@
             </li>
             <li>
               <span v-if="route == 'details' || route == 'Qna' || route =='Notice'" style="background: #3e61dc;" v-on:click="jump('details')">서비스관리</span>
-              <span v-else>서비스관리</span>
-                <ul v-if="route == 'details' || route == 'Qna' || route =='Notice'" style="display: block;" v-on:click="jump('details')">
+              <span v-else v-on:click="jump('details')">서비스관리</span>
+                <ul v-if="route == 'details' || route == 'Qna' || route =='Notice'" style="display: block;">
                     <li>
                       <span v-if="route == 'details'" v-on:click="jump('details')" style="color: #3e61dc;">관리자 관리</span>
                       <span v-else v-on:click="jump('details')">관리자 관리</span>
