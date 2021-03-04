@@ -374,6 +374,9 @@ export default {
       formData.append('category', this.select) // 각 값들을 formData에 append
       formData.append('title', this.position)
       formData.append('content', this.content)
+      if (this.tag.substr(this.tag.length - 1, 1) === '#') { // 태그 문자열의 맨 마지막이 #인 경우 #과 양끝 공백을 지우고 append
+        this.tag = this.tag.substring(0, this.tag.length - 1).trim()
+      }
       formData.append('tag', this.tag)
       formData.append('files', this.imagelist)
       formData.append('voice_info', this.voice)
@@ -450,7 +453,7 @@ export default {
       this.$router.push('/recommands/' + this.index)
     },
     clickSpace () { // 태그에서 스페이스바를 눌렀을때 자동 #추가입니다.
-      this.tag = this.tag + ', #'
+      this.tag = this.tag + '#'
     },
     clickFirst () { // 처음에 input 입력을 눌렀을 때 아무것도 없으면 자동으로 # 입력하게 해주는 기능
       if (this.tag === '') {

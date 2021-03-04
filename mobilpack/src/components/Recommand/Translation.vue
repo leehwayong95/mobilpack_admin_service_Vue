@@ -201,7 +201,7 @@ export default {
         })
     },
     clickSpace () { // 태그에서 스페이스바를 눌렀을때 자동 #추가입니다.
-      this.tag = this.tag + ' #'
+      this.tag = this.tag + '#'
     },
     back () {
       this.$router.push('/recommands/' + this.copypostindex)
