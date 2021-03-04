@@ -411,15 +411,15 @@ export default {
           'Content-Type': 'multipart/form-data' // 파일을 보내기 위해 content-Type을 설정함
         }})
         .then((response) => {
-          this.result = response.data
-          this.$router.push({name: 'recommands'})
-        })
-        .catch((err) => {
-          if (err.response.status === 401) {
+          if (response.data === 'JwtExpired') {
             alert('로그인이 만료되었습니다. 다시 로그인해주세요')
             this.$cookie.delete('authorization')
             this.$cookie.delete('name')
             this.$router.push('/')
+          } else {
+            this.result = response.data
+            console.log(this.result)
+            this.$router.push('/recommands/' + this.result)
           }
         })
     },
