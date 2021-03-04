@@ -21,7 +21,7 @@
         </table>
       </div>
       <div class="userinfo_wrap">
-        <h3>|사용자 정보</h3>
+        <h3>| 사용자 정보</h3>
         <table>
           <tbody>
             <tr>

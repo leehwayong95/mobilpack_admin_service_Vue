@@ -1,7 +1,7 @@
 <template>
   <div id="content">
     <span class="title">
-      <h1>| 회원 상세</h1>
+      <h1>회원 상세</h1>
       <h3>home > 회원관리 > 회원상세</h3>
     </span>
     <div class="cont_inner">

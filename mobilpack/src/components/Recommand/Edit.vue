@@ -1,8 +1,8 @@
 <template>
     <div class="scroll" id=content>
     <span class="title">
-    <h1>추전 장소 관리</h1>
-    <h2>HOME > 추천 장소 관리 > 추천 장소 수정</h2>
+    <h1>추천 장소 수정</h1>
+    <h3>HOME > 추천장소관리 > 추천장소 수정</h3>
     </span>
     <section class="cont_inner">
         <h3 class="cont_title">|기본정보</h3>

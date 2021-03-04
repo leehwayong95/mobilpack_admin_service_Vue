@@ -2,7 +2,7 @@
   <div id="content">
     <div class="title">
       <h1>추천 장소 관리</h1>
-      <h3>HOME > 서비스관리 > 추천장소관리</h3>
+      <h3>HOME > 추천장소관리</h3>
     </div>
     <div class="search">
       <ul>

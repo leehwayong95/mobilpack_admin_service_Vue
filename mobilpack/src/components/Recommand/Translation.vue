@@ -1,8 +1,12 @@
 <template>
  <div class="scroll" id=content>
-    <span class="title">
-    <h1>추전 장소 번역 보기</h1>
-    <h2>HOME > 추천 장소 관리 > 추천 장소 상세 > 추천 장소 번역 보기</h2>
+   <span class="title" v-if="$route.name === 'translation'">
+      <h1>추천 장소 번역 보기</h1>
+      <h3>HOME > 추천장소관리 > 추천장소상세 > 번역보기</h3>
+    </span>
+    <span class="title" v-else>
+      <h1>추천 장소 변역 등록/수정</h1>
+      <h3>HOME > 추천장소관리 > 추천장소상세 > 번역 등록/수정</h3>
     </span>
       <div class="cont_inner">
         <div class="indecate">

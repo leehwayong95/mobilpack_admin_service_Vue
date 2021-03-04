@@ -1,8 +1,8 @@
 <template>
    <div id=content>
     <span class="title">
-    <h1>HOME</h1>
-    <h2>서비스 관리 > 공지사항 > 공지사항 글쓰기</h2>
+    <h1>공지사항 수정</h1>
+    <h3>HOME > 공지사항관리 > 공지사항수정</h3>
     </span>
     <section class="cont_inner">
         <table>
@@ -107,8 +107,7 @@ export default {
       })
         .then((res) => {
           if (res.data === 'TRUE') {
-            alert('등록 성공')
-            this.$router.push('/notice')
+            this.$router.push({path: '/noticedetails', query: {index: this.$route.query.items.postindex}})
           } else {
             console.log(res)
             console.log('등록 실패 다시 작성해주세요')

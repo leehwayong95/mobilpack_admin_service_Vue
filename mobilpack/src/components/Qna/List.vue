@@ -2,7 +2,7 @@
   <div id='content'>
     <div class="title">
       <h1>문의 관리</h1>
-      <h3>HOME > 서비스관리 > 고객문의</h3>
+      <h3>HOME > 문의관리</h3>
     </div>
     <div class="search">
       <ul>

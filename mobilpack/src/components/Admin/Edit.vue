@@ -1,8 +1,8 @@
 <template>
   <div id=content>
      <span class="title">
-    <h1>HOME</h1>
-    <h3>관리자 관리 > 관리자 수정</h3>
+    <h1>관리자 수정</h1>
+    <h3>HOME > 관리자관리 > 관리자수정</h3>
     </span>
     <section class="cont_inner">
       <h3 class="cont_title">계정 정보</h3>

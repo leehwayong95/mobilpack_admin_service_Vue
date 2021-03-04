@@ -1,8 +1,8 @@
 <template>
    <div id=content>
     <span class="title">
-    <h1>공지사항 글쓰기</h1>
-    <h2>서비스 관리 > 공지사항 > 공지사항 글쓰기</h2>
+    <h1>공지사항 등록</h1>
+    <h2>HOME > 공지사항관리 > 공지사항등록</h2>
     </span>
     <section class="cont_inner">
         <table>

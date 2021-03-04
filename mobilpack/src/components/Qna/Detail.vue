@@ -1,8 +1,8 @@
 <template>
   <div id="content">
     <div class="title">
-      <h1>| 문의 내용</h1>
-      <h3>HOME > 서비스관리 > 고객문의 > 문의내용</h3>
+      <h1>문의 상세</h1>
+      <h3>HOME > 문의관리 > 문의상세</h3>
     </div>
     <div class="cont_inner">
       <table>

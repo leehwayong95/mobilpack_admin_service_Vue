@@ -1,8 +1,8 @@
 <template>
     <div id=content>
     <span class="title">
-    <h1>HOME</h1>
-    <h2>공지사항 > 공지 사항 상세</h2>
+    <h1>공지사항 상세</h1>
+    <h3>HOME > 공지사항관리 > 공지사항상세</h3>
     </span>
     <section class="cont_inner">
         <table>
@@ -129,15 +129,17 @@ export default
       this.$router.go(-1) // 바로 전 페이지로 이동 router 공부 필요
     },
     viewstop () {
-      this.$axios.post('http://localhost:9000/api/su/notice/stopposting', {postindex: this.postindex})
-        .then(res => {
-          if (res.data === 'ok') {
-            this.getNotice()
-          } else {
-            console.log(res)
-            console.log('오류 다시 설정 해주세요')
-          }
-        })
+      if (confirm('게시중단 하시겠습니까?')) {
+        this.$axios.post('http://localhost:9000/api/su/notice/stopposting', {postindex: this.postindex})
+          .then(res => {
+            if (res.data === 'ok') {
+              this.getNotice()
+            } else {
+              console.log(res)
+              console.log('오류 다시 설정 해주세요')
+            }
+          })
+      }
     },
     edit () {
       this.$router.push({
@@ -146,12 +148,11 @@ export default
       })
     },
     Noticedelete () {
-      var select = confirm('삭제하시겠습니까?')
+      var select = confirm('해당 공지사항을 삭제하시겠습니까?')
       if (select === true) {
         this.$axios.post('http://localhost:9000//api/su/notice/delete', {postindex: this.postindex})
           .then(res => {
             if (res.data === 'TRUE') {
-              alert('삭제되었습니다. ')
               this.$router.push('/notice')
             } else {
               console.log(res)

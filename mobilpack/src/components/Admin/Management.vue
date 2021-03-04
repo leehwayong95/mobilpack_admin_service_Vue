@@ -2,7 +2,7 @@
   <div class = "scroll" id=content>
     <span class="title">
     <h1>관리자 관리</h1>
-    <h3>HOME > 서비스관리 > 관리자 관리</h3>
+    <h3>HOME > 관리자 관리</h3>
     </span>
     <div class="search">
         <ul>

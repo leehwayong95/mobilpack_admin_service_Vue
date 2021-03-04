@@ -1,8 +1,8 @@
 <template>
   <div id=content>
     <div class="title">
-      <h1>| 추전 장소 상세</h1>
-      <h3>HOME > 서비스관리 > 추천장소관리 > 상세화면</h3>
+      <h1>추전 장소 상세</h1>
+      <h3>HOME > 추천장소관리 > 추천장소상세</h3>
     </div>
     <section class="cont_inner">
       <h3 class="cont_title">| 기본정보</h3>
