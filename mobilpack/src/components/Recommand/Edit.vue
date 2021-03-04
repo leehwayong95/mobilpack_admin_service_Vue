@@ -5,7 +5,7 @@
     <h2>HOME > 추천 장소 관리 > 추천 장소 수정</h2>
     </span>
     <section class="cont_inner">
-        <h3 class="cont_title">|기본정보</h3>
+        <h3 class="cont_title">| 기본정보</h3>
         <table>
         <colgroup>
         <col style="width: 10%;">
@@ -88,7 +88,7 @@
             </tr>
          </tbody>
         </table>
-        <h3 class="cont_title">|음성 안내</h3>
+        <h3 class="cont_title">| 음성 안내</h3>
         <table>
         <colgroup>
           <col style="width: 10%;"> <!-- 1행(제목부분) 너비 조절-->
@@ -108,7 +108,7 @@
             </tr>
         </tbody>
         </table>
-        <h3 class="cont_title">|이용 정보</h3>
+        <h3 class="cont_title">| 이용 정보</h3>
         <table>
         <colgroup>
           <col style="width: 10%;"> <!-- 1행(제목부분) 너비 조절-->
