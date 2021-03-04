@@ -1,7 +1,7 @@
 <template>
    <div id=content>
     <span class="title">
-    <h1>HOME</h1>
+    <h1>공지사항 글쓰기</h1>
     <h2>서비스 관리 > 공지사항 > 공지사항 글쓰기</h2>
     </span>
     <section class="cont_inner">
@@ -45,11 +45,10 @@
            />
            </td>
           </tr>
-          <tr>
+          <tr class="content">
             <th>내용</th>
-             <td  style="height:500px" colspan="5">
+            <td class="content" colspan="5">
             <textarea
-            style="width:1325px; height:500px; margin-top: 10px; margin-bottom: 10px;"
             class="box"
             type="text"
             maxlength='5000'
@@ -151,5 +150,13 @@ export default {
   width: 100px;
   height: 30px;
   background: rgb(240, 11, 11);
+}
+#content tr.content td.content {
+  padding: 5px 10px;
+  height: 500px;
+}
+tr.content td.content textarea {
+  width: 100%;
+  height: 100%;
 }
 </style>
