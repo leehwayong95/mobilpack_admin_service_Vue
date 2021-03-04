@@ -173,7 +173,7 @@ export default {
         lng: 126.53126,
         zoom: 16,
         zoomControl: false,
-        mapTypeControl: true,
+        mapTypeControl: false,
         draggable: false,
         pinchZoom: false,
         scrollWheel: false,
