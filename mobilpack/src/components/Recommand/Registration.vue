@@ -385,6 +385,9 @@ export default {
       formData.append('category', this.select)
       formData.append('title', this.position)
       formData.append('content', this.content)
+      if (this.tag.substr(this.tag.length - 1, 1) === '#') { // 태그 문자열의 맨 마지막이 #인 경우 #과 양끝 공백을 지우고 append
+        this.tag = this.tag.substring(0, this.tag.length - 1).trim()
+      }
       formData.append('tag', this.tag)
       formData.append('voice_info', this.voice)
       formData.append('location', this.address_lat + ',' + this.address_lng)
