@@ -73,6 +73,7 @@ export default {
     this.$axios.post('http://localhost:9000//api/su/admin/information', {admin_id: this.$route.query.adminID})
       .then((res) => {
         this.items = res.data
+        this.items.phone = this.items.phone.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/, '$1-$2-$3')
         this.items.createat = this.items.createat.substring(0, 16)
         if (this.items.updateat) {
           this.items.updateat = this.items.updateat.substring(0, 16)
