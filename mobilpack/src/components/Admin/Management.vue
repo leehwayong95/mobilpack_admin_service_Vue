@@ -48,7 +48,7 @@
         </thead>
         <tbody><!-- ^:문자 시작위치 , {n}: 음이아닌 정수 n개를 찾는다. ex o{2} ==>food 에 oo 2개를 찾음, | : 2개이상의 조건 or, []: 문자 집합 $: 문자 끝 위치  -->
           <tr v-for="(p,idx) in items" :key="idx" v-show="Currentpage" @click="rowClick(p.admin_id)">
-            <td>{{ (listtotal+1)-(20*(Currentpage-1)+(idx+1))}}</td>
+            <td>{{ (listtotal+1)-(20*(page-1)+(idx+1))}}</td>
             <td>{{ p.admin_id }}</td>
             <td>{{ p.name }}</td>
             <td>{{ p.phone.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/,"$1-$2-$3")}}</td>

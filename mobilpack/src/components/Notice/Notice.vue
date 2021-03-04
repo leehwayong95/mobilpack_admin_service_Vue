@@ -48,7 +48,7 @@
         </thead>
         <tbody>
           <tr v-for="(p,idx) in items" :key="idx" v-show="Currentpage" @click="rowClick(p.postindex)">
-            <td>{{ (listtotal+1)-(20*(Currentpage-1)+(idx+1))}}</td>
+            <td>{{ (listtotal+1)-(20*(page-1)+(idx+1))}}</td>
             <td v-if="'KR' === p.language" >한국어</td>
             <td v-else-if="'JP' === p.language" >일본어</td>
             <td v-else-if="'CN' === p.language" >중국어</td>
