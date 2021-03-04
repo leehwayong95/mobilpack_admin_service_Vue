@@ -479,6 +479,7 @@ export default {
         const loca = model.postModel.location.split(',') /* 위경도값 입력을 위해 split 사용 */
         this.address_lat = loca[0] /* 위도 할당 */
         this.address_lng = loca[1] /* 경도 할당 */
+        this.onMapMove()
         this.address = model.postModel.address /* 주소 할당 */
         this.phone = model.postModel.phone /* 연락처 할당 */
         var week = parseInt(model.postModel.openday).toString(2) /* 요일 체크박스를 위해 십진수인 값을 2진수로 변환(비트 연산을 위해서) */
