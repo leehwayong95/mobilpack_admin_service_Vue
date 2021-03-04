@@ -74,7 +74,7 @@ export default {
       language: this.$route.query.items.language,
       topsetting: this.$route.query.items.topsetting,
       title: this.$route.query.items.title,
-      content: this.$route.query.items.content,
+      content: this.$route.query.items.content.replace(/(<br \/>)/g, '\n').replace(/(<([^>]+)>)/ig, ''),
       changecontent: '',
       result: ''
     }

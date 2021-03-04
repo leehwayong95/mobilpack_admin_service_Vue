@@ -108,7 +108,6 @@ export default
             this.$axios.get('http://localhost:9000/api/su/notice/detail', {params: {postindex: this.$route.query.index}})
               .then((res) => {
                 this.items = res.data
-                this.items = res.data
                 this.items.createat = this.items.createat.substring(0, 16)
                 if (this.items.updateat) {
                   this.items.updateat = this.items.updateat.substring(0, 16)
