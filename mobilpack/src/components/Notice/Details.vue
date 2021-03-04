@@ -34,10 +34,10 @@
              <td colspan="1" v-if= "null === items.name">삭제된 관리자</td>
              <td colspan="1" v-else >{{items.name}}</td>
              <th>등록일시</th>
-             <td colspan="1">{{items.createat.substring(0,16)}}</td>
+             <td colspan="1" v-text="items.createat"></td>
              <th>수정일시</th>
              <td v-if="items.updateat === null" colspan="1"></td>
-             <td v-else colspan="1">{{items.updateat.substring(0,16)}}</td>
+             <td v-else colspan="1" v-text="items.updateat"></td>
              <th>조회수</th>
              <td colspan="1">{{items.viewcount}}</td>
              </tr>
@@ -108,6 +108,11 @@ export default
             this.$axios.get('http://localhost:9000/api/su/notice/detail', {params: {postindex: this.$route.query.index}})
               .then((res) => {
                 this.items = res.data
+                this.items = res.data
+                this.items.createat = this.items.createat.substring(0, 16)
+                if (this.items.updateat) {
+                  this.items.updateat = this.items.updateat.substring(0, 16)
+                }
                 this.postindex = this.$route.query.index
                 this.hypercontent = res.data.content
                 this.hypercontent = this.test(this.hypercontent)

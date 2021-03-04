@@ -25,10 +25,10 @@
           </tr>
           <tr>
             <th>등록일시</th>
-            <td>{{items.createat.substring(0,16)}}</td>
+            <td v-text="items.createat"></td>
             <th>수정일시</th>
             <td v-if="items.updateat === null " colspan="3">{{items.updateat}}</td>
-            <td v-else colspan="3">{{items.updateat.substring(0,16)}}</td>
+            <td v-else colspan="3" v-text="items.updateat"></td>
           </tr>
           </tbody>
         </table>
@@ -73,6 +73,10 @@ export default {
     this.$axios.post('http://localhost:9000//api/su/admin/information', {admin_id: this.$route.query.adminID})
       .then((res) => {
         this.items = res.data
+        this.items.createat = this.items.createat.substring(0, 16)
+        if (this.items.updateat) {
+          this.items.updateat = this.items.updateat.substring(0, 16)
+        }
         this.id = this.items.admin_id
       })
       .catch((err) => {
