@@ -419,7 +419,7 @@ export default {
         })
     },
     clickSpace () {
-      this.tag = this.tag + ', #' // 스페이스바를 누르면 자동으로 ,와 #을 추가하는 메소드
+      this.tag = this.tag + '#' // 스페이스바를 누르면 자동으로 ,와 #을 추가하는 메소드
     },
     clickFirst () {
       if (this.tag === '') {

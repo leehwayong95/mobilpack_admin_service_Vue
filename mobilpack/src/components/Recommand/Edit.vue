@@ -450,7 +450,7 @@ export default {
       this.$router.push('/recommands/' + this.index)
     },
     clickSpace () { // 태그에서 스페이스바를 눌렀을때 자동 #추가입니다.
-      this.tag = this.tag + ', #'
+      this.tag = this.tag + '#'
     },
     clickFirst () { // 처음에 input 입력을 눌렀을 때 아무것도 없으면 자동으로 # 입력하게 해주는 기능
       if (this.tag === '') {
