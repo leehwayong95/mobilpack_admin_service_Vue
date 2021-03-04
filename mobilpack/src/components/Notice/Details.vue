@@ -60,7 +60,7 @@
           <button class="rightbutton" @click="back">목록</button>
           <button class="leftbutton" @click="Noticedelete">삭제</button>
           <button v-if= "'1'=== items.enabled" class="leftstopbutton" @click="viewstop">게시중단</button>
-          <button v-else class="leftstopbutton" @click="resume">게시재개</button>
+          <button v-else class="leftstopbutton" @click="viewstop">게시재개</button>
           <button class="Editleftbutton" @click="edit">수정</button>
         </div>
     </section>
@@ -71,26 +71,7 @@
 export default
 {
   mounted () {
-    // 조회수 증가시키기
-    this.$axios.get('http://localhost:9000/api/su/notice/plusviewcount', {params: {postindex: this.$route.query.index}})
-      .then(res => {
-        if (res.data === 'ok') {
-          this.$axios.get('http://localhost:9000/api/su/notice/detail', {params: {postindex: this.$route.query.index}})
-            .then((res) => {
-              this.items = res.data
-              this.postindex = this.$route.query.index
-              this.hypercontent = res.data.content
-              this.hypercontent = this.test(this.hypercontent)
-              this.testcontent = res.data.content
-              this.result = this.testcontent.match(this.hyperlink)
-            })
-            .catch((err) => {
-              console.log(err)
-            })
-        } else {
-          console.log('조회수 오류 다시 설정 해주세요')
-        }
-      })
+    this.getNotice()
     // 게시글 가져오기
     // 화용님 방식
     // var contSpan = document.getElementById('notice_cont')
@@ -119,6 +100,28 @@ export default
     }
   },
   methods: {
+    getNotice () {
+      // 조회수 증가시키기
+      this.$axios.get('http://localhost:9000/api/su/notice/plusviewcount', {params: {postindex: this.$route.query.index}})
+        .then(res => {
+          if (res.data === 'ok') {
+            this.$axios.get('http://localhost:9000/api/su/notice/detail', {params: {postindex: this.$route.query.index}})
+              .then((res) => {
+                this.items = res.data
+                this.postindex = this.$route.query.index
+                this.hypercontent = res.data.content
+                this.hypercontent = this.test(this.hypercontent)
+                this.testcontent = res.data.content
+                this.result = this.testcontent.match(this.hyperlink)
+              })
+              .catch((err) => {
+                console.log(err)
+              })
+          } else {
+            console.log('조회수 오류 다시 설정 해주세요')
+          }
+        })
+    },
     test (str) {
       return str.replaceAll('\n', '<br/>')
     },
@@ -126,36 +129,15 @@ export default
       this.$router.go(-1) // 바로 전 페이지로 이동 router 공부 필요
     },
     viewstop () {
-      var select = confirm('게시 중단 하시겠습니까?')
-      if (select === true) {
-        this.$axios.post('http://localhost:9000/api/su/notice/stopposting', {postindex: this.postindex})
-          .then(res => {
-            if (res.data === 'ok') {
-              alert('게시중단으로 설정합니다.. ')
-              this.$router.push('/notice')
-            } else {
-              console.log(res)
-              console.log('오류 다시 설정 해주세요')
-            }
-          })
-      } else {
-      }
-    },
-    resume () {
-      var select = confirm('게시 하시겠습니까?')
-      if (select === true) {
-        this.$axios.post('http://localhost:9000/api/su/notice/Resumeposting', {postindex: this.postindex})
-          .then(res => {
-            if (res.data === 'ok') {
-              alert('게시중단에서 게시로 설정합니다.. ')
-              this.$router.push('/notice')
-            } else {
-              console.log(res)
-              console.log('오류 다시 설정 해주세요')
-            }
-          })
-      } else {
-      }
+      this.$axios.post('http://localhost:9000/api/su/notice/stopposting', {postindex: this.postindex})
+        .then(res => {
+          if (res.data === 'ok') {
+            this.getNotice()
+          } else {
+            console.log(res)
+            console.log('오류 다시 설정 해주세요')
+          }
+        })
     },
     edit () {
       this.$router.push({
