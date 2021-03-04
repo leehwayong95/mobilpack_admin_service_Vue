@@ -5,22 +5,18 @@
     <h3>HOME > 추천장소관리 > 추천장소 수정</h3>
     </span>
     <section class="cont_inner">
-        <h3 class="cont_title">|기본정보</h3>
+        <h3 class="cont_title">| 기본정보</h3>
         <table>
         <colgroup>
-        <col style="width: 100px;">
-        <col style="width: 100px;">
-        <col style="width: 100px;">
-        <col style="width: 200px;">
-        <col style="width: 100px;">
-        <col style="width: 200px;">
-        <col style="width: 5%;">
         <col style="width: 10%;">
+        <col style="width: 40%;">
+        <col style="width: 10%;">
+        <col style="width: 40%;">
         </colgroup>
          <tbody>
-             <tr>
+            <tr>
              <th>입력 언어(원본)</th>
-             <td colspan="3">
+             <td>
                 <select style="width:200px" v-model="language">
                 <option value="KR">한국어</option>
                 <option value="US">영어</option>
@@ -29,7 +25,7 @@
                 </select>
              </td>
              <th>카테고리</th>
-             <td colspan="3">
+             <td>
                 <select style="width:200px" v-model="select"> <!-- 옵션에 선택을 넣지 않으면 기본값으로도 선택이 나오지 않음-->
                 <option hidden>선택</option> <!-- 옵션에 hidden을 넣음으로써 기본값으로는 나오지만 리스트에는 나오지 않게 함 -->
                 <option >관광지</option>
@@ -37,10 +33,10 @@
                 <option >맛집</option>
                 </select>
              </td>
-             </tr>
-             <tr>
+            </tr>
+            <tr>
              <th>추천 장소명</th> <!-- maxlength : 최대 글자수를 제한-->
-             <td colspan="7">
+             <td colspan="3">
                   <input
                   style="width:1000px height: 20px"
                   class="box"
@@ -49,10 +45,10 @@
                   v-model="position"
                 />
              </td>
-             </tr>
-             <tr>
+            </tr>
+            <tr>
              <th>관광정보</th>
-                <td style="height:100px" colspan="7">
+                <td style="height:100px" colspan="3">
                 <textarea
                 style="width:98%; height:100px"
                 placeholder="관광객 APP에 제공할 추천 장소의 관광 정보를 입력해주세요"
@@ -61,12 +57,12 @@
                 v-model="content"
                 />
              </td>
-             </tr>
-             <tr>
+            </tr>
+            <tr>
              <th>태그</th>
              <!-- 스페이스바 눌렀을 때 , #이 자동으로 입력되는 메소드(clickSpace)-->
              <!-- input 입력창을 클릭했을 떄, 아무것도 입력 안됬을 때 #이 자동으로 입력되는 메소드(clickFirst)-->
-             <td colspan="7">
+             <td colspan="3">
                <input
                   style="width:98%"
                   placeholder="#을 이용해 태그를 입력해주세요"
@@ -76,11 +72,11 @@
                   v-model="tag"
                 />
              </td>
-             </tr>
-             <tr>
+            </tr>
+            <tr>
              <th>사진</th> <!-- fileList에 담긴 값에 따라 사진 버튼을 생성하게 함-->
              <!-- fileList에 0이 아닌 이미지 값이 담길 때 img 태그가 활성화 되어 미리보기가 나오고 삭제버튼이 활성화-->
-             <td colspan="7">
+             <td colspan="3">
                <div class="Allbox" style="height:150px;width:98%; padding-top: 10px;">
                 <input ref="imageInput" type="file" hidden @change="onChangeImages">
                 <button v-for="(file,index) in fileList" v-bind:key = "index" class="pickbox" type="button" @click="onClickImageUpload"><img class="pick"
@@ -89,18 +85,19 @@
                 <h1 class="ment" style="weight:98%;color:#595959;">※ 이미지 파일(JPG,PNG)을 등록해주세요.(최대 5장)첫번째 사진이 대표 사진으로 사용됩니다.</h1>
                </div>
              </td>
-             </tr>
+            </tr>
          </tbody>
         </table>
-        <h3 class="cont_title">|음성 안내</h3>
+        <h3 class="cont_title">| 음성 안내</h3>
         <table>
         <colgroup>
-        <col style="width: 150px;">
+          <col style="width: 10%;"> <!-- 1행(제목부분) 너비 조절-->
+          <col style="width: 90%;">
         </colgroup>
         <tbody>
-             <tr>
+            <tr>
              <th>음성안내 문구<br>(선택)</th>
-                <td style="height:100px" colspan="7">
+                <td style="height:100px">
                 <textarea
                 style="width:98%; height:100px"
                 placeholder="관광객 APP에서 오디오 가이드로 제공할 음성 안내 문구를 입력해주세요 입력된 정보는 TTS로 제공됩니다."
@@ -108,35 +105,32 @@
                 v-model="voice"
                 />
              </td>
-             </tr>
+            </tr>
         </tbody>
         </table>
-        <h3 class="cont_title">|이용 정보</h3>
+        <h3 class="cont_title">| 이용 정보</h3>
         <table>
         <colgroup>
-        <col style="width: 150px;">><!--1행(제목부분) 너비 조절 -->
+          <col style="width: 10%;"> <!-- 1행(제목부분) 너비 조절-->
+          <col style="width: 90%;">
         </colgroup>
         <tbody>
-             <tr>
+            <tr>
              <th rowspan="2">위치 정보</th><!--칸 나누기는(세로)는 rowspan 사용 -->
-             <td colspan="7" style="width:98%; height:600px">
-               <div>
-                 <!-- 기본 높이, 길이를 정하고 mapOption은 지도 api의 여러 설정을 정한다.-->
-                 <!--initLayers는 지도의 기본 레이어를 설정함-->
-                 <!--maps를 인라인으로 작성할 경우 오류가 발생할 수 있음-->
-                <naver-maps
-                  :height="mapHeight"
-                  :width="mapWidth"
-                  :mapOptions="mapOptions"
-                  :initLayers="initLayers"
-                  @load="onLoad">
-                  <naver-marker :lat="33.49959" :lng="126.53126" @load="onMarkerLoaded"/>  <!-- 네이버 지도에서 마커를 찍는다 -->
-                </naver-maps>
-               </div>
+             <td style="width:98%; height:600px">
+              <!-- 기본 높이, 길이를 정하고 mapOption은 지도 api의 여러 설정을 정한다.-->
+              <!--initLayers는 지도의 기본 레이어를 설정함-->
+              <!--maps를 인라인으로 작성할 경우 오류가 발생할 수 있음-->
+              <naver-maps
+                :mapOptions="mapOptions"
+                :initLayers="initLayers"
+                @load="onLoad">
+                <naver-marker :lat="33.49959" :lng="126.53126" @load="onMarkerLoaded"/>  <!-- 네이버 지도에서 마커를 찍는다 -->
+              </naver-maps>
              </td>
-             </tr>
-             <tr>
-             <td colspan="7">
+            </tr>
+            <tr>
+             <td>
                 <input
                   style="width: 200px;"
                   type="text"
@@ -152,10 +146,10 @@
                 <button class="centerbutton" style="background-color:#7f7f7f;" @click="onMapMove">지도확인</button> <!-- 위도 경도를 입력한뒤 버튼 누르면 해당 위치로 지도 화면 이동-->
                 <button class="rightbutton" style="background-color:#5b9bd5" @click="pop">지도에서 직접 선택하기</button> <!-- window.open을 이용해서 지도 팝업창 띄움-->
              </td>
-             </tr>
-             <tr>
+            </tr>
+            <tr>
              <th>주소</th>
-             <td colspan="7">
+             <td>
                 <input
                   placeholder="주소입력"
                   class="box"
@@ -163,10 +157,10 @@
                   v-model="address"
                 />
              </td>
-             </tr>
-             <tr>
+            </tr>
+            <tr>
              <th>연락처</th>
-             <td colspan="7">
+             <td>
                  <input
                   placeholder="연락처('-'제외입력)"
                   class="box"
@@ -175,10 +169,10 @@
                   v-model="phone"
                 />
              </td>
-             </tr>
-             <tr>
+            </tr>
+            <tr>
              <th>운영시간</th>
-             <td colspan="7" style="height:100px">
+             <td style="height:100px">
                 <div>
                   <input type="checkbox" id="one" v-model="checkedValues" value="1">
                   <label for="one">월요일</label>
@@ -212,17 +206,18 @@
                 </select>
                 </div>
              </td>
-             <tr>
+            </tr>
+            <tr>
              <th>입장마감 시간<br>(선택)</th>
-             <td colspan="7">
-               <select style="width:80px" v-model="entrancehour">
+             <td>
+                <select style="width:80px" v-model="entrancehour">
                 <option v-for="(n,eh) in hour" :key="eh" v-bind:value="n">{{n}}</option>
                 </select>
                 <select style="width:80px" v-model="entrancemin">
                 <option v-for="(n,em) in min" :key="em" v-bind:value="n">{{n}}</option>
                 </select>
              </td>
-             </tr>
+            </tr>
         </tbody>
         </table>
         <div class="center">
@@ -484,6 +479,7 @@ export default {
         const loca = model.postModel.location.split(',') /* 위경도값 입력을 위해 split 사용 */
         this.address_lat = loca[0] /* 위도 할당 */
         this.address_lng = loca[1] /* 경도 할당 */
+        this.onMapMove()
         this.address = model.postModel.address /* 주소 할당 */
         this.phone = model.postModel.phone /* 연락처 할당 */
         var week = parseInt(model.postModel.openday).toString(2) /* 요일 체크박스를 위해 십진수인 값을 2진수로 변환(비트 연산을 위해서) */
@@ -584,5 +580,9 @@ input+label {
   padding-left: 5px;
   line-height: 5px;
   vertical-align: text-top;/* 체크박스와 글자 라인 맞추기 */
+}
+div#vue-naver-maps {
+  height: 100%;
+  width: 100%;
 }
 </style>
