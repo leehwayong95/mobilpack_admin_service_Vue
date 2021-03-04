@@ -1,37 +1,35 @@
 <template>
-    <div id="map" style="display:block;">
-      <div id="mapbox" style="display:block;width:100%;height:100%;position:static;">
-        <!--네이버맵 api 표출 부분-->
-        <naver-maps
-          :height="mapSize.height"
-          :width="mapSize.width"
-          :mapOptions="mapOptions"
-          :initLayers="initLayers"
-          @load="onLoad">
-          <naver-marker :lat="33.49959" :lng="126.53126" @load="onMarkerLoaded"/>  <!-- 네이버 지도에서 마커를 찍는다 -->
-        </naver-maps>
-      </div>
-      <!--검색창 부분-->
-      <div id="searchbox" style="display:block;position:fixed;top:10px;left:20px;">
-          <input
-          v-model="searchdata"
-          style="width:350px;height:40px;"
-          placeholder="주소를 입력하세요"
-          v-on:keyup.enter="searchbutton">
-          <button style="width:40px;height:40px;" @click="searchbutton">검색</button>
-          <div v-show="isActive" style="top:50px;left:20px;width:400px;height:40px;">
-            <ul class="r" tabindex="0">
-              <li tabindex="-1" v-for="(item, index) in regionList"
-              v-bind:key="index" @click="listButton(item.y,item.x,item.address_name)">
-                <span>{{item.place_name}}</span>
-                <span style="color:blue;"><br>{{item.address_name}}</span>
-              </li>
-            </ul>
-          </div>
-          <button style="height:30px;width:100px;position:fixed;top:20px;right:30px;" v-on:click="saveButton(save_address_lat,save_address_lng,save_address)">
-            포인트 저장</button>
-      </div>
+  <div id="map" style="display:block;">
+    <div id="mapbox" style="display:block;width:100%;height:100%;position:fixed;left:0;top:0;">
+      <!--네이버맵 api 표출 부분-->
+      <naver-maps
+        :mapOptions="mapOptions"
+        :initLayers="initLayers"
+        @load="onLoad">
+        <naver-marker :lat="33.49959" :lng="126.53126" @load="onMarkerLoaded"/>  <!-- 네이버 지도에서 마커를 찍는다 -->
+      </naver-maps>
     </div>
+    <!--검색창 부분-->
+    <div id="searchbox" style="display:block;position:fixed;top:10px;left:20px;">
+        <input
+        v-model="searchdata"
+        style="width:350px;height:40px;"
+        placeholder="주소를 입력하세요"
+        v-on:keyup.enter="searchbutton">
+        <button style="width:40px;height:40px;" @click="searchbutton">검색</button>
+        <div v-show="isActive" style="top:50px;left:20px;width:400px;height:40px;">
+          <ul class="r" tabindex="0">
+            <li tabindex="-1" v-for="(item, index) in regionList"
+            v-bind:key="index" @click="listButton(item.y,item.x,item.address_name)">
+              <span>{{item.place_name}}</span>
+              <span style="color:blue;"><br>{{item.address_name}}</span>
+            </li>
+          </ul>
+        </div>
+        <button style="height:30px;width:100px;position:fixed;top:20px;right:30px;" v-on:click="saveButton(save_address_lat,save_address_lng,save_address)">
+          포인트 저장</button>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -49,10 +47,6 @@ export default {
       save_address: '',
       sendData: [],
       output: {},
-      mapSize: {
-        width: 600,
-        height: 650
-      },
       mapOptions: { /* 제주 시청을 기본값으로 설정함 */
         lat: 33.49959,
         lng: 126.53126,
@@ -171,5 +165,9 @@ export default {
 }
 .r > li:hover {
   background-color:aquamarine;
+}
+div#vue-naver-maps {
+  width: 100%;
+  height: 100%;
 }
 </style>
