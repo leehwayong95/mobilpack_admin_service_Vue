@@ -340,6 +340,9 @@ div#vue-naver-maps {
 #content table tr.map {
   height: 400px;
 }
+#content table tr.map td {
+  padding: 0;
+}
 .btn {
   height: 50px; /* 테이블과 버튼 간격 */
 }

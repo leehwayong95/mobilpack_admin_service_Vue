@@ -159,14 +159,14 @@ export default {
         this.tmp.max = ''
       }
     },
-    getList () {
-      this.$axios.patch('http://localhost:9000/api/su/qna/search', {
+    async getList (n) {
+      await this.$axios.patch('http://localhost:9000/api/su/qna/search', {
         category: this.search.category,
         title: this.search.title,
         min: this.search.min.replace(/-/g, ''),
         max: this.search.max.replace(/-/g, ''),
         answer: this.search.answer,
-        page: this.page,
+        page: n === undefined ? this.page : n,
         count: 20
       })
         .then((res) => {
@@ -179,10 +179,10 @@ export default {
     view (n) {
       this.$router.push({path: this.$route.path + '/' + n})
     },
-    getPage (n) {
+    async getPage (n) {
       if (this.page !== n) {
+        await this.getList(n)
         this.page = n
-        this.getList()
         this.$router.push({query: {page: n}})
       }
     },

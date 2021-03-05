@@ -196,20 +196,20 @@ export default {
       this.Search = this.tmp
       this.getList()
     },
-    getList () {
-      this.$axios.get('http://localhost:9000/api/su/post/search', {
+    async getList (n) {
+      await this.$axios.get('http://localhost:9000/api/su/post/search', {
         params: {
           category: this.Search.category,
           language: this.getSelectSum(this.Search.selecttag),
           state: this.Search.state,
           titlename: this.Search.title,
-          currentPage: this.page,
+          currentPage: n === undefined ? this.page : n,
           number: 20
         }
       })
         .then((res) => {
           this.ListCount = res.data.pageCount
-          this.endpage = res.data.pageCount / 20 + (res.data.pageCount % 20 > 0 ? 1 : 0)
+          this.endpage = parseInt(res.data.pageCount / 20 + (res.data.pageCount % 20 > 0 ? 1 : 0))
           this.List = res.data.List
         })
     },
@@ -226,9 +226,9 @@ export default {
     },
     getPage (n) {
       if (this.page !== n) {
+        this.getList(n)
         this.page = n
         this.$router.push({name: this.$route.name, query: {page: n}})
-        this.getList()
       }
     },
     getNextBeforePage (n) {
