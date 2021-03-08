@@ -141,17 +141,15 @@ export default
       })
     },
     viewstop () {
-      if (confirm('게시중단 하시겠습니까?')) {
-        this.$axios.post('http://localhost:9000/api/su/notice/stopposting', {postindex: this.postindex})
-          .then(res => {
-            if (res.data === 'ok') {
-              this.getNotice()
-            } else {
-              console.log(res)
-              console.log('오류 다시 설정 해주세요')
-            }
-          })
-      }
+      this.$axios.post('http://localhost:9000/api/su/notice/stopposting', {postindex: this.postindex})
+        .then(res => {
+          if (res.data === 'ok') {
+            this.getNotice()
+          } else {
+            console.log(res)
+            console.log('오류 다시 설정 해주세요')
+          }
+        })
     },
     edit () {
       this.$router.push({
