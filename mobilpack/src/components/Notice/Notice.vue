@@ -156,7 +156,12 @@ export default {
     rowClick (postindex) {
       this.$router.push({
         path: '/noticedetails',
-        query: {index: postindex}
+        query: {
+          index: postindex,
+          page: this.$route.query.page,
+          content: this.$route.query.content,
+          language: this.$route.query.language
+        }
       })
     },
     NoticeRegister () {
