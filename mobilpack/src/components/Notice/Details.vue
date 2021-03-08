@@ -130,7 +130,15 @@ export default
       return str.replaceAll('\n', '<br/>')
     },
     back () {
-      this.$router.go(-1) // 바로 전 페이지로 이동 router 공부 필요
+      // this.$router.go(-1) // 바로 전 페이지로 이동 router 공부 필요
+      this.$router.push({
+        name: 'Notice',
+        query: {
+          page: this.$route.query.page,
+          language: this.$route.query.language,
+          content: this.$route.query.content
+        }
+      })
     },
     viewstop () {
       if (confirm('게시중단 하시겠습니까?')) {
