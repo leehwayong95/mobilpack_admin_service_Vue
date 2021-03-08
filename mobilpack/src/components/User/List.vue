@@ -142,14 +142,14 @@ export default {
         this.tmp.max = ''
       }
     },
-    getUserList () {
-      this.$axios.patch('http://localhost:9000/api/su/user/search', {
+    async getUserList (n) {
+      await this.$axios.patch('http://localhost:9000/api/su/user/search', {
         'userid': this.Search.userid,
         'username': this.Search.username,
         'region': this.Search.region,
         'min': this.Search.min.replace(/-/g, ''),
         'max': this.Search.max.replace(/-/g, ''),
-        'page': this.currentpage,
+        'page': n === undefined ? this.currentpage : n,
         'count': this.count
       })
         .then((res) => {
@@ -166,11 +166,11 @@ export default {
     userdetail (n) {
       this.$router.push('/user/' + n)
     },
-    getPage (n) {
+    async getPage (n) {
       if (this.currentpage !== n) {
+        await this.getUserList(n)
         this.currentpage = n
         this.$router.push({name: this.$route.name, query: {page: n}})
-        this.getUserList()
       }
     },
     getNextBeforePage (n) {
