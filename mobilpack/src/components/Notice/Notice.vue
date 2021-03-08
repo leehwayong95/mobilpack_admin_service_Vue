@@ -9,6 +9,7 @@
          <li>
          <span>언어</span>
           <select style="width:200px" v-model="language" v-on:keyup.enter="search">
+            <option value="">전체</option>
             <option value="KR">한국어</option>
             <option value="EN">영어</option>
             <option value="JP">일본어</option>
@@ -48,7 +49,7 @@
         </thead>
         <tbody>
           <tr v-for="(p,idx) in items" :key="idx" v-show="Currentpage" @click="rowClick(p.postindex)">
-            <td>{{ (listtotal+1)-(20*(page-1)+(idx+1))}}</td>
+            <td>{{ (listtotal)-(20*(page-1)+(idx))}}</td>
             <td v-if="'KR' === p.language" >한국어</td>
             <td v-else-if="'JP' === p.language" >일본어</td>
             <td v-else-if="'CN' === p.language" >중국어</td>
@@ -84,7 +85,7 @@
 <script>
 export default {
   mounted () {
-    this.search()
+    this.pagingmove()
   },
   data () {
     return {
@@ -93,10 +94,10 @@ export default {
       listtotal: '',
       Currentpage: 1,
       Number: 20,
-      language: '',
-      titleandcontent: '',
-      fixlanguage: '',
-      fixtitleandcontent: '',
+      language: this.$route.query.language ? this.$route.query.language : '',
+      titleandcontent: this.$route.query.content ? this.$route.query.content : '',
+      fixlanguage: this.$route.query.language ? this.$route.query.language : '',
+      fixtitleandcontent: this.$route.query.content ? this.$route.query.content : '',
       start_page: '',
       end_page: '',
       paging: function () {
@@ -109,6 +110,8 @@ export default {
   },
   methods: {
     search () {
+      this.page = 1
+      this.$router.push({query: {page: this.page, language: this.language, content: this.titleandcontent}})
       this.fixlanguage = this.language
       this.fixtitleandcontentc = this.titleandcontent
       this.$axios.get('http://localhost:9000//api/su/notice/search', {
@@ -124,7 +127,6 @@ export default {
           this.end_page = res.data.count / this.Number
           if (res.data.count % this.Number > 0) {
             this.end_page = this.end_page + 1
-          } else {
           }
         })
         .catch((err) => {
@@ -145,7 +147,6 @@ export default {
           this.end_page = res.data.count / this.Number
           if (res.data.count % this.Number >= 0) {
             this.end_page = this.end_page + 1
-          } else {
           }
         })
         .catch((err) => {
@@ -165,7 +166,7 @@ export default {
       if (this.page !== n) {
         this.page = n
         this.pagingmove()
-        this.$router.push({name: this.$route.name, query: {page: n}})
+        this.$router.push({name: this.$route.name, query: {page: n, language: this.fixlanguage, content: this.fixtitleandcontent}})
       }
     }
   }
