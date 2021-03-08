@@ -400,7 +400,15 @@ export default {
       formData.append('openday', this.openday)
       formData.append('opentime', this.openhour + ':' + this.openmin)
       formData.append('closetime', this.endhour + ':' + this.endmin)
-      formData.append('endtime', this.entrancehour + ':' + this.entrancemin)
+      if (this.entrancehour === '' || this.entrancemin === '') {
+        var time = ''
+        if (this.entrancemin === '' && this.entrancehour !== '') {
+          time = this.entrancehour + ':00'
+        }
+        formData.append('endtime', time)
+      } else {
+        formData.append('endtime', this.entrancehour + ':' + this.entrancemin)
+      }
       for (repeat = 0; repeat < this.fileList.length; repeat++) { // formData에는 List가 한번에 담기지 않음
         formData.append('files', this.fileList[repeat]) // for문을 이용해서 이렇게 나눠서 보내야 함
       }

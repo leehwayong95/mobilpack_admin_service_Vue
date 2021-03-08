@@ -390,7 +390,15 @@ export default {
       formData.append('openday', this.openday)
       formData.append('opentime', this.openhour + ':' + this.openmin)
       formData.append('closetime', this.endhour + ':' + this.endmin)
-      formData.append('endtime', this.entrancehour + ':' + this.entrancemin)
+      if (this.entrancehour === '' || this.entrancemin === '') {
+        var time = ''
+        if (this.entrancemin === '' && this.entrancehour !== '') {
+          time = this.entrancehour + ':00'
+        }
+        formData.append('endtime', time)
+      } else {
+        formData.append('endtime', this.entrancehour + ':' + this.entrancemin)
+      }
       for (repeat = 0; repeat < this.fileList.length; repeat++) { // formData에는 List가 한번에 담기지 않음
         if (this.fileList[repeat].fileindex === undefined &
          this.fileList[repeat] !== '0') { // fileList에 담긴 값이 file값이고 0이 아닐 경우 true
