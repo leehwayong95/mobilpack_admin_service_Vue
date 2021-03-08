@@ -102,7 +102,7 @@ export default {
         id: this.id,
         language: this.language,
         title: this.title,
-        content: this.content,
+        content: this.changecontent,
         topsetting: this.topsetting
       })
         .then((res) => {
