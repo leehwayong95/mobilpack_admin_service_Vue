@@ -36,19 +36,19 @@
           <tr>
           <th>입력 언어</th>
           <td v-if="'KR'===copylanguage">한국어</td>
-          <td v-if="'EN'===copylanguage">English</td>
+          <td v-if="'US'===copylanguage">English</td>
           <td v-if="'JP'===copylanguage">日本語</td>
           <td v-if="'CN'===copylanguage">中國語</td>
           <td class="center">
             <select v-if="$route.name ==='translation'" style="width:200px" v-model="choicelanguage" @click="changelanguage">
               <option v-if="copylanguage != 'KR'" value= '1'>한국어</option>
-              <option v-if="copylanguage != 'EN'" value= '2'>English</option>
+              <option v-if="copylanguage != 'US'" value= '2'>English</option>
               <option v-if="copylanguage != 'JP'" value= '4'>日本語</option>
               <option v-if="copylanguage != 'CN'" value= '8'>中國語</option>
             </select><!-- v-bind:disabled 이친구가 "" 안에 있는 조건이 됬을경우 언어를 선택 못하게 비활성화 해줍니다.  -->
              <select v-if="$route.name ==='translationedit'" style="width:200px" v-model="choicelanguage" v-bind:disabled="$route.name ==='translationedit'">
               <option v-if="copylanguage != 'KR'" value= '1' >한국어</option>
-              <option v-if="copylanguage != 'EN'" value= '2' >English</option>
+              <option v-if="copylanguage != 'US'" value= '2' >English</option>
               <option v-if="copylanguage != 'JP'" value= '4' >日本語</option>
               <option v-if="copylanguage != 'CN'" value= '8'>中國語</option>
             </select>
@@ -180,6 +180,7 @@ export default {
       }
     },
     changelanguage () { // 입력언어에서 언어를 선택할떄마다 각 언어에 맞는 DB파일을 가져옵니다 checkNolist에 true false로 성공/실패 기록
+      console.log(this.copylanguage)
       this.$axios.get('http://localhost:9000/api/su/post/translate/info', {
         params: {
           postindex: this.copypostindex, language: this.choicelanguage}

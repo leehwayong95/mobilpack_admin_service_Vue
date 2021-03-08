@@ -110,9 +110,8 @@ export default {
       Plusyear = this.$moment(Plusyear).format('YYYY-MM-DD')
       if (this.createat === '') {
         alert('시작 날짜를 선택하셔야 합니다.')
-        this.updateat = ''
       } else if (newValue > Plusyear) {
-        alert('날짜 간격은 12개월 이내로')
+        alert('날짜 최대 간격은 12개월 입니다')
         this.updateat = Plusyear
       }
     }
