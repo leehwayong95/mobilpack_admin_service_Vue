@@ -29,7 +29,7 @@
           </tr>
           <tr>
             <th>관광정보</th>
-            <td colspan="7">{{post.content}}</td>
+            <td colspan="7" style="white-space:pre-line;">{{post.content}}</td>
           </tr>
           <tr>
             <th>태그</th>
@@ -51,7 +51,7 @@
         <tbody>
           <tr>
             <th>음성안내 문구</th>
-            <td>{{post.voice_info}}</td>
+            <td style="white-space:pre-line;">{{post.voice_info}}</td>
           </tr>
         </tbody>
       </table>

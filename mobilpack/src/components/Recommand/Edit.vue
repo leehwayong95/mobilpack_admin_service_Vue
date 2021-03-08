@@ -48,9 +48,9 @@
             </tr>
             <tr>
              <th>관광정보</th>
-                <td style="height:100px" colspan="3">
+                <td style="height:100px" colspan="3"> <!-- white-space:pre-line은 db에서의 줄바꿈을 제대로 표현해주는 css임-->
                 <textarea
-                style="width:98%; height:100px"
+                style="width:98%; height:100px;white-space:pre-line;"
                 placeholder="관광객 APP에 제공할 추천 장소의 관광 정보를 입력해주세요"
                 type="text"
                 maxlength="5000"
@@ -99,7 +99,7 @@
              <th>음성안내 문구<br>(선택)</th>
                 <td style="height:100px">
                 <textarea
-                style="width:98%; height:100px"
+                style="width:98%; height:100px;white-space:pre-line;"
                 placeholder="관광객 APP에서 오디오 가이드로 제공할 음성 안내 문구를 입력해주세요 입력된 정보는 TTS로 제공됩니다."
                 type="text"
                 v-model="voice"
