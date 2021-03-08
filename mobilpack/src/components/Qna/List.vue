@@ -172,7 +172,7 @@ export default {
         .then((res) => {
           this.List = res.data.list
           this.postcount = res.data.count
-          this.endpage = res.data.count / 20
+          this.endpage = parseInt(res.data.count / 20)
           this.endpage += (res.data.count % 20) ? 1 : 0
         })
     },
