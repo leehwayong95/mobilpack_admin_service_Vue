@@ -61,7 +61,7 @@
               {{ p.title }}
             </td>
             <td v-else id="title">{{ p.title }}</td>
-            <td>{{ p.createat.substring(0,16) }}</td>
+            <td>{{ p.createat }}</td>
             <td colspan="1" v-if= "null === p.name">삭제된 관리자</td>
             <td colspan="1" v-else >{{p.name}}</td>
             <td>{{ p.viewcount }}</td>
@@ -123,6 +123,7 @@ export default {
         }})
         .then((res) => {
           this.items = res.data.result
+          this.items.createat = this.items.createat.substring(0, 16)
           this.listtotal = res.data.count
           this.end_page = res.data.count / this.Number
           if (res.data.count % this.Number > 0) {
@@ -143,6 +144,7 @@ export default {
         }})
         .then((res) => {
           this.items = res.data.result
+          this.items.createat = this.items.createat.substring(0, 16)
           this.listtotal = res.data.count
           this.end_page = res.data.count / this.Number
           if (res.data.count % this.Number >= 0) {
