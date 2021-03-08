@@ -111,45 +111,43 @@ export default {
       if (this.createat === '') {
         alert('시작 날짜를 선택하셔야 합니다.')
         this.updateat = ''
-      } else if (this.createat > this.updateat) {
-        console.log(oldvalue)
-        console.log(newValue)
-        alert('처음 날짜 보다 작아서는 안됩니다.')
-        this.updateat = newValue
-        this.updateat = null
       } else if (newValue > Plusyear) {
-        alert('기간은 1년제한입니다')
+        alert('날짜 간격은 12개월 이내로')
         this.updateat = Plusyear
       }
     }
   },
   methods: {
     search () {
-      this.fixid = this.id
-      this.fixname = this.name
-      this.fixcreateat = this.createat
-      this.fixupdateat = this.updateat
-      this.$axios.get('http://localhost:9000//api/su/admin/listsearch', {
-        params: {
-          Currentpage: this.page,
-          Number: this.Number,
-          id: this.id,
-          name: this.name,
-          createat: this.createat,
-          updateat: this.updateat
-        }})
-        .then((res) => {
-          this.items = res.data.result
-          this.listtotal = res.data.count
-          this.end_page = res.data.count / this.Number
-          if (res.data.count % this.Number > 0) {
-            this.end_page = this.end_page + 1
-          } else {
-          }
-        })
-        .catch((err) => {
-          console.log(err)
-        })
+      if (this.createat > this.updateat) {
+        alert('시작일은 종료일보다 앞서서 설정해주세요.')
+      } else {
+        this.fixid = this.id
+        this.fixname = this.name
+        this.fixcreateat = this.createat
+        this.fixupdateat = this.updateat
+        this.$axios.get('http://localhost:9000//api/su/admin/listsearch', {
+          params: {
+            Currentpage: this.page,
+            Number: this.Number,
+            id: this.id,
+            name: this.name,
+            createat: this.createat,
+            updateat: this.updateat
+          }})
+          .then((res) => {
+            this.items = res.data.result
+            this.listtotal = res.data.count
+            this.end_page = res.data.count / this.Number
+            if (res.data.count % this.Number > 0) {
+              this.end_page = this.end_page + 1
+            } else {
+            }
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+      }
     },
     pagingmove () {
       this.$axios.get('http://localhost:9000//api/su/admin/listsearch', {
