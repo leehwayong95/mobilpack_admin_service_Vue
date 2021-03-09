@@ -373,7 +373,7 @@ export default {
       }
       formData.append('category', this.select) // 각 값들을 formData에 append
       formData.append('title', this.position)
-      formData.append('content', this.content)
+      formData.append('content', this.content.trim()) // trim()을 통해 앞 뒤 의미없는 여백 제거
       if (this.tag.substr(this.tag.length - 1, 1) === '#') { // 태그 문자열의 맨 마지막이 #인 경우 #과 양끝 공백을 지우고 append
         this.tag = this.tag.substring(0, this.tag.length - 1).trim()
       }
@@ -461,7 +461,11 @@ export default {
       this.$router.push('/recommands/' + this.index)
     },
     clickSpace () { // 태그에서 스페이스바를 눌렀을때 자동 #추가입니다.
-      this.tag = this.tag + '#'
+      if (this.tag.trim().substr(this.tag.length - 2, 1) === '#') {
+        this.tag = this.tag.trim()
+      } else {
+        this.tag = this.tag + '#' // 스페이스바를 누르면 자동으로 ,와 #을 추가하는 메소드
+      }
     },
     clickFirst () { // 처음에 input 입력을 눌렀을 때 아무것도 없으면 자동으로 # 입력하게 해주는 기능
       if (this.tag === '') {
@@ -472,6 +476,14 @@ export default {
   watch: {
     phone () { // watch 절에서는 값이 변할때 처다보니까 변수명과 메소드 명이 같아야함
       this.phone = this.phone.replace(/[^0-9]/g, '')
+    },
+    tag: function (newValue, oldvalue) {
+      var regExp = /[~!@$%^&*()]/gi // 특수 문자 제외를 위한 정규식 구문(#은 제외함)
+      var obj = newValue[newValue.length - 1]
+      if (regExp.test(obj) && (obj !== '#')) {
+        alert('특수문자는 입력하실 수 없습니다.')
+        this.tag = oldvalue // 특수문자를 지우는 구문
+      }
     }
   },
   mounted () {
@@ -570,7 +582,7 @@ td > button, .btn_area button {
   height: 100%;
 }
 #content > .cont_inner {
-  min-height: calc(300%);/* 탑,사이드 말고 흰창 크기 늘리기 위해 추가함 */
+  height: fit-content;/* 탑,사이드 말고 흰창 크기 늘리기 위해 추가함 */
 }
 .rightbutton {
   float: right; /* float  이 친구를 사용해서 수정 ,삭제 버튼을 오른쪽으로 보낼수 있습니다  */
