@@ -77,7 +77,6 @@ export default {
       hyperlink: /(http(s)?:\/\/)([a-z0-9\w]+\.*)+[a-z0-9]{2,4}/gi, // url 정규식
       selected: '',
       result: '',
-      changecontent: '',
       iagain: '',
       jgain: ''
     }
@@ -94,12 +93,11 @@ export default {
         .replace(/(?:\r\n|\r|\n)/g, '<br />')
     },
     join () {
-      this.changecontent = this.convertHTML(this.content)
       this.$axios.post('http://localhost:9000/api/su/notice/insert', {
         language: this.language,
         topsetting: this.topsetting,
         title: this.title,
-        content: this.changecontent
+        content: this.content
       })
         .then((res) => {
           if (res.data === 'FALSE') {

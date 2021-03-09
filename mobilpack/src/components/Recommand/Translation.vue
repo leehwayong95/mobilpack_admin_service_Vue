@@ -74,7 +74,7 @@
             <td v-if="$route.name ==='translation' && checkNolist ==='false'"></td>
             <td v-else-if="$route.name ==='translationedit'" >
               <textarea
-                style="width:570px; height:200px"
+                style="max-width: 650px; height:200px"
                 type="text"
                 v-model="info"
                 maxlength="5000"
@@ -101,7 +101,7 @@
             <td v-if="$route.name ==='translation' && checkNolist ==='false'"></td>
             <td v-else-if="$route.name ==='translationedit'" >
               <textarea
-                style="width:600px; height:200px"
+                style="max-width: 650px; height:200px"
                 type="text"
                 v-model="voice"
                 maxlength='1000'

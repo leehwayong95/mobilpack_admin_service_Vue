@@ -75,7 +75,6 @@ export default {
       topsetting: this.$route.query.items.topsetting,
       title: this.$route.query.items.title,
       content: this.$route.query.items.content.replace(/(<br \/>)/g, '\n').replace(/(<([^>]+)>)/ig, ''),
-      changecontent: '',
       result: ''
     }
   },
@@ -89,20 +88,13 @@ export default {
       })
   },
   methods: {
-    convertHTML (content) {
-      var regURL = new RegExp(`(http|https|ftp|telnet|news|irc)://([-/.a-zA-Z0-9_~#%$?&=:200-377()]+)`, 'gi')
-      return content
-        .replace(regURL, `<a href='$1://$2' target='_blank'>$1://$2</a>`)
-        .replace(/(?:\r\n|\r|\n)/g, '<br />')
-    },
     join () {
-      this.changecontent = this.convertHTML(this.content)
       this.$axios.post('http://localhost:9000//api/su/notice/edit', {
         postindex: this.$route.query.items.postindex,
         id: this.id,
         language: this.language,
         title: this.title,
-        content: this.changecontent,
+        content: this.content,
         topsetting: this.topsetting
       })
         .then((res) => {

@@ -89,17 +89,21 @@ export default
   },
   data () {
     return {
-      testcontent: '',
       items: [],
       postindex: '',
       hypercontent: '', // 본문 복사
       splittext: '',
-      hyperlink: /(http(s)?:\/\/)([a-z0-9\w]+\.*)+[a-z0-9]{2,4}/gi, // url 정규식
       result: [], // 링크를 담은 배열
       maintext: [] // 본문을 담은 배열
     }
   },
   methods: {
+    convertHTML (content) {
+      var regURL = new RegExp(`(http|https|ftp|telnet|news|irc)://([-/.a-zA-Z0-9_~#%$?&=:200-377()]+)`, 'gi')
+      return content
+        .replace(regURL, `<a href='$1://$2' target='_blank'>$1://$2</a>`)
+        .replace(/(?:\r\n|\r|\n)/g, '<br />')
+    },
     getNotice () {
       this.$axios.get('http://localhost:9000/api/su/notice/detail', {params: {postindex: this.$route.query.index}})
         .then((res) => {
@@ -109,10 +113,8 @@ export default
             this.items.updateat = this.items.updateat.substring(0, 16)
           }
           this.postindex = this.$route.query.index
-          this.hypercontent = res.data.content
+          this.hypercontent = this.convertHTML(res.data.content)
           this.hypercontent = this.test(this.hypercontent)
-          this.testcontent = res.data.content
-          this.result = this.testcontent.match(this.hyperlink)
         })
         .catch((err) => {
           console.log(err)
