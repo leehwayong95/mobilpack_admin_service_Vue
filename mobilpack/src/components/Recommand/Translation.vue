@@ -21,9 +21,9 @@
         </div>
       <table class="n">
         <colgroup>
-          <col width="30%"><!-- 공백(1행1열) 너비 조절가능 -->
-          <col width="100%"><!-- 원본(칸) 너비 조절가능 -->
-          <col width="100%"><!-- 번역본(칸) 너비 조절가능 -->
+          <col width="10%"><!-- 공백(1행1열) 너비 조절가능 -->
+          <col width="45%"><!-- 원본(칸) 너비 조절가능 -->
+          <col width="45%"><!-- 번역본(칸) 너비 조절가능 -->
         </colgroup>
         <thead>
           <tr>
@@ -40,6 +40,7 @@
           <td v-if="'JP'===copylanguage">日本語</td>
           <td v-if="'CN'===copylanguage">中國語</td>
           <td class="center">
+            <center><!-- 이렇게 center 태그를 추가하면 특정구역에 자기가 원하는 위치에 넣을수 있습니다 -->
             <select v-if="$route.name ==='translation'" style="width:200px" v-model="choicelanguage" @click="changelanguage">
               <option v-if="copylanguage != 'KR'" value= '1'>한국어</option>
               <option v-if="copylanguage != 'US'" value= '2'>English</option>
@@ -52,6 +53,7 @@
               <option v-if="copylanguage != 'JP'" value= '4' >日本語</option>
               <option v-if="copylanguage != 'CN'" value= '8'>中國語</option>
             </select>
+            </center>
           </td>
           </tr>
           <tr>
@@ -298,11 +300,6 @@ export default {
   height: 30px;
   margin-top: 50px;
   margin-left: 30px;
-}
-.center {
-  display:flex; /* 버튼을 정렬시켜줌 */
-  justify-content:center;/*  버튼을 가운데로 정렬시켜줌 */
-  align-items:center;/*  해당하는 열에 가운데로 정렬 */
 }
 .n {
   margin-top: 20px;

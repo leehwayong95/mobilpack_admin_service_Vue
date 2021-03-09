@@ -44,13 +44,13 @@
              <tr>
              <th>내용</th>
              <!-- <여기가 내용중에서 자동으로 링크를 만들어주는 구문입니다.> </td> -->
-             <td
+             <div
              v-html="hypercontent"
              class="contentscroll"
-             style="height:500px;  vertical-align: top;"
+             style="height:500px; width:1400px;  vertical-align: top;"
              colspan="7"
              >
-             </td>
+             </div>
              </tr>
          </tbody>
         </table>
@@ -72,20 +72,6 @@ export default
 {
   mounted () {
     this.getNotice()
-    // 게시글 가져오기
-    // 화용님 방식
-    // var contSpan = document.getElementById('notice_cont')
-    // contSpan.appendChild(document.createTextNode('hello'))
-    // var anker = document.createElement('a')
-    // anker.appendChild(document.createTextNode('link'))
-    // contSpan.appendChild(anker)
-    // 인터넷 예제
-    // function autolink(con) {
-    // var container = document.getElementById(con);
-    // var doc = container.innerHTML;
-    // var regURL = new RegExp("(http|https|ftp|telnet|news|irc)://([-/.a-zA-Z0-9_~#%$?&=:200-377()가-힣]+)","gi");
-    // var regEmail = new RegExp("([xA1-xFEa-z0-9_-]+@[xA1-xFEa-z0-9-]+\.[a-z0-9-]+)","gi");
-    // container.innerHTML = doc.replace(regURL,"$1://$2").replace(regEmail,"$1");
   },
   data () {
     return {
@@ -210,8 +196,8 @@ export default
   background: #fff;
 }
 .contentscroll {
-  overflow: scroll;
+  overflow-y: scroll;
   background: #fff;
-  height: 500px;
+  height: 500px;/* 안먹어요 */
 }
 </style>
