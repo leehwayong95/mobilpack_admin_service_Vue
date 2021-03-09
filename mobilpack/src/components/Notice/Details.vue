@@ -101,29 +101,21 @@ export default
   },
   methods: {
     getNotice () {
-      // 조회수 증가시키기
-      this.$axios.get('http://localhost:9000/api/su/notice/plusviewcount', {params: {postindex: this.$route.query.index}})
-        .then(res => {
-          if (res.data === 'ok') {
-            this.$axios.get('http://localhost:9000/api/su/notice/detail', {params: {postindex: this.$route.query.index}})
-              .then((res) => {
-                this.items = res.data
-                this.items.createat = this.items.createat.substring(0, 16)
-                if (this.items.updateat) {
-                  this.items.updateat = this.items.updateat.substring(0, 16)
-                }
-                this.postindex = this.$route.query.index
-                this.hypercontent = res.data.content
-                this.hypercontent = this.test(this.hypercontent)
-                this.testcontent = res.data.content
-                this.result = this.testcontent.match(this.hyperlink)
-              })
-              .catch((err) => {
-                console.log(err)
-              })
-          } else {
-            console.log('조회수 오류 다시 설정 해주세요')
+      this.$axios.get('http://localhost:9000/api/su/notice/detail', {params: {postindex: this.$route.query.index}})
+        .then((res) => {
+          this.items = res.data
+          this.items.createat = this.items.createat.substring(0, 16)
+          if (this.items.updateat) {
+            this.items.updateat = this.items.updateat.substring(0, 16)
           }
+          this.postindex = this.$route.query.index
+          this.hypercontent = res.data.content
+          this.hypercontent = this.test(this.hypercontent)
+          this.testcontent = res.data.content
+          this.result = this.testcontent.match(this.hyperlink)
+        })
+        .catch((err) => {
+          console.log(err)
         })
     },
     test (str) {

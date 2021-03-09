@@ -69,12 +69,12 @@
           </tr>
           <tr>
             <th>관광정보</th>
-            <td style="height:200px">{{copyinfo}}</td>
+            <td style="height:200px; margin-bottom: 10px; margin-top: 10px;">{{copyinfo}}</td>
             <td v-if="$route.name ==='translation' && checkNolist ==='true' || checkNolist ===''" >{{ info }}</td>
             <td v-if="$route.name ==='translation' && checkNolist ==='false'"></td>
             <td v-else-if="$route.name ==='translationedit'" >
               <textarea
-                style="width:600px; height:200px"
+                style="width:570px; height:200px"
                 type="text"
                 v-model="info"
                 maxlength="5000"
@@ -326,5 +326,19 @@ export default {
 .text {
   margin-top: 10px;
   margin-left: 20px;
+}
+textarea {
+    display: block;
+    width: 100%;
+    height: 160px;
+    padding: 10px;
+    margin: 5px 0;
+    border-color: #ddd;
+    border-radius: 5px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    font-size: 14px;
+    resize: none;
+    outline: none;
 }
 </style>

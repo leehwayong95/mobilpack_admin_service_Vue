@@ -2,7 +2,7 @@
    <div id=content>
     <span class="title">
     <h1>공지사항 등록</h1>
-    <h2>HOME > 공지사항관리 > 공지사항등록</h2>
+    <h3>HOME > 공지사항관리 > 공지사항등록</h3>
     </span>
     <section class="cont_inner">
         <table>
