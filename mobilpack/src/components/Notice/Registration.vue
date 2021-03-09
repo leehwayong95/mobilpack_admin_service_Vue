@@ -86,12 +86,6 @@ export default {
       this.inputReply = this.inputReply.replace(/(<br \/>)/g, '\n').replace(/(<([^>]+)>)/ig, '')
       this.editmode = !this.editmode
     },
-    convertHTML (content) {
-      var regURL = new RegExp(`(http|https|ftp|telnet|news|irc)://([-/.a-zA-Z0-9_~#%$?&=:200-377()]+)`, 'gi')
-      return content
-        .replace(regURL, `<a href='$1://$2' target='_blank'>$1://$2</a>`)
-        .replace(/(?:\r\n|\r|\n)/g, '<br />')
-    },
     join () {
       this.$axios.post('http://localhost:9000/api/su/notice/insert', {
         language: this.language,
