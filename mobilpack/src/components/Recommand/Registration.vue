@@ -522,12 +522,13 @@ td > button, .btn_area button {
   cursor: initial;
 }
 input, select {/* 요일 간격 */
-  width: 50px;
+  width: 30px;
   height: 30px;
 }
 input+label {
   padding-left: 5px;
   line-height: 5px;
+  margin-right: 10px;
   vertical-align: text-top;/* 체크박스와 글자 라인 맞추기 */
 }
 div#vue-naver-maps {

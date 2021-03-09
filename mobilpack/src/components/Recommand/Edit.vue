@@ -596,11 +596,12 @@ td > button, .btn_area button {
   align-items:center; /*(가로의 중앙을 맟춰줌! 공부 필요함) */
 }
 input, select {/* 요일 간격 */
-  width: 50px;
+  width: 30px;
   height: 30px;
 }
 input+label {
   padding-left: 5px;
+  margin-right: 10px;
   line-height: 5px;
   vertical-align: text-top;/* 체크박스와 글자 라인 맞추기 */
 }
