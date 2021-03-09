@@ -94,7 +94,7 @@ export default {
         id: this.id,
         language: this.language,
         title: this.title,
-        content: this.content,
+        content: this.content.trim(),
         topsetting: this.topsetting
       })
         .then((res) => {

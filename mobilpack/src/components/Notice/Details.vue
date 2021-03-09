@@ -44,13 +44,13 @@
              <tr>
              <th>내용</th>
              <!-- <여기가 내용중에서 자동으로 링크를 만들어주는 구문입니다.> </td> -->
-             <div
-             v-html="hypercontent"
-             class="contentscroll"
-             style="height:500px; width:1400px;  vertical-align: top;"
-             colspan="7"
-             >
-             </div>
+             <td colspan="7" id="test">
+              <div
+               v-html="hypercontent"
+               class="contentscroll"
+               style="height:500px;  vertical-align: top; padding: 10px"
+             />
+             </td>
              </tr>
          </tbody>
         </table>
@@ -198,6 +198,8 @@ export default
 .contentscroll {
   overflow-y: scroll;
   background: #fff;
-  height: 500px;/* 안먹어요 */
+}
+#content table td#test {/* 내용 부분만 스크롤 옆에 여백을 지우기 위해 사용함 */
+  padding: 0 0px;
 }
 </style>

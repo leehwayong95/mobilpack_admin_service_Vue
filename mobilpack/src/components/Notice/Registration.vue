@@ -91,7 +91,7 @@ export default {
         language: this.language,
         topsetting: this.topsetting,
         title: this.title,
-        content: this.content
+        content: this.content.trim()
       })
         .then((res) => {
           if (res.data === 'FALSE') {
