@@ -16,8 +16,9 @@
         </li>
         <li>
           <span>날짜</span>
-          <p class="date"><input type="date" v-model="createat" min="2020-01-01" max="2021-12-30" > <i>~</i>
-          <input type="date" v-model="updateat"  min=createat max="2021-12-31"></p>
+          <p class="date"><input type="date" v-model="createat" max="2025-12-30" >
+          <i>~</i>
+          <input type="date" v-model="updateat" max="2025-12-31"></p>
         </li>
       </ul>
       <button v-on:click="search">검색</button>
@@ -74,7 +75,7 @@
 <script>
 export default {
   mounted () {
-    this.search()
+    this.pagingmove()
   },
   data () {
     return {
@@ -103,49 +104,37 @@ export default {
       }
     }
   },
-  watch: {
-    // watch: {  주시할 변수명: 실행할 콜백함수(newValue, oldValue) }
-    updateat: function (newValue, oldvalue) {
-      var Plusyear = this.$moment(this.createat).add(12, 'months').add(1, 'd')
-      Plusyear = this.$moment(Plusyear).format('YYYY-MM-DD')
-      if (this.createat === '') {
-        alert('시작 날짜를 선택하셔야 합니다.')
-      } else if (newValue > Plusyear) {
-        alert('날짜 최대 간격은 12개월 입니다')
-        this.updateat = Plusyear
-      }
-    }
-  },
+  // watch: {
+  //   // watch: {  주시할 변수명: 실행할 콜백함수(newValue, oldValue) }
+  //   updateat: function (newValue, oldvalue) {
+  //     var Plusyear = this.$moment(this.createat).add(12, 'months').add(1, 'd')
+  //     Plusyear = this.$moment(Plusyear).format('YYYY-MM-DD')
+  //     if (newValue > Plusyear) {
+  //       alert('날짜 최대 간격은 12개월 입니다')
+  //       this.updateat = Plusyear
+  //     }
+  //   }
+  // },
   methods: {
     search () {
+      var Plusyear = this.$moment(this.createat).add(12, 'months').add(1, 'd')
+      Plusyear = this.$moment(Plusyear).format('YYYY-MM-DD')
       if (this.createat > this.updateat) {
         alert('시작일은 종료일보다 앞서서 설정해주세요.')
+        this.updateat = ''
+      } else if (this.createat === '' && this.createat < this.updateat) {
+        alert('시작 날짜를 선택하셔야 합니다.')
+        this.updateat = ''
+      } else if (this.updateat > Plusyear) {
+        alert('날짜 최대 간격은 12개월 입니다')
+        this.updateat = Plusyear
       } else {
         this.fixid = this.id
         this.fixname = this.name
         this.fixcreateat = this.createat
         this.fixupdateat = this.updateat
-        this.$axios.get('http://localhost:9000//api/su/admin/listsearch', {
-          params: {
-            Currentpage: this.page,
-            Number: this.Number,
-            id: this.id,
-            name: this.name,
-            createat: this.createat,
-            updateat: this.updateat
-          }})
-          .then((res) => {
-            this.items = res.data.result
-            this.listtotal = res.data.count
-            this.end_page = res.data.count / this.Number
-            if (res.data.count % this.Number > 0) {
-              this.end_page = this.end_page + 1
-            } else {
-            }
-          })
-          .catch((err) => {
-            console.log(err)
-          })
+        this.page = 1
+        this.pagingmove()
       }
     },
     pagingmove () {
@@ -162,9 +151,8 @@ export default {
           this.items = res.data.result
           this.listtotal = res.data.count
           this.end_page = res.data.count / this.Number
-          if (res.data.count % this.Number >= 0) {
+          if (res.data.count % this.Number > 0) {
             this.end_page = this.end_page + 1
-          } else {
           }
         })
         .catch((err) => {
@@ -209,5 +197,25 @@ button.joinbutton{
 .Currentpage {
   background-color: #3e61dc;
   color: #fff;
+}
+/* 달력 선택 */
+input[type="date"] {/* 날짜를 고르는 버튼 구역에 따라 달력이 나오게 해줌 (이 표시가 없어지면 달력이 한쪽으로만 표출됨)*/
+  position: relative;
+}
+input[type="date"]:after {/* 날짜선택구간 옆에 ▼표시를 생성함 ,버튼적용됨 */
+  content: "\25BC";
+  color: #555;
+  padding: 0 5px;
+}
+input[type="date"]::-webkit-calendar-picker-indicator {/* 달력을 표출 */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: auto;
+  height: auto;
+  color: transparent;
+  background: transparent
 }
 </style>
