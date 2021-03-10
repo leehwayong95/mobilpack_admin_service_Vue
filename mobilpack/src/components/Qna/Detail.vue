@@ -139,7 +139,7 @@ export default {
       this.$router.go(-1)
     },
     setReply () {
-      let HTMLReply = this.convertHTML(this.inputReply)
+      let HTMLReply = this.convertHTML(this.inputReply.trim())
       this.$axios.post('http://localhost:9000/api/su/qna/chat/' + this.index, {content: HTMLReply})
         .then((res) => {
           if (res.data.status) {
