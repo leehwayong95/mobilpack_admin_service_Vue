@@ -26,8 +26,7 @@
             :tagable="true"
             @tag="addLanguageOption"
             :close-on-select="false"
-            :searchable="false"
-            placeholder="">
+            :searchable="false">
             <template template slot="selection">
             </template>
           </multiselect>
@@ -167,26 +166,21 @@ export default {
       }
     }
   },
+  updated () {
+    console.log(this.tmp.selecttag)
+    console.log(this.Search.selecttag)
+  },
   methods: {
     addLanguageOption (newTag) {
-      let value = ''
-      switch (newTag) {
-        case ('한국어'):
-          value = 1
-          break
-        case ('영어'):
-          value = 2
-          break
-        case ('일본어'):
-          value = 4
-          break
-        case ('중국어'):
-          value = 8
-          break
+      let value = {
+        '한국어': 1,
+        '영어': 2,
+        '일본어': 4,
+        '중국어': 8
       }
       const tag = {
         name: newTag,
-        value: value
+        value: value[newTag]
       }
       this.language.push(tag)
       this.tmp.selecttag.push(tag)
