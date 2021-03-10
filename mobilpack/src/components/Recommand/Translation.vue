@@ -21,9 +21,9 @@
         </div>
       <table class="n">
         <colgroup>
-          <col width="30%"><!-- 공백(1행1열) 너비 조절가능 -->
-          <col width="100%"><!-- 원본(칸) 너비 조절가능 -->
-          <col width="100%"><!-- 번역본(칸) 너비 조절가능 -->
+          <col width="10%"><!-- 공백(1행1열) 너비 조절가능 -->
+          <col width="45%"><!-- 원본(칸) 너비 조절가능 -->
+          <col width="45%"><!-- 번역본(칸) 너비 조절가능 -->
         </colgroup>
         <thead>
           <tr>
@@ -36,22 +36,24 @@
           <tr>
           <th>입력 언어</th>
           <td v-if="'KR'===copylanguage">한국어</td>
-          <td v-if="'EN'===copylanguage">English</td>
+          <td v-if="'US'===copylanguage">English</td>
           <td v-if="'JP'===copylanguage">日本語</td>
           <td v-if="'CN'===copylanguage">中國語</td>
           <td class="center">
+            <center><!-- 이렇게 center 태그를 추가하면 특정구역에 자기가 원하는 위치에 넣을수 있습니다 -->
             <select v-if="$route.name ==='translation'" style="width:200px" v-model="choicelanguage" @click="changelanguage">
               <option v-if="copylanguage != 'KR'" value= '1'>한국어</option>
-              <option v-if="copylanguage != 'EN'" value= '2'>English</option>
+              <option v-if="copylanguage != 'US'" value= '2'>English</option>
               <option v-if="copylanguage != 'JP'" value= '4'>日本語</option>
               <option v-if="copylanguage != 'CN'" value= '8'>中國語</option>
             </select><!-- v-bind:disabled 이친구가 "" 안에 있는 조건이 됬을경우 언어를 선택 못하게 비활성화 해줍니다.  -->
              <select v-if="$route.name ==='translationedit'" style="width:200px" v-model="choicelanguage" v-bind:disabled="$route.name ==='translationedit'">
               <option v-if="copylanguage != 'KR'" value= '1' >한국어</option>
-              <option v-if="copylanguage != 'EN'" value= '2' >English</option>
+              <option v-if="copylanguage != 'US'" value= '2' >English</option>
               <option v-if="copylanguage != 'JP'" value= '4' >日本語</option>
               <option v-if="copylanguage != 'CN'" value= '8'>中國語</option>
             </select>
+            </center>
           </td>
           </tr>
           <tr>
@@ -69,12 +71,12 @@
           </tr>
           <tr>
             <th>관광정보</th>
-            <td style="height:200px">{{copyinfo}}</td>
+            <td style="height:200px; margin-bottom: 10px; margin-top: 10px;">{{copyinfo}}</td>
             <td v-if="$route.name ==='translation' && checkNolist ==='true' || checkNolist ===''" >{{ info }}</td>
             <td v-if="$route.name ==='translation' && checkNolist ==='false'"></td>
             <td v-else-if="$route.name ==='translationedit'" >
               <textarea
-                style="width:600px; height:200px"
+                style="max-width: 650px; height:200px"
                 type="text"
                 v-model="info"
                 maxlength="5000"
@@ -101,11 +103,11 @@
             <td v-if="$route.name ==='translation' && checkNolist ==='false'"></td>
             <td v-else-if="$route.name ==='translationedit'" >
               <textarea
-                style="width:600px; height:200px"
+                style="max-width: 650px; height:200px"
                 type="text"
                 v-model="voice"
                 maxlength='1000'
-            />
+              />
             </td>
           </tr>
            <tr>
@@ -180,6 +182,7 @@ export default {
       }
     },
     changelanguage () { // 입력언어에서 언어를 선택할떄마다 각 언어에 맞는 DB파일을 가져옵니다 checkNolist에 true false로 성공/실패 기록
+      console.log(this.copylanguage)
       this.$axios.get('http://localhost:9000/api/su/post/translate/info', {
         params: {
           postindex: this.copypostindex, language: this.choicelanguage}
@@ -298,11 +301,6 @@ export default {
   margin-top: 50px;
   margin-left: 30px;
 }
-.center {
-  display:flex; /* 버튼을 정렬시켜줌 */
-  justify-content:center;/*  버튼을 가운데로 정렬시켜줌 */
-  align-items:center;/*  해당하는 열에 가운데로 정렬 */
-}
 .n {
   margin-top: 20px;
 }
@@ -325,5 +323,19 @@ export default {
 .text {
   margin-top: 10px;
   margin-left: 20px;
+}
+textarea {
+    display: block;
+    width: 100%;
+    height: 160px;
+    padding: 10px;
+    margin: 5px 0;
+    border-color: #ddd;
+    border-radius: 5px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    font-size: 14px;
+    resize: none;
+    outline: none;
 }
 </style>

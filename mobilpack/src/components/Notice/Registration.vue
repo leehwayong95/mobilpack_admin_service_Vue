@@ -2,7 +2,7 @@
    <div id=content>
     <span class="title">
     <h1>공지사항 등록</h1>
-    <h2>HOME > 공지사항관리 > 공지사항등록</h2>
+    <h3>HOME > 공지사항관리 > 공지사항등록</h3>
     </span>
     <section class="cont_inner">
         <table>
@@ -77,7 +77,6 @@ export default {
       hyperlink: /(http(s)?:\/\/)([a-z0-9\w]+\.*)+[a-z0-9]{2,4}/gi, // url 정규식
       selected: '',
       result: '',
-      changecontent: '',
       iagain: '',
       jgain: ''
     }
@@ -87,19 +86,12 @@ export default {
       this.inputReply = this.inputReply.replace(/(<br \/>)/g, '\n').replace(/(<([^>]+)>)/ig, '')
       this.editmode = !this.editmode
     },
-    convertHTML (content) {
-      var regURL = new RegExp(`(http|https|ftp|telnet|news|irc)://([-/.a-zA-Z0-9_~#%$?&=:200-377()]+)`, 'gi')
-      return content
-        .replace(regURL, `<a href='$1://$2' target='_blank'>$1://$2</a>`)
-        .replace(/(?:\r\n|\r|\n)/g, '<br />')
-    },
     join () {
-      this.changecontent = this.convertHTML(this.content)
       this.$axios.post('http://localhost:9000/api/su/notice/insert', {
         language: this.language,
         topsetting: this.topsetting,
         title: this.title,
-        content: this.changecontent
+        content: this.content.trim()
       })
         .then((res) => {
           if (res.data === 'FALSE') {

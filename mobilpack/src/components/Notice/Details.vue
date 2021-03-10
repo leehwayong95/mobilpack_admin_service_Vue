@@ -44,12 +44,12 @@
              <tr>
              <th>내용</th>
              <!-- <여기가 내용중에서 자동으로 링크를 만들어주는 구문입니다.> </td> -->
-             <td
-             v-html="hypercontent"
-             class="contentscroll"
-             style="height:500px;  vertical-align: top;"
-             colspan="7"
-             >
+             <td colspan="7" id="test">
+              <div
+               v-html="hypercontent"
+               class="contentscroll"
+               style="height:500px;  vertical-align: top; padding: 10px"
+             />
              </td>
              </tr>
          </tbody>
@@ -72,58 +72,38 @@ export default
 {
   mounted () {
     this.getNotice()
-    // 게시글 가져오기
-    // 화용님 방식
-    // var contSpan = document.getElementById('notice_cont')
-    // contSpan.appendChild(document.createTextNode('hello'))
-    // var anker = document.createElement('a')
-    // anker.appendChild(document.createTextNode('link'))
-    // contSpan.appendChild(anker)
-    // 인터넷 예제
-    // function autolink(con) {
-    // var container = document.getElementById(con);
-    // var doc = container.innerHTML;
-    // var regURL = new RegExp("(http|https|ftp|telnet|news|irc)://([-/.a-zA-Z0-9_~#%$?&=:200-377()가-힣]+)","gi");
-    // var regEmail = new RegExp("([xA1-xFEa-z0-9_-]+@[xA1-xFEa-z0-9-]+\.[a-z0-9-]+)","gi");
-    // container.innerHTML = doc.replace(regURL,"$1://$2").replace(regEmail,"$1");
   },
   data () {
     return {
-      testcontent: '',
       items: [],
       postindex: '',
       hypercontent: '', // 본문 복사
       splittext: '',
-      hyperlink: /(http(s)?:\/\/)([a-z0-9\w]+\.*)+[a-z0-9]{2,4}/gi, // url 정규식
       result: [], // 링크를 담은 배열
       maintext: [] // 본문을 담은 배열
     }
   },
   methods: {
+    convertHTML (content) {
+      var regURL = new RegExp(`(http|https|ftp|telnet|news|irc)://([-/.a-zA-Z0-9_~#%$?&=:200-377()]+)`, 'gi')
+      return content
+        .replace(regURL, `<a href='$1://$2' target='_blank'>$1://$2</a>`)
+        .replace(/(?:\r\n|\r|\n)/g, '<br />')
+    },
     getNotice () {
-      // 조회수 증가시키기
-      this.$axios.get('http://localhost:9000/api/su/notice/plusviewcount', {params: {postindex: this.$route.query.index}})
-        .then(res => {
-          if (res.data === 'ok') {
-            this.$axios.get('http://localhost:9000/api/su/notice/detail', {params: {postindex: this.$route.query.index}})
-              .then((res) => {
-                this.items = res.data
-                this.items.createat = this.items.createat.substring(0, 16)
-                if (this.items.updateat) {
-                  this.items.updateat = this.items.updateat.substring(0, 16)
-                }
-                this.postindex = this.$route.query.index
-                this.hypercontent = res.data.content
-                this.hypercontent = this.test(this.hypercontent)
-                this.testcontent = res.data.content
-                this.result = this.testcontent.match(this.hyperlink)
-              })
-              .catch((err) => {
-                console.log(err)
-              })
-          } else {
-            console.log('조회수 오류 다시 설정 해주세요')
+      this.$axios.get('http://localhost:9000/api/su/notice/detail', {params: {postindex: this.$route.query.index}})
+        .then((res) => {
+          this.items = res.data
+          this.items.createat = this.items.createat.substring(0, 16)
+          if (this.items.updateat) {
+            this.items.updateat = this.items.updateat.substring(0, 16)
           }
+          this.postindex = this.$route.query.index
+          this.hypercontent = this.convertHTML(res.data.content)
+          this.hypercontent = this.test(this.hypercontent)
+        })
+        .catch((err) => {
+          console.log(err)
         })
     },
     test (str) {
@@ -141,17 +121,15 @@ export default
       })
     },
     viewstop () {
-      if (confirm('게시중단 하시겠습니까?')) {
-        this.$axios.post('http://localhost:9000/api/su/notice/stopposting', {postindex: this.postindex})
-          .then(res => {
-            if (res.data === 'ok') {
-              this.getNotice()
-            } else {
-              console.log(res)
-              console.log('오류 다시 설정 해주세요')
-            }
-          })
-      }
+      this.$axios.post('http://localhost:9000/api/su/notice/stopposting', {postindex: this.postindex})
+        .then(res => {
+          if (res.data === 'ok') {
+            this.getNotice()
+          } else {
+            console.log(res)
+            console.log('오류 다시 설정 해주세요')
+          }
+        })
     },
     edit () {
       this.$router.push({
@@ -218,8 +196,10 @@ export default
   background: #fff;
 }
 .contentscroll {
-  overflow: scroll;
+  overflow-y: scroll;
   background: #fff;
-  height: 500px;
+}
+#content table td#test {/* 내용 부분만 스크롤 옆에 여백을 지우기 위해 사용함 */
+  padding: 0 0px;
 }
 </style>
