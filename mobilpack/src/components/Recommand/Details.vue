@@ -248,6 +248,7 @@ export default {
     getRunningDate (runningDateBit) {
       let result = []
       let countinueDay = false
+      /* 연속된 요일인지 아닌지 추가 */
       for (let index in runningDateBit) {
         if (countinueDay && runningDateBit[index] === '1') {
           if (result[result.length - 1] !== '~') {
@@ -269,10 +270,21 @@ export default {
           result.push(', ')
         }
       }
+      /* 마지막 작업이 , 이면 제거하고 역순으로 리턴 */
       if (result[result.length - 1] === ', ') {
         result = result.splice(0, result.length - 1).reverse()
       } else {
         result = result.reverse()
+      }
+      /* 단일 요일일 경우 풀네임으로 적용 */
+      if (result.length === 1) {
+        result[result.length - 1] += '요일'
+      } else {
+        for (let i in result) {
+          if ((result[parseInt(i) + 1] === ', ' && result[parseInt(i) - 1] !== '~') || (parseInt(i) === result.length - 1 && result[parseInt(i) - 1] === ', ')) {
+            result[i] = result[i] + '요일'
+          }
+        }
       }
       return result
     },
