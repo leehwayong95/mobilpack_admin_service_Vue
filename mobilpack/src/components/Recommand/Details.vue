@@ -87,7 +87,7 @@
           <td>
             {{runningdate}} {{post.opentime}}~{{post.closetime}}
             <br/>
-            {{pausedate}} 휴무
+            <p v-if="pausedate">{{pausedate}} 휴무</p>
           </td>
           <th>입장마감 시간</th>
           <td>{{post.endtime}}</td>
