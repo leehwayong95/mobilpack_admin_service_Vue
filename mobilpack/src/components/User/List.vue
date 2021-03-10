@@ -19,9 +19,9 @@
       <li style="width: fit-content;">
           <span>가입 기간</span>
           <p class="date">
-            <input type="date" v-model="tmp.min" max="9999-12-31">
+            <input type="date" @keydown.prevent = "handlekeyDown" v-model="tmp.min" max="9999-12-31">
             <i>~</i>
-            <input type="date" v-model="tmp.max" max="9999-12-31">
+            <input type="date" @keydown.prevent = "handlekeyDown" v-model="tmp.max" max="9999-12-31">
           </p>
       </li>
       <li>
@@ -162,6 +162,9 @@ export default {
           console.log(err)
           alert('불러오기실패')
         })
+    },
+    handlekeyDown (e) {
+      e.preventDefault()
     },
     userdetail (n) {
       this.$router.push('/user/' + n)

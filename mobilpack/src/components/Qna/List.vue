@@ -18,9 +18,9 @@
         <li class ="date">
           <span>문의 일시</span>
           <p class="date">
-            <input type="date" v-model="tmp.min">
+            <input type="date" @keydown.prevent = "handlekeyDown" v-model="tmp.min">
             <i>~</i>
-            <input type="date" v-model="tmp.max">
+            <input type="date" @keydown.prevent = "handlekeyDown" v-model="tmp.max">
           </p>
         </li>
         <li>
@@ -174,6 +174,9 @@ export default {
           this.endpage = parseInt(res.data.count / 20)
           this.endpage += (res.data.count % 20) ? 1 : 0
         })
+    },
+    handlekeyDown (e) {
+      e.preventDefault()
     },
     view (n) {
       this.$router.push({path: this.$route.path + '/' + n})

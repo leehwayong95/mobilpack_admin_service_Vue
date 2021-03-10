@@ -16,7 +16,7 @@
         </li>
         <li>
           <span>날짜</span>
-          <p class="date"><input type="date" v-model="createat" max="2025-12-30" >
+          <p class="date"><input type="date" @keydown.prevent = "handlekeyDown" v-model="createat" max="2025-12-30" >
           <i>~</i>
           <input type="date" v-model="updateat" max="2025-12-31"></p>
         </li>
@@ -158,6 +158,9 @@ export default {
         .catch((err) => {
           console.log(err)
         })
+    },
+    handlekeyDown (e) {
+      e.preventDefault()
     },
     Register () {
       this.$router.push('/adminregistration')
