@@ -67,6 +67,7 @@
                   style="width:98%"
                   placeholder="#을 이용해 태그를 입력해주세요"
                   type="text"
+                  @focus="clickFirst()"
                   @keyup.space = "clickSpace"
                   @click = "clickFirst"
                   v-model="tag"
