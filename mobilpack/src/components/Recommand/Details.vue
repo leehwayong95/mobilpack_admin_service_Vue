@@ -9,36 +9,36 @@
       <table>
         <colgroup>
           <col style="width: 10%;">
+          <col style="width: 40%;">
           <col style="width: 10%;">
-          <col style="width: 10%;">
-          <col style="width: 10%;">
+          <col style="width: 40%;">
         </colgroup>
         <tbody>
           <tr>
             <th>입력 언어(원본)</th>
-            <td colspan="3" v-if="post.default_lang == 'KR'">한국어</td>
-            <td colspan="3" v-else-if="post.default_lang == 'US'">영어</td>
-            <td colspan="3" v-else-if="post.default_lang == 'JP'">일본어</td>
-            <td colspan="3" v-else>중국어</td>
+            <td v-if="post.default_lang == 'KR'">한국어</td>
+            <td v-else-if="post.default_lang == 'US'">영어</td>
+            <td v-else-if="post.default_lang == 'JP'">일본어</td>
+            <td v-else>중국어</td>
             <th>카테고리</th>
-            <td colspan="3">{{post.category}}</td>
+            <td>{{post.category}}</td>
           </tr>
           <tr>
             <th>추천 장소명</th>
-            <td colspan="7">{{post.title}}</td>
+            <td colspan="3">{{post.title}}</td>
           </tr>
           <tr>
             <th>관광정보</th>
-            <td colspan="7" style="white-space:pre-line;">{{post.content}}</td>
+            <td colspan="3" style="white-space:pre-line;">{{post.content}}</td>
           </tr>
           <tr>
             <th>태그</th>
-            <td colspan="7">{{post.tag}}</td>
+            <td colspan="3">{{post.tag}}</td>
           </tr>
           <tr>
             <th>사진</th>
-            <td colspan="7">
-              <img v-for="i of img" :key="i" :src="i" alt="recommandFile" style="width: 55%;">
+            <td colspan="3">
+              <img v-for="i of img" :key="i" :src="i" alt="recommandFile" style="width: 51%;">
             </td>
           </tr>
         </tbody>
@@ -135,7 +135,8 @@
           <tr v-for="(i,index) in comments" :key="i.commentindex">
             <td style="text-align: center;">{{comments.length-index}}</td>
             <td>{{i.content}}</td>
-            <td style="text-align: center;">{{i.name}}</td>
+            <td style="text-align: center;" v-if="i.name">{{i.name}}</td>
+            <td style="text-align: center;" v-else>삭제된 회원</td>
             <td style="text-align: center;">{{i.createat}}</td>
             <td style="text-align: center;"><button @click="deleteComment(i.commentindex)">삭제</button></td>
           </tr>
