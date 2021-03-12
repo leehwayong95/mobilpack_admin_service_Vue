@@ -100,7 +100,8 @@
           <td v-if="i.language & 8"> ○ </td>
           <td v-else></td>
           <td>{{i.count}}</td>
-          <td>{{i.name}}</td>
+          <td v-if="i.name">{{i.name}}</td>
+          <td v-else>삭제된 관리자</td>
           <td>{{i.date}}</td>
           <td v-if="i.state == 1" style="color: blue;">서비스중</td>
           <td v-else style="color: red;">서비스 중지</td>

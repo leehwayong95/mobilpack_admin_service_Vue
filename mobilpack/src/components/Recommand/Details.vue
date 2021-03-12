@@ -94,7 +94,8 @@
         </tr>
         <tr>
           <th>등록자</th>
-          <td>{{post.name}}</td>
+          <td v-if="post.name">{{post.name}}</td>
+          <td v-else>삭제된 관리자</td>
           <th>등록 일시</th>
           <td>{{post.date}}</td>
         </tr>
