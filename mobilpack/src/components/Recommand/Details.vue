@@ -38,7 +38,9 @@
           <tr>
             <th>사진</th>
             <td colspan="3">
-              <img v-for="i of img" :key="i" :src="i" alt="recommandFile" style="width: 51%;">
+              <div class="img">
+                <img v-for="i of img" :key="i" :src="i" alt="recommandFile">
+              </div>
             </td>
           </tr>
         </tbody>
@@ -383,5 +385,14 @@ div.button_wrap button {
 }
 div.button_wrap button.delete {
   background: rgb(100, 100, 100);
+}
+div.img {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+}
+div.img img {
+  width: 30%;
 }
 </style>

@@ -149,7 +149,6 @@ export default
               console.log('삭제가 안됨')
             }
           })
-      } else {
       }
     }
   }
@@ -184,19 +183,19 @@ export default
   height: 30px;
 }
 #content > .cont_inner {
-    position: relative;
-    min-height: calc(100% - 164px);
-    margin-top: 20px;
-    padding: 20px 30px 30px;/* 위아래 여백을 만들기 위해 앞에 20px 추가함 */
-    background: #fff;
-    border-radius: 5px;
+  position: relative;
+  min-height: calc(100% - 164px);
+  margin-top: 20px;
+  padding: 20px 30px 30px;/* 위아래 여백을 만들기 위해 앞에 20px 추가함 */
+  background: #fff;
+  border-radius: 5px;
 }
 .scroll {
-  overflow: scroll;
+  overflow: auto;
   background: #fff;
 }
 .contentscroll {
-  overflow-y: scroll;
+  overflow-y: auto;
   background: #fff;
 }
 #content table td#test {/* 내용 부분만 스크롤 옆에 여백을 지우기 위해 사용함 */
