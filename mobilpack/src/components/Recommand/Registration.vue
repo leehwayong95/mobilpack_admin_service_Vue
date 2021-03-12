@@ -63,6 +63,7 @@
              <td colspan="3">
                <!-- 스페이스바 눌렀을 때 , #이 자동으로 입력되는 메소드(clickSpace)-->
                <!-- input 입력창을 클릭했을 떄, 아무것도 입력 안됬을 때 #이 자동으로 입력되는 메소드(clickFirst)-->
+               <!-- input focus시 # 추가 (@focus)-->
                <input
                   style="width:98%"
                   placeholder="#을 이용해 태그를 입력해주세요"
